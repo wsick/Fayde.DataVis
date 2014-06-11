@@ -178,3 +178,13 @@ Source/Fayde.DataVis/Axis.js
 Source/Fayde.DataVis/Enums.js
 Source/Fayde.DataVis/Series.js
 Source/Fayde.DataVis/UnitValue.js
+Source/Fayde.DataVis/Axis/AxisLabel.js
+Source/Fayde.DataVis/Axis/DisplayAxis.js
+Source/Fayde.DataVis/Axis/DisplayAxisGridLines.js
+Source/Fayde.DataVis/Axis/LinearAxis.js
+Source/Fayde.DataVis/Axis/NumericAxis.js
+Source/Fayde.DataVis/Axis/OrientedAxisGridLines.js
+Source/Fayde.DataVis/Axis/RangeAxis.js
+Source/Fayde.DataVis/Internal/LayoutTransformControl.js
+Source/Fayde.DataVis/OrientedPanel.js
+Source/Fayde.DataVis/Title.js

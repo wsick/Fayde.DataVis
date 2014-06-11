@@ -3,6 +3,11 @@
         Value: number = 0;
         Unit: Unit = Unit.Pixels;
 
+        constructor(value?: number, unit?: Unit) {
+            this.Value = value || 0;
+            this.Unit = unit || Unit.Pixels;
+        }
+
         static get NaN(): UnitValue {
             var uv = new UnitValue();
             uv.Value = NaN;

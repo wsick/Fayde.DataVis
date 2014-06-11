@@ -60,10 +60,40 @@
     <TypeScriptCompile Include="Series.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Axis.ts" />
+    <TypeScriptCompile Include="Axes\Axis.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Enums.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="UnitValue.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Axes\LinearAxis.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Axes\NumericAxis.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Axes\RangeAxis.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Axes\DisplayAxis.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Axes\DisplayAxisGridLines.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Axes\OrientedAxisGridLines.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Internal\ObjectPool.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="OrientedPanel.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Title.ts" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
 </Project>

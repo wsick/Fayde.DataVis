@@ -27,6 +27,7 @@
             if (this._SeriesHost !== old)
                 this.OnSeriesHostChanged(old, this._SeriesHost);
         }
+        OnSeriesHostChanged(oldValue: ISeriesHost, newValue: ISeriesHost) { }
 
         constructor() {
             super();
@@ -34,6 +35,5 @@
         }
 
         OnTitleChanged(oldTitle: any, newTitle: any) { }
-        OnSeriesHostChanged(oldValue: ISeriesHost, newValue: ISeriesHost) { }
     }
 }
