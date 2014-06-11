@@ -172,3 +172,9 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+
+*.js.map
+Source/Fayde.DataVis/Axis.js
+Source/Fayde.DataVis/Enums.js
+Source/Fayde.DataVis/Series.js
+Source/Fayde.DataVis/UnitValue.js
