@@ -192,3 +192,9 @@ Source/Fayde.DataVis/Axis/CategoryAxis.js
 Source/Fayde.DataVis/IDataConsumer.js
 Source/Fayde.DataVis/IDataProvider.js
 Source/Fayde.DataVis/Internal/Range.js
+Source/Fayde.DataVis/Internal/Helper.js
+Source/Fayde.DataVis/Internal/ValueMargin.js
+Source/Fayde.DataVis/IRangeConsumer.js
+Source/Fayde.DataVis/IRangeProvider.js
+Source/Fayde.DataVis/IValueMarginConsumer.js
+Source/Fayde.DataVis/IValueMarginProvider.js
