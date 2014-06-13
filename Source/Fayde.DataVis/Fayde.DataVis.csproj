@@ -101,5 +101,41 @@
   <ItemGroup>
     <TypeScriptCompile Include="Internal\LayoutTransformControl.ts" />
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Axis\CategoryAxis.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="IDataConsumer.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="IDataProvider.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Internal\Range.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Internal\Helper.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="IRangeProvider.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="IRangeConsumer.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="IValueMarginProvider.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="IValueMarginConsumer.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Internal\ValueMargin.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Axis\NumericAxisLabel.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="IAnchoredToOrigin.ts" />
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
 </Project>

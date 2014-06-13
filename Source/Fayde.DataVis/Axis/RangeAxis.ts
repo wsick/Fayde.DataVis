@@ -242,5 +242,55 @@
             return ArrayEx.AsEnumerable([]);
         }
         GetLabelValues(availableSize: size): IEnumerable<any> { return null; } //Abstract
+
+        static GetMaxLeftAndRightOverlap(valueMargins: Internal.IValueMarginCoordinateAndOverlap[]): { left: Internal.IValueMarginCoordinateAndOverlap; right: Internal.IValueMarginCoordinateAndOverlap; } {
+            var mlovm: Internal.IValueMarginCoordinateAndOverlap;
+            var mrovm: Internal.IValueMarginCoordinateAndOverlap;
+
+            var left = Number.MIN_VALUE;
+            var right = Number.MIN_VALUE;
+            for (var i = 0, len = valueMargins.length; i < len; ++i) {
+                var coordinateAndOverlap = valueMargins[i];
+                var leftOverlap = coordinateAndOverlap.LeftOverlap;
+                if (leftOverlap > left) {
+                    left = leftOverlap;
+                    mlovm = coordinateAndOverlap;
+                }
+                var rightOverlap = coordinateAndOverlap.RightOverlap;
+                if (rightOverlap > right) {
+                    right = rightOverlap;
+                    mrovm = coordinateAndOverlap;
+                }
+            }
+
+            mlovm = mlovm || {
+                ValueMargin: new Internal.ValueMargin(),
+                Coordinate: 0,
+                LeftOverlap: 0,
+                RightOverlap: 0
+            };
+
+            mrovm = mrovm || {
+                ValueMargin: new Internal.ValueMargin(),
+                Coordinate: 0,
+                LeftOverlap: 0,
+                RightOverlap: 0
+            };
+
+            return {
+                left: <Internal.IValueMarginCoordinateAndOverlap>{
+                    ValueMargin: mlovm.ValueMargin,
+                    Coordinate: mlovm.Coordinate,
+                    LeftOverlap: mlovm.LeftOverlap,
+                    RightOverlap: mlovm.RightOverlap
+                },
+                right: <Internal.IValueMarginCoordinateAndOverlap>{
+                    ValueMargin: mrovm.ValueMargin,
+                    Coordinate: mrovm.Coordinate,
+                    LeftOverlap: mrovm.LeftOverlap,
+                    RightOverlap: mrovm.RightOverlap
+                }
+            };
+        }
     }
 }

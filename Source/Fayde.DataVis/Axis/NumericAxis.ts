@@ -47,6 +47,7 @@
             range = super.OverrideDataRange(range);
             if (!this.ExtendRangeToOrigin)
                 return range;
+            range = new Internal.Range<number>(range.Minimum, range.Maximum);
             if (!range.HasData)
                 return new Internal.Range<number>(0.0, 0.0);
             var num1 = range.Minimum;

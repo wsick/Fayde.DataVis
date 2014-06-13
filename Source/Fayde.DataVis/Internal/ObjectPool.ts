@@ -11,7 +11,7 @@
         }
 
         ForEachRemaining(action: (t: T) => void) {
-            for (var i = 0, objs = this._Objects, len = objs.length; i++) {
+            for (var i = 0, objs = this._Objects, len = objs.length; i < len; i++) {
                 action(objs[i]);
             }
         }

@@ -199,3 +199,6 @@ Source/Fayde.DataVis/IRangeProvider.js
 Source/Fayde.DataVis/IValueMarginConsumer.js
 Source/Fayde.DataVis/IValueMarginProvider.js
 Source/Fayde.DataVis/Axis/NumericAxisLabel.js
+Source/Fayde.DataVis/IAnchoredToOrigin.js
+Source/Fayde.DataVis/Internal/ObjectPool.js
+Source/Fayde.DataVis/Axis/Axis.js

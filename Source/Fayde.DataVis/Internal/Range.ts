@@ -37,5 +37,15 @@
             return this.Contains(other._Minimum)
                 || this.Contains(other._Maximum);
         }
+
+        Copy(): Range<T> {
+            return new Range<T>(this._Minimum, this._Maximum);
+        }
+    }
+
+    export function NumberRange_GetLength(range: Internal.Range<number>): number {
+        if (range.HasData)
+            return range.Maximum - range.Minimum;
+        return 0;
     }
 } 
