@@ -188,3 +188,7 @@ Source/Fayde.DataVis/Axis/RangeAxis.js
 Source/Fayde.DataVis/Internal/LayoutTransformControl.js
 Source/Fayde.DataVis/OrientedPanel.js
 Source/Fayde.DataVis/Title.js
+Source/Fayde.DataVis/Axis/CategoryAxis.js
+Source/Fayde.DataVis/IDataConsumer.js
+Source/Fayde.DataVis/IDataProvider.js
+Source/Fayde.DataVis/Internal/Range.js

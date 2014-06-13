@@ -20,4 +20,11 @@
         Degrees
     }
     Fayde.RegisterEnum(Unit, "Unit");
+
+    export enum CategorySortOrder {
+        None,
+        Ascending,
+        Descending
+    }
+    Fayde.RegisterEnum(CategorySortOrder, "CategorySortOrder");
 } 

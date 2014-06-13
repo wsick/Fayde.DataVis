@@ -25,5 +25,9 @@
                 return (uv1 || { Value: 0 }).Value - (uv2 || { Value: 0 }).Value;
             return uv1.CompareTo(uv2);
         }
+
+        valueOf(): Object {
+            return this.Value;
+        }
     }
 } 
