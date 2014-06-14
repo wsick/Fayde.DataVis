@@ -137,5 +137,11 @@
   <ItemGroup>
     <TypeScriptCompile Include="IAnchoredToOrigin.ts" />
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Axis\DateTimeAxis.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Axis\DateTimeAxisLabel.ts" />
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
 </Project>

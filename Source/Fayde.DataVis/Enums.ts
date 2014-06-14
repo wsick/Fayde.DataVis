@@ -27,4 +27,17 @@
         Descending
     }
     Fayde.RegisterEnum(CategorySortOrder, "CategorySortOrder");
+
+    export enum DateTimeIntervalType {
+        Auto,
+        Milliseconds,
+        Seconds,
+        Minutes,
+        Hours,
+        Days,
+        Weeks,
+        Months,
+        Years
+    }
+    Fayde.RegisterEnum(DateTimeIntervalType, "DateTimeIntervalType");
 } 

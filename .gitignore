@@ -202,3 +202,5 @@ Source/Fayde.DataVis/Axis/NumericAxisLabel.js
 Source/Fayde.DataVis/IAnchoredToOrigin.js
 Source/Fayde.DataVis/Internal/ObjectPool.js
 Source/Fayde.DataVis/Axis/Axis.js
+Source/Fayde.DataVis/Axis/DateTimeAxis.js
+Source/Fayde.DataVis/Axis/DateTimeAxisLabel.js

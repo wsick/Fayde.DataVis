@@ -17,15 +17,15 @@
 
         UpdateFormattedContent() {
             var dp = AxisLabel.FormattedContentProperty;
-            var binding1 = new Data.Binding();
-            binding1.Converter = {
+            var binding = new Data.Binding();
+            binding.Converter = {
                 Convert: function (value: any, targetType: IType, parameter: any, culture: any): any {
                     return Localization.Format(parameter, value);
                 },
                 ConvertBack: function (value: any, targetType: IType, parameter: any, culture: any): any { return value; }
-            }
-            binding1.ConverterParameter = this.StringFormat || "{0}";
-            this.SetBinding(dp, binding1);
+            };
+            binding.ConverterParameter = this.StringFormat || "{0}";
+            this.SetBinding(dp, binding);
         }
     }
 }

@@ -44,13 +44,12 @@
                         continue;
                     for (var en2 = provider.GetValueMargins(this).GetEnumerator(); en2.MoveNext;) {
                         flag = !!provider && (<IAnchoredToOrigin><any>provider).AnchoredAxis === this;
-                        var coordinateAndOverlap1: Internal.IValueMarginCoordinateAndOverlap = {
+                        valueMargins.push({
                             ValueMargin: en2.Current,
                             Coordinate: 0,
                             LeftOverlap: 0,
                             RightOverlap: 0
-                        };
-                        valueMargins.push(coordinateAndOverlap1);
+                        });
                     }
                 }
 

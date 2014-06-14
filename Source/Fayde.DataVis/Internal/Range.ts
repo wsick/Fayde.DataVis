@@ -48,4 +48,9 @@
             return range.Maximum - range.Minimum;
         return 0;
     }
-} 
+    export function DateTimeRange_GetLength(range: Internal.Range<DateTime>): number {
+        if (range.HasData)
+            return range.Maximum.Ticks - range.Minimum.Ticks;
+        return 0;
+    }
+}
