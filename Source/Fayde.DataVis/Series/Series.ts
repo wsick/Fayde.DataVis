@@ -1,39 +1,74 @@
 ﻿module Fayde.DataVis {
-    import ObservableCollection = Fayde.Collections.ObservableCollection;
+    export class Series extends DependencyObject {
+        static ItemsSourceProperty = DependencyProperty.Register("ItemsSource", () => IEnumerable_, Series, undefined, (d, args) => (<Series>d)._OnItemsSourceChanged(args));
+        static DependentValueBindingProperty = DependencyProperty.Register("DependentValueBinding", () => Data.Binding, Series);
+        static IndependentValueBindingProperty = DependencyProperty.Register("IndependentValueBinding", () => Data.Binding, Series);
+        ItemsSource: IEnumerable<any>;
+        DependentValueBinding: Data.Binding;
+        IndependentValueBinding: Data.Binding;
 
-    export interface ISeriesHost extends IRequireSeriesHost {
-        Axes: ObservableCollection<IAxis>;
-        Series: ObservableCollection<ISeries>;
-        ForegroundElements: ObservableCollection<UIElement>;
-        BackgroundElements: ObservableCollection<UIElement>;
-    }
-    export interface IRequireSeriesHost {
-        SeriesHost: ISeriesHost;
-    }
-    export interface ISeries {
-        LegendItems: ObservableCollection<any>;
-    }
-    export class Series extends Fayde.Controls.Control implements ISeries, IRequireSeriesHost {
-        static TitleProperty = DependencyProperty.Register("Title", () => Object, Series, undefined, (d, args) => (<Series>d).OnTitleChanged(args.OldValue, args.NewValue));
-        Title: any;
-
-        LegendItems: ObservableCollection<any>;
-
-        private _SeriesHost: ISeriesHost = null;
-        get SeriesHost(): ISeriesHost { return this._SeriesHost; }
-        set SeriesHost(value: ISeriesHost) {
-            var old = this._SeriesHost;
-            this._SeriesHost = value;
-            if (this._SeriesHost !== old)
-                this.OnSeriesHostChanged(old, this._SeriesHost);
+        private _OnItemsSourceChanged(args: IDependencyPropertyChangedEventArgs) {
+            var oldCC = Collections.INotifyCollectionChanged_.As(args.OldValue);
+            if (oldCC)
+                oldCC.CollectionChanged.Unsubscribe(this._OnItemsCollectionChanged, this);
+            this._OnItemsRemoved(args.OldValue, 0);
+            this._OnItemsAdded(args.NewValue, 0);
+            var newCC = Collections.INotifyCollectionChanged_.As(args.NewValue);
+            if (newCC)
+                newCC.CollectionChanged.Subscribe(this._OnItemsCollectionChanged, this);
         }
-        OnSeriesHostChanged(oldValue: ISeriesHost, newValue: ISeriesHost) { }
+        private _OnItemsCollectionChanged(sender: any, e: Collections.CollectionChangedEventArgs) {
+            this._OnItemsRemoved(e.OldItems, e.OldStartingIndex);
+            this._OnItemsAdded(e.NewItems, e.NewStartingIndex);
+        }
+
+        private _Items: any[] = [];
 
         constructor() {
             super();
-            Object.defineProperty(this, "LegendItems", { value: new ObservableCollection<any>(), writable: false });
         }
 
-        OnTitleChanged(oldTitle: any, newTitle: any) { }
+        GetPresenter(): SeriesPresenter { throw new Error("Abstract"); }
+
+        private _OnItemsAdded(items: any[], index: number) {
+            for (var i = 0, len = items ? items.length : 0; i < len; i++) {
+                this.OnItemAdded(items[i], i + index);
+            }
+            if (!items)
+                return;
+            this._Items = this._Items.slice(0, index - 1)
+                .concat(items)
+                .concat(this._Items.slice(index));
+        }
+        OnItemAdded(item: any, index: number) {
+            var presenter = this.GetPresenter();
+            if (presenter)
+                presenter.OnItemAdded(item, index);
+        }
+        private _OnItemsRemoved(items: any[], index: number) {
+            for (var i = 0, len = items ? items.length : 0; i < len; i++) {
+                this.OnItemRemoved(items[i], i + index);
+            }
+            this._Items.splice(index, items.length);
+        }
+        OnItemRemoved(item: any, index: number) {
+            var presenter = this.GetPresenter();
+            if (presenter)
+                presenter.OnItemRemoved(item, index);
+        }
+    }
+
+    function min(a: any, b: any): any {
+        if (a == null)
+            return b;
+        return a < b ? a : b;
+    }
+    function max(a: any, b: any): any {
+        if (a == null)
+            return b;
+        return a > b ? a : b;
+    }
+
+    export class SeriesCollection extends ListenCollection<Series> {
     }
 }

@@ -57,91 +57,39 @@
   </PropertyGroup>
   <ItemGroup>
     <TypeScriptCompile Include="lib\Fayde\Fayde.d.ts" />
-    <TypeScriptCompile Include="Series.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Axis\Axis.ts" />
+    <TypeScriptCompile Include="Series\Series.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Enums.ts" />
+    <TypeScriptCompile Include="Chart.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="UnitValue.ts" />
+    <TypeScriptCompile Include="Axes\LinearAxis.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Axis\LinearAxis.ts" />
+    <TypeScriptCompile Include="Series\SeriesPresenter.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Axis\NumericAxis.ts" />
+    <TypeScriptCompile Include="ChartPresenter.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Axis\RangeAxis.ts" />
+    <TypeScriptCompile Include="Internal.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Axis\DisplayAxis.ts" />
+    <TypeScriptCompile Include="Axes\Axis.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Axis\DisplayAxisGridLines.ts" />
+    <TypeScriptCompile Include="Series\LineSeriesPresenter.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Axis\OrientedAxisGridLines.ts" />
+    <TypeScriptCompile Include="Series\LineSeries.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Internal\ObjectPool.ts" />
+    <TypeScriptCompile Include="Axes\AxisCollection.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="OrientedPanel.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Title.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Axis\AxisLabel.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Internal\LayoutTransformControl.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Axis\CategoryAxis.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="IDataConsumer.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="IDataProvider.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Internal\Range.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Internal\Helper.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="IRangeProvider.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="IRangeConsumer.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="IValueMarginProvider.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="IValueMarginConsumer.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Internal\ValueMargin.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Axis\NumericAxisLabel.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="IAnchoredToOrigin.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Axis\DateTimeAxis.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Axis\DateTimeAxisLabel.ts" />
+    <TypeScriptCompile Include="Axes\AxisPresenter.ts" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
 </Project>
