@@ -174,3 +174,5 @@ UpgradeLog*.htm
 FakesAssemblies/
 
 *.js.map
+Source/Fayde.DataVis/Fayde.DataVis.d.ts
+Source/Fayde.DataVis/Fayde.DataVis.js
