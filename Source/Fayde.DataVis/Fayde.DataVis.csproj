@@ -59,34 +59,31 @@
     <TypeScriptCompile Include="lib\Fayde\Fayde.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Series\Series.ts" />
+    <TypeScriptCompile Include="Series.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Chart.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Series\SeriesPresenter.ts" />
+    <TypeScriptCompile Include="SeriesPresenter.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="ChartPresenter.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Internal.ts" />
+    <TypeScriptCompile Include="Axis.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Axes\Axis.ts" />
+    <TypeScriptCompile Include="Cartesian\Series\LineSeriesPresenter.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Series\LineSeriesPresenter.ts" />
+    <TypeScriptCompile Include="Cartesian\Series\LineSeries.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Series\LineSeries.ts" />
+    <TypeScriptCompile Include="AxisPresenter.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Axes\AxisPresenter.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Series\SeriesCollection.ts" />
+    <TypeScriptCompile Include="SeriesCollection.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="IPresenter.ts" />
@@ -99,6 +96,9 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Cartesian\CartesianChartPresenter.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Internal\ListenCollection.ts" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
 </Project>

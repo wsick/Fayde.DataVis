@@ -2,7 +2,7 @@
     import Canvas = Controls.Canvas;
     export class ChartPresenter extends Canvas {
         Owner: Chart = null;
-        private _SeriesListener: ICollectionListener = null;
+        private _SeriesListener: Internal.ICollectionListener = null;
         private _SeriesPresenters: SeriesPresenter[] = [];
 
         get ChartInfo(): IChartInfo {

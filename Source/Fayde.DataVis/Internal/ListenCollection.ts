@@ -1,4 +1,4 @@
-﻿module Fayde.DataVis {
+﻿module Fayde.DataVis.Internal {
     export class ListenCollection<T extends XamlObject> extends XamlObjectCollection<T> {
         private _Listeners: ICollectionNotifier[] = [];
 
@@ -52,4 +52,4 @@
         OnItemAdded(item: any, index: number);
         OnItemRemoved(item: any, index: number);
     }
-}
+} 
