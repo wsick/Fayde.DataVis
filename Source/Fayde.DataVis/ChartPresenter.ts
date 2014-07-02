@@ -1,6 +1,5 @@
 ﻿module Fayde.DataVis {
     import Canvas = Controls.Canvas;
-
     export class ChartPresenter extends Canvas {
         Owner: Chart = null;
         private _SeriesListener: ICollectionListener = null;
@@ -38,7 +37,7 @@
         }
 
         private _OnSeriesAdded(series: Series, index: number) {
-            var presenter = series.GetPresenter();
+            var presenter = series.Presenter;
             this._SeriesPresenters.splice(index, 0, presenter);
             this.Children.Add(presenter);
         }

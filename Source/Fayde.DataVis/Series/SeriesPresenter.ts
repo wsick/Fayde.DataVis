@@ -1,12 +1,13 @@
 ﻿module Fayde.DataVis {
     import Canvas = Controls.Canvas;
-    export class SeriesPresenter extends Canvas {
+    export class SeriesPresenter extends Canvas implements IPresenter {
         constructor() {
             super();
         }
 
-        OnAxisCoerced(min: Point, max: Point) {
-
+        UpdateSize(newSize: size) {
+            this.Width = newSize.Width;
+            this.Height = newSize.Height;
         }
 
         OnItemAdded(item: any, index: number) { }

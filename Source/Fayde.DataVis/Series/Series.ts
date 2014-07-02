@@ -28,7 +28,11 @@
             super();
         }
 
-        GetPresenter(): SeriesPresenter { throw new Error("Abstract"); }
+        private _Presenter: SeriesPresenter = null;
+        get Presenter(): SeriesPresenter {
+            return this._Presenter = this._Presenter || this.CreatePresenter();
+        }
+        CreatePresenter(): SeriesPresenter { return new SeriesPresenter(); }
 
         private _OnItemsAdded(items: any[], index: number) {
             for (var i = 0, len = items ? items.length : 0; i < len; i++) {
@@ -41,9 +45,7 @@
                 .concat(this._Items.slice(index));
         }
         OnItemAdded(item: any, index: number) {
-            var presenter = this.GetPresenter();
-            if (presenter)
-                presenter.OnItemAdded(item, index);
+            this.Presenter.OnItemAdded(item, index);
         }
         private _OnItemsRemoved(items: any[], index: number) {
             for (var i = 0, len = items ? items.length : 0; i < len; i++) {
@@ -52,23 +54,7 @@
             this._Items.splice(index, items.length);
         }
         OnItemRemoved(item: any, index: number) {
-            var presenter = this.GetPresenter();
-            if (presenter)
-                presenter.OnItemRemoved(item, index);
+            this.Presenter.OnItemRemoved(item, index);
         }
-    }
-
-    function min(a: any, b: any): any {
-        if (a == null)
-            return b;
-        return a < b ? a : b;
-    }
-    function max(a: any, b: any): any {
-        if (a == null)
-            return b;
-        return a > b ? a : b;
-    }
-
-    export class SeriesCollection extends ListenCollection<Series> {
     }
 }
