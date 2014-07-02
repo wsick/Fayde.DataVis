@@ -16,14 +16,31 @@
         }
 
         OnItemAdded(item: any, index: number) {
-            var p = new Point();
-            //Calc x,y based on axis scaling functions
-            //Swap x,y if dependent axis is vertical
-            //Invert y
+            var p = this._CalculatePoint(item);
             this._Line.Points.Insert(index, p);
         }
         OnItemRemoved(item: any, index: number) {
             this._Line.Points.RemoveAt(index);
         }
+
+        private _CalculatePoint(item: any): Point {
+            var p = new Point();
+            //Retrieve dependent, independent values from bindings
+            //Apply axis scaling function to values to acquire x,y
+            this._ApplyOrientation(p);
+            this._AdjustYForScreen(p);
+            return p;
+        }
+        private _ApplyOrientation(point: Point) {
+            if (this.ChartInfo.Orientation === CartesianOrientation.Transposed) {
+                var t = point.X;
+                point.X = point.Y;
+                point.Y = t;
+            }
+        }
+        private _AdjustYForScreen(point: Point) {
+            //var h = this.Height;
+            //point.Y = h - point.Y;
+        }
     }
-} 
+}
