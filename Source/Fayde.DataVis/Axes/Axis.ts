@@ -1,6 +1,5 @@
 ﻿module Fayde.DataVis {
-    import Control = Controls.Control;
-    export class Axis extends Control {
+    export class Axis extends DependencyObject {
         GetPresenter(): AxisPresenter { throw new Error("Abstract"); }
     }
 }

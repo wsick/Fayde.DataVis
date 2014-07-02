@@ -3,9 +3,7 @@
 
     export class Chart extends Control {
         static SeriesProperty = DependencyProperty.RegisterImmutable<SeriesCollection>("Series", () => SeriesCollection, Chart);
-        static AxesProperty = DependencyProperty.RegisterImmutable<AxisCollection>("Axes", () => AxisCollection, Chart);
         Series: SeriesCollection;
-        Axes: AxisCollection;
 
         private _Presenter: ChartPresenter = null;
 
@@ -13,7 +11,6 @@
             super();
             this.DefaultStyleKey = (<any>this).constructor;
             Chart.SeriesProperty.Initialize(this);
-            Chart.AxesProperty.Initialize(this);
         }
 
         OnApplyTemplate() {
@@ -26,7 +23,6 @@
                 this._Presenter.Attach(this);
         }
     }
-
     Controls.TemplateParts(Chart,
         { Name: "Presenter", Type: ChartPresenter });
 }
