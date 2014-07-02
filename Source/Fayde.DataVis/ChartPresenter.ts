@@ -5,6 +5,10 @@
         private _SeriesListener: ICollectionListener = null;
         private _SeriesPresenters: SeriesPresenter[] = [];
 
+        get ChartInfo(): IChartInfo {
+            return this.Owner ? this.Owner.ChartInfo : null;
+        }
+
         constructor() {
             super();
             this.SizeChanged.Subscribe(this.OnSizeChanged, this);
@@ -37,11 +41,13 @@
         }
 
         private _OnSeriesAdded(series: Series, index: number) {
+            series.ChartInfo = this.ChartInfo;
             var presenter = series.Presenter;
             this._SeriesPresenters.splice(index, 0, presenter);
             this.Children.Add(presenter);
         }
         private _OnSeriesRemoved(series: Series, index: number) {
+            series.ChartInfo = null;
             var presenter = this._SeriesPresenters.splice(index, 1)[0];
             this.Children.Remove(presenter);
         }

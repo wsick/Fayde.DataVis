@@ -1,10 +1,6 @@
 ﻿module Fayde.DataVis {
     import Canvas = Controls.Canvas;
     export class SeriesPresenter extends Canvas implements IPresenter {
-        constructor() {
-            super();
-        }
-
         UpdateSize(newSize: size) {
             this.Width = newSize.Width;
             this.Height = newSize.Height;

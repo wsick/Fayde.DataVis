@@ -4,5 +4,7 @@
         CreatePresenter(): SeriesPresenter {
             return new LineSeriesPresenter(this);
         }
+
+        ChartInfo: ICartesianChartInfo;
     }
 } 

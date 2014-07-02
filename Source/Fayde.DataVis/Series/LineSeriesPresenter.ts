@@ -11,6 +11,10 @@
             this.Children.Add(this._Line);
         }
 
+        private get ChartInfo(): ICartesianChartInfo {
+            return this._Series ? this._Series.ChartInfo : null;
+        }
+
         OnItemAdded(item: any, index: number) {
             var p = new Point();
             //Calc x,y based on axis scaling functions

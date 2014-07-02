@@ -1,11 +1,16 @@
 ﻿module Fayde.DataVis {
     import Control = Controls.Control;
 
+    export interface IChartInfo {
+    }
+
     export class Chart extends Control {
         static SeriesProperty = DependencyProperty.RegisterImmutable<SeriesCollection>("Series", () => SeriesCollection, Chart);
         Series: SeriesCollection;
 
         private _Presenter: ChartPresenter = null;
+        private _ChartInfo: IChartInfo = {};
+        get ChartInfo(): IChartInfo { return this._ChartInfo; }
 
         constructor() {
             super();

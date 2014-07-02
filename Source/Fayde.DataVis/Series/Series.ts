@@ -24,13 +24,15 @@
 
         private _Items: any[] = [];
 
+        ChartInfo: IChartInfo = null;
+
         constructor() {
             super();
         }
 
         private _Presenter: SeriesPresenter = null;
         get Presenter(): SeriesPresenter {
-            return this._Presenter = this._Presenter || this.CreatePresenter();
+            return this._Presenter = this._Presenter = this.CreatePresenter();
         }
         CreatePresenter(): SeriesPresenter { return new SeriesPresenter(); }
 
