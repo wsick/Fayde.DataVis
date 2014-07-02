@@ -48,12 +48,16 @@
     <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+	<TypeScriptGeneratesDeclarations>true</TypeScriptGeneratesDeclarations>
+	<TypeScriptOutFile>Fayde.DataVis.js</TypeScriptOutFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptRemoveComments>true</TypeScriptRemoveComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+	<TypeScriptGeneratesDeclarations>true</TypeScriptGeneratesDeclarations>
+	<TypeScriptOutFile>Fayde.DataVis.js</TypeScriptOutFile>
   </PropertyGroup>
   <ItemGroup>
     <TypeScriptCompile Include="lib\Fayde\Fayde.d.ts" />
