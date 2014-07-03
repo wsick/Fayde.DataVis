@@ -6,7 +6,16 @@
             this.Height = newSize.Height;
         }
 
-        OnItemAdded(item: any, index: number) { }
-        OnItemRemoved(item: any, index: number) { }
+        private _Items: any[] = [];
+        get Items(): any[] { return this._Items; }
+
+        OnItemAdded(item: any, index: number) {
+            this._Items.splice(index, 0, item);
+        }
+        OnItemRemoved(item: any, index: number) {
+            this._Items.splice(index, 1);
+        }
+        OnDependentValueChanged(path: string) { }
+        OnIndependentValueChanged(path: string) { }
     }
 } 

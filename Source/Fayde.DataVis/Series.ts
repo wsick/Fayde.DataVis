@@ -1,11 +1,11 @@
 ﻿module Fayde.DataVis {
     export class Series extends DependencyObject {
         static ItemsSourceProperty = DependencyProperty.Register("ItemsSource", () => IEnumerable_, Series, undefined, (d, args) => (<Series>d)._OnItemsSourceChanged(args));
-        static DependentValueBindingProperty = DependencyProperty.Register("DependentValueBinding", () => Data.Binding, Series);
-        static IndependentValueBindingProperty = DependencyProperty.Register("IndependentValueBinding", () => Data.Binding, Series);
+        static DependentValuePathProperty = DependencyProperty.Register("DependentValuePath", () => String, Series, undefined, (d, args) => (<Series>d)._OnDependentValuePathChanged(args));
+        static IndependentValuePathProperty = DependencyProperty.Register("IndependentValuePath", () => String, Series, undefined, (d, args) => (<Series>d)._OnIndependentValuePathChanged(args));
         ItemsSource: IEnumerable<any>;
-        DependentValueBinding: Data.Binding;
-        IndependentValueBinding: Data.Binding;
+        DependentValuePath: string;
+        IndependentValuePath: string;
 
         private _OnItemsSourceChanged(args: IDependencyPropertyChangedEventArgs) {
             var oldCC = Collections.INotifyCollectionChanged_.As(args.OldValue);
@@ -20,6 +20,12 @@
         private _OnItemsCollectionChanged(sender: any, e: Collections.CollectionChangedEventArgs) {
             this._OnItemsRemoved(e.OldItems, e.OldStartingIndex);
             this._OnItemsAdded(e.NewItems, e.NewStartingIndex);
+        }
+        private _OnDependentValuePathChanged(args: IDependencyPropertyChangedEventArgs) {
+            this.Presenter.OnDependentValueChanged(args.OldValue);
+        }
+        private _OnIndependentValuePathChanged(args: IDependencyPropertyChangedEventArgs) {
+            this.Presenter.OnIndependentValueChanged(args.NewValue);
         }
 
         private _Items: any[] = [];
