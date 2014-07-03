@@ -1,5 +1,5 @@
 ﻿module Fayde.DataVis {
-    export class LineSeries extends Series {
+    export class LineSeries extends CartesianSeries {
         Presenter: LineSeriesPresenter;
         CreatePresenter(): SeriesPresenter {
             return new LineSeriesPresenter(this);

@@ -3,6 +3,13 @@
         DepValueSet = new ValueSet();
         IndValueSet = new ValueSet();
 
+        Series: CartesianSeries;
+        ChartInfo: ICartesianChartInfo;
+
+        constructor(series: CartesianSeries) {
+            super(series);
+        }
+
         OnItemAdded(item: any, index: number) {
             super.OnItemAdded(item, index);
             this.DepValueSet.Insert(item, index);

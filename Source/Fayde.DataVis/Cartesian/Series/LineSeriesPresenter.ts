@@ -3,16 +3,12 @@
 
     export class LineSeriesPresenter extends CartesianSeriesPresenter {
         private _Line = new Shapes.Polyline();
-        private _Series: LineSeries;
+
+        Series: LineSeries;
 
         constructor(series: LineSeries) {
-            super();
-            this._Series = series;
+            super(series);
             this.Children.Add(this._Line);
-        }
-
-        private get ChartInfo(): ICartesianChartInfo {
-            return this._Series ? this._Series.ChartInfo : null;
         }
 
         OnItemAdded(item: any, index: number) {
