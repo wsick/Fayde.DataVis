@@ -104,5 +104,20 @@
   <ItemGroup>
     <TypeScriptCompile Include="Internal\ListenCollection.ts" />
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scales\LinearScale.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Cartesian\Series\CartesianSeries.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Cartesian\Series\CartesianSeriesPresenter.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="IRange.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="IScale.ts" />
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
 </Project>

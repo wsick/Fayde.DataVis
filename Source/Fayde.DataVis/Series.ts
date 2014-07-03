@@ -31,7 +31,7 @@
         get Presenter(): SeriesPresenter {
             return this._Presenter = this._Presenter = this.CreatePresenter();
         }
-        CreatePresenter(): SeriesPresenter { return new SeriesPresenter(); }
+        CreatePresenter(): SeriesPresenter { return new SeriesPresenter(this); }
 
         private _OnItemsAdded(items: any[], index: number) {
             for (var i = 0, len = items ? items.length : 0; i < len; i++) {

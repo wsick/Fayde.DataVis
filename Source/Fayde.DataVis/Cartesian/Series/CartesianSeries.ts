@@ -6,7 +6,7 @@
         IndependentValuePath: string;
 
         Presenter: CartesianSeriesPresenter;
-        CreatePresenter(): SeriesPresenter { return new CartesianSeriesPresenter(); }
+        CreatePresenter(): SeriesPresenter { return new CartesianSeriesPresenter(this); }
 
         private _OnDependentValuePathChanged(args: IDependencyPropertyChangedEventArgs) {
             this.Presenter.OnDependentValueChanged(args.OldValue);
