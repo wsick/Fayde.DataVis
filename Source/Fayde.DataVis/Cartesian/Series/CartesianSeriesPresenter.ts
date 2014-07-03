@@ -6,13 +6,13 @@
         Series: CartesianSeries;
         ChartInfo: ICartesianChartInfo;
 
-        XAxis(): Axis {
+        get XAxis(): Axis {
             var ci = this.ChartInfo;
             if (ci.Orientation === CartesianOrientation.Transposed)
                 return ci.IndependentAxis;
             return ci.DependentAxis;
         }
-        YAxis(): Axis {
+        get YAxis(): Axis {
             var ci = this.ChartInfo;
             if (ci.Orientation === CartesianOrientation.Transposed)
                 return ci.DependentAxis;
