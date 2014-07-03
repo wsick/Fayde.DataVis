@@ -1,11 +1,7 @@
 ﻿module Fayde.DataVis {
     export class Series extends DependencyObject {
         static ItemsSourceProperty = DependencyProperty.Register("ItemsSource", () => IEnumerable_, Series, undefined, (d, args) => (<Series>d)._OnItemsSourceChanged(args));
-        static DependentValuePathProperty = DependencyProperty.Register("DependentValuePath", () => String, Series, undefined, (d, args) => (<Series>d)._OnDependentValuePathChanged(args));
-        static IndependentValuePathProperty = DependencyProperty.Register("IndependentValuePath", () => String, Series, undefined, (d, args) => (<Series>d)._OnIndependentValuePathChanged(args));
         ItemsSource: IEnumerable<any>;
-        DependentValuePath: string;
-        IndependentValuePath: string;
 
         private _OnItemsSourceChanged(args: IDependencyPropertyChangedEventArgs) {
             var oldCC = Collections.INotifyCollectionChanged_.As(args.OldValue);
@@ -21,14 +17,9 @@
             this._OnItemsRemoved(e.OldItems, e.OldStartingIndex);
             this._OnItemsAdded(e.NewItems, e.NewStartingIndex);
         }
-        private _OnDependentValuePathChanged(args: IDependencyPropertyChangedEventArgs) {
-            this.Presenter.OnDependentValueChanged(args.OldValue);
-        }
-        private _OnIndependentValuePathChanged(args: IDependencyPropertyChangedEventArgs) {
-            this.Presenter.OnIndependentValueChanged(args.NewValue);
-        }
 
         private _Items: any[] = [];
+        get Items(): any[] { return this._Items; }
 
         ChartInfo: IChartInfo = null;
 

@@ -15,7 +15,5 @@
         OnItemRemoved(item: any, index: number) {
             this._Items.splice(index, 1);
         }
-        OnDependentValueChanged(path: string) { }
-        OnIndependentValueChanged(path: string) { }
     }
 } 
