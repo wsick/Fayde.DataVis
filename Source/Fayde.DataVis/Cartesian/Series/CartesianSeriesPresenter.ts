@@ -6,6 +6,19 @@
         Series: CartesianSeries;
         ChartInfo: ICartesianChartInfo;
 
+        XAxis(): Axis {
+            var ci = this.ChartInfo;
+            if (ci.Orientation === CartesianOrientation.Transposed)
+                return ci.IndependentAxis;
+            return ci.DependentAxis;
+        }
+        YAxis(): Axis {
+            var ci = this.ChartInfo;
+            if (ci.Orientation === CartesianOrientation.Transposed)
+                return ci.DependentAxis;
+            return ci.IndependentAxis;
+        }
+
         constructor(series: CartesianSeries) {
             super(series);
         }

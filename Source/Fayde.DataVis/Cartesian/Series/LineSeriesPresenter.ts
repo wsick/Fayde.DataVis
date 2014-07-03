@@ -29,15 +29,13 @@
             var dvs = this.DepValueSet;
             var ivs = this.IndValueSet;
 
-            var ci = this.ChartInfo;
-            var isTransposed = ci.Orientation === CartesianOrientation.Transposed;
-            var xaxis = isTransposed ? ci.IndependentAxis : ci.DependentAxis;
-            var yaxis = !isTransposed ? ci.IndependentAxis : ci.DependentAxis;
+            var xaxis = this.XAxis;
+            var yaxis = this.YAxis;
 
-            var x = xaxis.Map(dvs.Values[index], ci, dvs);
+            var x = xaxis.Map(dvs.Values[index], this.ChartInfo, dvs);
             if (typeof x !== "number")
                 x = xaxis.GetCoordinate(x);
-            var y = yaxis.Map(ivs.Values[index], ci, ivs);
+            var y = yaxis.Map(ivs.Values[index], this.ChartInfo, ivs);
             if (typeof y !== "number")
                 y = yaxis.GetCoordinate(y);
             y = yaxis.Invert(y);
