@@ -10,9 +10,15 @@
         get Presenter(): AxisPresenter { return this._Presenter = this._Presenter || this.CreatePresenter(); }
         CreatePresenter(): AxisPresenter { throw new Error("Abstract"); }
 
-        Interpolate(item: any): any {
-            var scale = this.Scale || new LinearScale();
-            return scale.Evaluate(scale.Parameterize(item));
+        private _Parameterizer: IParameterizer;
+        get Parameterizer(): IParameterizer { return this._Parameterizer = this._Parameterizer || this.CreateParameterizer(); }
+        CreateParameterizer(): IParameterizer { throw new Error("Abstract"); }
+
+        Interpolate(t: number): any {
+            var scale = this.Scale;
+            if (!scale)
+                return t;
+            return scale.Evaluate(t);
         }
 
         ScaleUpdated = new MulticastEvent<EventArgs>();

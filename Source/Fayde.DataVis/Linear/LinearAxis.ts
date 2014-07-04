@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Axis.ts" />
+﻿/// <reference path="../Axis.ts" />
 
 module Fayde.DataVis {
     export class LinearAxis extends Axis {
@@ -18,6 +18,8 @@ module Fayde.DataVis {
 
         Presenter: LinearAxisPresenter;
         CreatePresenter(): LinearAxisPresenter { return new LinearAxisPresenter(); }
+        Parameterize: LinearParameterizer;
+        CreateParameterizer(): LinearParameterizer { return new LinearParameterizer(); }
 
         constructor() {
             super();

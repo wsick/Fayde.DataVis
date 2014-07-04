@@ -31,46 +31,22 @@ module Fayde.DataVis {
             this._IndValueSet.Walker = new Data.PropertyPathWalker(path, true, false, false);
             this._IndValueSet.UpdateWalker(this.Items);
         }
-        
+
         GetIndependentValue(index: number) {
             return this._IndValueSet.Values[index];
+        }
+        InterpolateIndependent(axis: Axis, index: number) {
+            var vs = this._IndValueSet;
+            var t = axis.Parameterizer.Parameterize(vs, vs.Values[index]);
+            return axis.Interpolate(t);
         }
         GetDependentValue(index: number) {
             return this._DepValueSet.Values[index];
         }
-    }
-
-    export class ValueSet implements IRange<any> {
-        Walker = new Data.PropertyPathWalker("");
-        Min = null;
-        Max = null;
-        Values: any[] = [];
-
-        Insert(item: any, index: number) {
-            this.Values.splice(index, 0, this.Walker.GetValue(item));
-            this.Update();
-        }
-        RemoveAt(index: number) {
-            this.Values.splice(index, 1);
-            this.Update();
-        }
-        UpdateWalker(items: any[]) {
-            for (var i = 0, vals = this.Values, walker = this.Walker, len = items.length; i < len; i++) {
-                vals[i] = walker.GetValue(items[i]);
-            }
-        }
-        Update() {
-            this.Min = this.Values.reduce((prev, cur) => {
-                if (prev == null)
-                    return cur;
-                return cur < prev ? cur : prev;
-            }, null);
-
-            this.Max = this.Values.reduce((prev, cur) => {
-                if (prev == null)
-                    return cur;
-                return cur > prev ? cur : prev;
-            }, null);
+        InterpolateDependent(axis: Axis, index: number) {
+            var vs = this._DepValueSet;
+            var t = axis.Parameterizer.Parameterize(vs, vs.Values[index]);
+            return axis.Interpolate(t);
         }
     }
 }

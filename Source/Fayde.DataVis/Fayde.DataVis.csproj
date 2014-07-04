@@ -105,7 +105,7 @@
     <TypeScriptCompile Include="Internal\ListenCollection.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Scales\LinearScale.ts" />
+    <TypeScriptCompile Include="Linear\LinearScale.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Cartesian\Series\BiSeries.ts" />
@@ -120,13 +120,17 @@
     <TypeScriptCompile Include="IScale.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Cartesian\Axes\LinearAxis.ts" />
+    <TypeScriptCompile Include="Linear\LinearAxis.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Cartesian\Axes\LinearAxisPresenter.ts" />
+    <TypeScriptCompile Include="Linear\LinearAxisPresenter.ts" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <TypeScriptCompile Include="Linear\LinearParameterizer.ts" />
+    <TypeScriptCompile Include="ValueSet.ts" />
+    <TypeScriptCompile Include="IValueSet.ts" />
+    <TypeScriptCompile Include="IParameterizer.ts" />
     <Content Include="Themes\Default.theme.xml" />
     <Content Include="Themes\Metro.theme.xml" />
   </ItemGroup>

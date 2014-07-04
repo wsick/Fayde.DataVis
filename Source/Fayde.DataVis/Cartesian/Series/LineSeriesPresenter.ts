@@ -25,9 +25,15 @@ module Fayde.DataVis {
 
         GetCoordinate(index: number): Point {
             var ci = this.ChartInfo;
-            var x = ci.XAxis.Interpolate(this.GetIndependentValue(index));
-            var y = ci.YAxis.Interpolate(this.GetDependentValue(index));
-            return new Point(x, y);
+            if (ci.Orientation === CartesianOrientation.Transposed) {
+                return new Point(
+                    this.InterpolateDependent(ci.XAxis, index),
+                    this.InterpolateIndependent(ci.YAxis, index));
+            } else {
+                return new Point(
+                    this.InterpolateIndependent(ci.XAxis, index),
+                    this.InterpolateDependent(ci.YAxis, index));
+            }
         }
 
         Update() {
