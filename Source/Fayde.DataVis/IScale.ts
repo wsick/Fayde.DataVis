@@ -1,6 +1,7 @@
 ﻿module Fayde.DataVis {
     export interface IScale {
-        Map(item: any, domain: IRange<any>): any;
+        Parameterize(item: any): number;
+        Evaluate(t: number): any;
     }
-    export var IScale_ = Fayde.RegisterInterface<IScale>("IScale");
+    export var IScale_ = Fayde.RegisterInterface<any>("IScale");
 } 

@@ -35,7 +35,7 @@
                 this._IndAP = null;
             }
             if (axis) {
-                this._IndAP = axis.GetPresenter();
+                this._IndAP = axis.Presenter;
                 this.Children.Add(this._IndAP);
             }
         }
@@ -45,7 +45,7 @@
                 this._DepAP = null;
             }
             if (axis) {
-                this._DepAP = axis.GetPresenter();
+                this._DepAP = axis.Presenter;
                 this.Children.Add(this._DepAP);
             }
         }

@@ -23,6 +23,15 @@
             super(series);
         }
 
+        GetCoordinate(index: number): Point {
+            var ci = this.ChartInfo;
+            var n1 = ci.DependentAxis.Interpolate(this.DepValueSet.Values[index]);
+            var n2 = ci.IndependentAxis.Interpolate(this.IndValueSet.Values[index]);
+            if (ci.Orientation === CartesianOrientation.Transposed)
+                return new Point(n2, n1);
+            return new Point(n1, n2);
+        }
+
         OnItemAdded(item: any, index: number) {
             super.OnItemAdded(item, index);
             this.DepValueSet.Insert(item, index);

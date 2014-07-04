@@ -119,5 +119,11 @@
   <ItemGroup>
     <TypeScriptCompile Include="IScale.ts" />
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Cartesian\Axes\LinearAxis.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Cartesian\Axes\LinearAxisPresenter.ts" />
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
 </Project>

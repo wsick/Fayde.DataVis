@@ -13,7 +13,7 @@
 
         OnItemAdded(item: any, index: number) {
             super.OnItemAdded(item, index);
-            this._Line.Points.Insert(index, this._CalculatePoint(item, index));
+            this._Line.Points.Insert(index, this.GetCoordinate(index));
         }
         OnItemRemoved(item: any, index: number) {
             super.OnItemRemoved(item, index);
@@ -22,25 +22,7 @@
 
         Update() {
             this._Line.Points.Clear();
-            this._Line.Points.AddRange(this.Items.map((item, i) => this._CalculatePoint(item, i)));
-        }
-
-        private _CalculatePoint(item: any, index: number): Point {
-            var dvs = this.DepValueSet;
-            var ivs = this.IndValueSet;
-
-            var xaxis = this.XAxis;
-            var yaxis = this.YAxis;
-
-            var x = xaxis.Map(dvs.Values[index], this.ChartInfo, dvs);
-            if (typeof x !== "number")
-                x = xaxis.GetCoordinate(x);
-            var y = yaxis.Map(ivs.Values[index], this.ChartInfo, ivs);
-            if (typeof y !== "number")
-                y = yaxis.GetCoordinate(y);
-            y = yaxis.Invert(y);
-
-            return new Point(x, y);
+            this._Line.Points.AddRange(this.Items.map((item, index) => this.GetCoordinate(index)));
         }
     }
 }
