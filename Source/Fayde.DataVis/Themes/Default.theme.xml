@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.wsick.com/fayde"
+    xmlns:x="http://schemas.wsick.com/fayde/x"
+    xmlns:dv="lib:Fayde.DataVis">
+    <Style TargetType="dv:CartesianChart">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="dv:CartesianChart">
+                    <dv:CartesianChartPresenter x:Name="Presenter" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

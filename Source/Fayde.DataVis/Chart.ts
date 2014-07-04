@@ -28,6 +28,7 @@
                 this._Presenter.Attach(this);
         }
     }
+    Xaml.Content(Chart, Chart.SeriesProperty);
     Controls.TemplateParts(Chart,
         { Name: "Presenter", Type: ChartPresenter });
 }

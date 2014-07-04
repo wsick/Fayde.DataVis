@@ -1,4 +1,6 @@
-﻿module Fayde.DataVis {
+﻿/// <reference path="../../SeriesPresenter.ts" />
+
+module Fayde.DataVis {
     export class BiSeriesPresenter extends SeriesPresenter {
         private _DepValueSet = new ValueSet();
         private _IndValueSet = new ValueSet();

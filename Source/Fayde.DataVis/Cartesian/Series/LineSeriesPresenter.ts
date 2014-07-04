@@ -1,4 +1,6 @@
-﻿module Fayde.DataVis {
+﻿/// <reference path="BiSeriesPresenter.ts" />
+
+module Fayde.DataVis {
     import Canvas = Controls.Canvas;
 
     export class LineSeriesPresenter extends BiSeriesPresenter {

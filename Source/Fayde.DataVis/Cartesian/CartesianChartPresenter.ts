@@ -1,4 +1,6 @@
-﻿module Fayde.DataVis {
+﻿/// <reference path="../ChartPresenter.ts" />
+
+module Fayde.DataVis {
     export class CartesianChartPresenter extends ChartPresenter {
         Owner: CartesianChart;
 

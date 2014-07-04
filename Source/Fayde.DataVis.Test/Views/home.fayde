@@ -1,7 +1,20 @@
 <Page xmlns="http://schemas.wsick.com/fayde"
       xmlns:x="http://schemas.wsick.com/fayde/x"
+      xmlns:dv="lib:Fayde.DataVis"
+      xmlns:vms="ViewModels"
       Title="Home">
     <Grid x:Name="LayoutRoot">
-		<TextBlock Text="Hello World!" />
+        <Grid.DataContext>
+            <vms:MainViewModel />
+        </Grid.DataContext>
+        <dv:CartesianChart>
+            <dv:CartesianChart.XAxis>
+                <dv:LinearAxis Minimum="1388552400000" Maximum="1417410000000" /> <!-- 1/1/2014-12/1/2014 -->
+            </dv:CartesianChart.XAxis>
+            <dv:CartesianChart.YAxis>
+                <dv:LinearAxis Minimum="-5" Maximum="30" />
+            </dv:CartesianChart.YAxis>
+            <dv:LineSeries ItemsSource="{Binding LineTestData}" DependentValuePath="{Binding Date}" IndependentValuePath="{Binding Temperature}" />
+        </dv:CartesianChart>
     </Grid>
 </Page>

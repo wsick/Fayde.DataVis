@@ -1,4 +1,6 @@
-﻿module Fayde.DataVis {
+﻿/// <reference path="../../Axis.ts" />
+
+module Fayde.DataVis {
     export class LinearAxis extends Axis {
         static MinimumProperty = DependencyProperty.Register("Minimum", () => Number, LinearAxis, undefined, (d, args) => (<LinearAxis>d).OnMinimumChanged(args.OldValue, args.NewValue));
         static MaximumProperty = DependencyProperty.Register("Maximum", () => Number, LinearAxis, undefined, (d, args) => (<LinearAxis>d).OnMaximumChanged(args.OldValue, args.NewValue));

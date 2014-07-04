@@ -1,4 +1,6 @@
-﻿module Fayde.DataVis {
+﻿/// <reference path="../../Series.ts" />
+
+module Fayde.DataVis {
     export class BiSeries extends Series {
         static DependentValuePathProperty = DependencyProperty.Register("DependentValuePath", () => String, BiSeries, undefined, (d, args) => (<BiSeries>d)._OnDependentValuePathChanged(args));
         static IndependentValuePathProperty = DependencyProperty.Register("IndependentValuePath", () => String, BiSeries, undefined, (d, args) => (<BiSeries>d)._OnIndependentValuePathChanged(args));

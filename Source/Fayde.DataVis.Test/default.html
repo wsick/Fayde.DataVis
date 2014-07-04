@@ -11,6 +11,7 @@
             },
             deps: ["text", "Fayde"],
             callback: function (text, Fayde) {
+                Fayde.RegisterLibrary("Fayde.DataVis", "/Fayde.DataVis/Fayde.DataVis.js", function (themeName) { return "/Fayde.DataVis/Themes/" + themeName + ".theme.xml"; });
                 Fayde.Run();
             },
             shim: {
@@ -18,6 +19,11 @@
                     exports: "Fayde"
                 }
             }
+        };
+    </script>
+    <script data-lib="Fayde.DataVis">
+        require.shim["/Fayde.DataVis/Fayde.DataVis.js"] = {
+            exports: "Fayde.DataVis"
         };
     </script>
     <script src="lib/requirejs/require.js"></script>

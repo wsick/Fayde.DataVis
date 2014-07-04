@@ -1,4 +1,6 @@
-﻿module Fayde.DataVis {
+﻿/// <reference path="../Chart.ts" />
+
+module Fayde.DataVis {
     export interface ICartesianChartInfo extends IChartInfo {
         XAxis: Axis;
         YAxis: Axis;
