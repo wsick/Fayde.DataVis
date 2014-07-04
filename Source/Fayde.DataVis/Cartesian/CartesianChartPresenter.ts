@@ -2,59 +2,58 @@
     export class CartesianChartPresenter extends ChartPresenter {
         Owner: CartesianChart;
 
-        private _IndAP: AxisPresenter = null;
-        private _IndListener: Providers.IPropertyChangedListener = null;
-        private _DepAP: AxisPresenter = null;
-        private _DepListener: Providers.IPropertyChangedListener = null;
+        private _yap: AxisPresenter = null;
+        private _YListener: Providers.IPropertyChangedListener = null;
+        private _xap: AxisPresenter = null;
+        private _XListener: Providers.IPropertyChangedListener = null;
 
         Detach() {
             super.Detach();
-            if (this._IndListener)
-                this._IndListener.Detach();
-            if (this._DepListener)
-                this._DepListener.Detach();
-            this._OnIndependentChanged(null);
-            this._OnDependentChanged(null);
+            if (this._XListener)
+                this._XListener.Detach();
+            this._OnXChanged(null);
+            if (this._YListener)
+                this._YListener.Detach();
+            this._OnYChanged(null);
         }
         Attach(chart: CartesianChart) {
             super.Attach(chart);
             if (chart) {
-                this._OnIndependentChanged(chart.IndependentAxis);
-                this._OnDependentChanged(chart.DependentAxis);
+                this._OnXChanged(chart.XAxis);
+                var propd = CartesianChart.XAxisProperty;
+                this._XListener = propd.Store.ListenToChanged(chart, propd, (sender, args) => this._OnXChanged(args.NewValue), this);
 
-                var propd = CartesianChart.IndependentAxisProperty;
-                this._IndListener = propd.Store.ListenToChanged(chart, propd, (sender, args) => this._OnIndependentChanged(args.NewValue), this);
-
-                var propd = CartesianChart.DependentAxisProperty;
-                this._DepListener = propd.Store.ListenToChanged(chart, propd, (sender, args) => this._OnIndependentChanged(args.NewValue), this);
+                this._OnYChanged(chart.YAxis);
+                var propd = CartesianChart.YAxisProperty
+                this._YListener = propd.Store.ListenToChanged(chart, propd, (sender, args) => this._OnYChanged(args.NewValue), this);
             }
         }
-        private _OnIndependentChanged(axis: Axis) {
-            if (this._IndAP) {
-                this.Children.Remove(this._IndAP);
-                this._IndAP = null;
+        private _OnYChanged(axis: Axis) {
+            if (this._yap) {
+                this.Children.Remove(this._yap);
+                this._yap = null;
             }
             if (axis) {
-                this._IndAP = axis.Presenter;
-                this.Children.Add(this._IndAP);
+                this._yap = axis.Presenter;
+                this.Children.Add(this._yap);
             }
         }
-        private _OnDependentChanged(axis: Axis) {
-            if (this._DepAP) {
-                this.Children.Remove(this._DepAP);
-                this._DepAP = null;
+        private _OnXChanged(axis: Axis) {
+            if (this._xap) {
+                this.Children.Remove(this._xap);
+                this._xap = null;
             }
             if (axis) {
-                this._DepAP = axis.Presenter;
-                this.Children.Add(this._DepAP);
+                this._xap = axis.Presenter;
+                this.Children.Add(this._xap);
             }
         }
         OnSizeChanged(sender: any, e: SizeChangedEventArgs) {
             super.OnSizeChanged(sender, e);
-            if (this._IndAP)
-                this._IndAP.UpdateSize(e.NewSize);
-            if (this._DepAP)
-                this._DepAP.UpdateSize(e.NewSize);
+            if (this._xap)
+                this._xap.UpdateSize(e.NewSize);
+            if (this._yap)
+                this._yap.UpdateSize(e.NewSize);
         }
     }
 }

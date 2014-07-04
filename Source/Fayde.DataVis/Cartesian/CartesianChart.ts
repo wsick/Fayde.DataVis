@@ -1,26 +1,20 @@
 ﻿module Fayde.DataVis {
     export interface ICartesianChartInfo extends IChartInfo {
-        Orientation: CartesianOrientation;
-        IndependentAxis: Axis;
-        DependentAxis: Axis;
+        XAxis: Axis;
+        YAxis: Axis;
     }
 
     export class CartesianChart extends Chart {
-        static OrientationProperty = DependencyProperty.Register("Orientation", () => new Enum(CartesianOrientation), CartesianChart, CartesianOrientation.Normal, (d, args) => (<CartesianChart>d)._OnOrientationChanged(args));
-        static DependentAxisProperty = DependencyProperty.Register("DependentAxis", () => Axis, CartesianChart, undefined, (d, args) => (<CartesianChart>d)._OnDependentAxisChanged(args));
-        static IndependentAxisProperty = DependencyProperty.Register("IndependentAxis", () => Axis, CartesianChart, undefined, (d, args) => (<CartesianChart>d)._OnIndependentAxisChanged(args));
-        Orientation: CartesianOrientation;
-        DependentAxis: Axis;
-        IndependentAxis: Axis;
+        static XAxisProperty = DependencyProperty.Register("XAxis", () => Axis, CartesianChart, undefined, (d, args) => (<CartesianChart>d)._OnXAxisChanged(args));
+        static YAxisProperty = DependencyProperty.Register("YAxis", () => Axis, CartesianChart, undefined, (d, args) => (<CartesianChart>d)._OnYAxisChanged(args));
+        XAxis: Axis;
+        YAxis: Axis;
 
-        private _OnOrientationChanged(args: IDependencyPropertyChangedEventArgs) {
-            this.ChartInfo.Orientation = args.NewValue;
+        private _OnXAxisChanged(args: IDependencyPropertyChangedEventArgs) {
+            this.ChartInfo.XAxis = args.NewValue;
         }
-        private _OnDependentAxisChanged(args: IDependencyPropertyChangedEventArgs) {
-            this.ChartInfo.DependentAxis = args.NewValue;
-        }
-        private _OnIndependentAxisChanged(args: IDependencyPropertyChangedEventArgs) {
-            this.ChartInfo.IndependentAxis = args.NewValue;
+        private _OnYAxisChanged(args: IDependencyPropertyChangedEventArgs) {
+            this.ChartInfo.YAxis = args.NewValue;
         }
 
         ChartInfo: ICartesianChartInfo;
