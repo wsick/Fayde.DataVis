@@ -7,7 +7,7 @@
         <Grid.DataContext>
             <vms:MainViewModel />
         </Grid.DataContext>
-        <dv:CartesianChart>
+        <dv:CartesianChart Background="Orange" BorderThickness="5" BorderBrush="Green">
             <dv:CartesianChart.XAxis>
                 <dv:LinearAxis Minimum="1388552400000" Maximum="1417410000000" /> <!-- 1/1/2014-12/1/2014 -->
             </dv:CartesianChart.XAxis>
