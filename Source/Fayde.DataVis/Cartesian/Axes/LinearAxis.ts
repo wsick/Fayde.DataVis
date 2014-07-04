@@ -13,6 +13,9 @@ module Fayde.DataVis {
             this.OnScaleUpdated();
         }
 
+        get IsVertical(): boolean { return this.Presenter.IsVertical === true; }
+        set IsVertical(value: boolean) { this.Presenter.IsVertical = value === true; }
+
         Presenter: LinearAxisPresenter;
         CreatePresenter(): LinearAxisPresenter { return new LinearAxisPresenter(); }
 

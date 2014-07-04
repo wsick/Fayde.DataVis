@@ -4,9 +4,9 @@ module Fayde.DataVis {
     export class CartesianChartPresenter extends ChartPresenter {
         Owner: CartesianChart;
 
-        private _yap: AxisPresenter = null;
+        private _yap: LinearAxisPresenter = null;
         private _YListener: Providers.IPropertyChangedListener = null;
-        private _xap: AxisPresenter = null;
+        private _xap: LinearAxisPresenter = null;
         private _XListener: Providers.IPropertyChangedListener = null;
 
         Detach() {
@@ -30,7 +30,7 @@ module Fayde.DataVis {
                 this._YListener = propd.Store.ListenToChanged(chart, propd, (sender, args) => this._OnYChanged(args.NewValue), this);
             }
         }
-        private _OnYChanged(axis: Axis) {
+        private _OnYChanged(axis: LinearAxis) {
             if (this._yap) {
                 this.Children.Remove(this._yap);
                 this._yap = null;
@@ -40,7 +40,7 @@ module Fayde.DataVis {
                 this.Children.Add(this._yap);
             }
         }
-        private _OnXChanged(axis: Axis) {
+        private _OnXChanged(axis: LinearAxis) {
             if (this._xap) {
                 this.Children.Remove(this._xap);
                 this._xap = null;

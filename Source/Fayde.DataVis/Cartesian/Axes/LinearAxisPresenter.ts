@@ -2,5 +2,6 @@
 
 module Fayde.DataVis {
     export class LinearAxisPresenter extends AxisPresenter {
+        IsVertical: boolean = false;
     }
 } 

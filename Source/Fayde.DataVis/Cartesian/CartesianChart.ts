@@ -2,21 +2,27 @@
 
 module Fayde.DataVis {
     export interface ICartesianChartInfo extends IChartInfo {
-        XAxis: Axis;
-        YAxis: Axis;
+        XAxis: LinearAxis;
+        YAxis: LinearAxis;
     }
 
     export class CartesianChart extends Chart {
-        static XAxisProperty = DependencyProperty.Register("XAxis", () => Axis, CartesianChart, undefined, (d, args) => (<CartesianChart>d)._OnXAxisChanged(args));
-        static YAxisProperty = DependencyProperty.Register("YAxis", () => Axis, CartesianChart, undefined, (d, args) => (<CartesianChart>d)._OnYAxisChanged(args));
-        XAxis: Axis;
-        YAxis: Axis;
+        static XAxisProperty = DependencyProperty.Register("XAxis", () => LinearAxis, CartesianChart, undefined, (d, args) => (<CartesianChart>d)._OnXAxisChanged(args));
+        static YAxisProperty = DependencyProperty.Register("YAxis", () => LinearAxis, CartesianChart, undefined, (d, args) => (<CartesianChart>d)._OnYAxisChanged(args));
+        XAxis: LinearAxis;
+        YAxis: LinearAxis;
 
         private _OnXAxisChanged(args: IDependencyPropertyChangedEventArgs) {
-            this.ChartInfo.XAxis = args.NewValue;
+            var axis: LinearAxis = args.NewValue;
+            this.ChartInfo.XAxis = axis;
+            if (axis instanceof LinearAxis)
+                axis.IsVertical = false;
         }
         private _OnYAxisChanged(args: IDependencyPropertyChangedEventArgs) {
-            this.ChartInfo.YAxis = args.NewValue;
+            var axis: LinearAxis = args.NewValue;
+            this.ChartInfo.YAxis = axis;
+            if (axis instanceof LinearAxis)
+                axis.IsVertical = true;
         }
 
         ChartInfo: ICartesianChartInfo;
