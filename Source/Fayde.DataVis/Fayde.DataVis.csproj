@@ -108,10 +108,10 @@
     <TypeScriptCompile Include="Scales\LinearScale.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Cartesian\Series\CartesianSeries.ts" />
+    <TypeScriptCompile Include="Cartesian\Series\BiSeries.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Cartesian\Series\CartesianSeriesPresenter.ts" />
+    <TypeScriptCompile Include="Cartesian\Series\BiSeriesPresenter.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="IRange.ts" />
