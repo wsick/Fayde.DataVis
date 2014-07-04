@@ -7,7 +7,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="dv:CartesianChart">
-                    <dv:CartesianChartPresenter x:Name="Presenter" />
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <dv:CartesianChartPresenter x:Name="Presenter" Background="{TemplateBinding Background}" />
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
