@@ -13,11 +13,13 @@
             this._Series = series;
         }
 
-        OnItemAdded(item: any, index: number) {
-            this._Items.splice(index, 0, item);
+        OnItemsAdded(items: any, index: number) {
+            this._Items = this._Items.slice(0, index - 1)
+                .concat(items)
+                .concat(this._Items.slice(index));
         }
-        OnItemRemoved(item: any, index: number) {
-            this._Items.splice(index, 1);
+        OnItemsRemoved(items: any, index: number) {
+            this._Items.splice(index, items.length);
         }
 
         UpdateSize(newSize: size) {
@@ -25,4 +27,4 @@
             this.Height = newSize.Height;
         }
     }
-} 
+}

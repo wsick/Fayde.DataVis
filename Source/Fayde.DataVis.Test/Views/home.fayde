@@ -14,7 +14,7 @@
             <dv:CartesianChart.YAxis>
                 <dv:LinearAxis Minimum="-5" Maximum="30" />
             </dv:CartesianChart.YAxis>
-            <dv:LineSeries ItemsSource="{Binding LineTestData}" IndependentValuePath="{Binding Date}" DependentValuePath="{Binding Temperature}" />
+            <dv:LineSeries ItemsSource="{Binding LineTestData}" IndependentValuePath="Date" DependentValuePath="Temperature" />
         </dv:CartesianChart>
     </Grid>
 </Page>

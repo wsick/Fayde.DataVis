@@ -18,9 +18,6 @@
             this._OnItemsAdded(e.NewItems, e.NewStartingIndex);
         }
 
-        private _Items: any[] = [];
-        get Items(): any[] { return this._Items; }
-
         ChartInfo: IChartInfo = null;
 
         constructor() {
@@ -29,31 +26,17 @@
 
         private _Presenter: SeriesPresenter = null;
         get Presenter(): SeriesPresenter {
-            return this._Presenter = this._Presenter = this.CreatePresenter();
+            return this._Presenter = this._Presenter || this.CreatePresenter();
         }
         CreatePresenter(): SeriesPresenter { return new SeriesPresenter(this); }
 
         private _OnItemsAdded(items: any[], index: number) {
-            for (var i = 0, len = items ? items.length : 0; i < len; i++) {
-                this.OnItemAdded(items[i], i + index);
-            }
-            if (!items)
-                return;
-            this._Items = this._Items.slice(0, index - 1)
-                .concat(items)
-                .concat(this._Items.slice(index));
-        }
-        OnItemAdded(item: any, index: number) {
-            this.Presenter.OnItemAdded(item, index);
+            if (items)
+                this.Presenter.OnItemsAdded(items, index);
         }
         private _OnItemsRemoved(items: any[], index: number) {
-            for (var i = 0, len = items ? items.length : 0; i < len; i++) {
-                this.OnItemRemoved(items[i], i + index);
-            }
-            this._Items.splice(index, items.length);
-        }
-        OnItemRemoved(item: any, index: number) {
-            this.Presenter.OnItemRemoved(item, index);
+            if (items)
+                this.Presenter.OnItemsRemoved(items, index);
         }
     }
 }

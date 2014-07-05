@@ -7,10 +7,10 @@ module Fayde.DataVis {
         Minimum: number;
         Maximum: number;
         OnMinimumChanged(oldValue: number, newValue: number) {
-            this.OnScaleUpdated();
+            this.Parameterizer.Minimum = newValue;
         }
         OnMaximumChanged(oldValue: number, newValue: number) {
-            this.OnScaleUpdated();
+            this.Parameterizer.Maximum = newValue;
         }
 
         get IsVertical(): boolean { return this.Presenter.IsVertical === true; }
@@ -18,20 +18,13 @@ module Fayde.DataVis {
 
         Presenter: LinearAxisPresenter;
         CreatePresenter(): LinearAxisPresenter { return new LinearAxisPresenter(); }
-        Parameterize: LinearParameterizer;
+        Parameterizer: LinearParameterizer;
         CreateParameterizer(): LinearParameterizer { return new LinearParameterizer(); }
 
         constructor() {
             super();
-        }
-
-        OnScaleUpdated() {
-            var ls = <LinearScale>this.Scale;
-            if (ls instanceof LinearScale) {
-                ls.RangeMin = this.Minimum;
-                ls.RangeMax = this.Maximum;
-            }
-            super.OnScaleUpdated();
+            if (!this.Scale)
+                this.Scale = new LinearScale();
         }
     }
 }

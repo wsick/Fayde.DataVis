@@ -12,10 +12,14 @@
         private _ChartInfo: IChartInfo = {};
         get ChartInfo(): IChartInfo { return this._ChartInfo; }
 
+        private _SeriesListener: Internal.ICollectionListener = null;
+
         constructor() {
             super();
             this.DefaultStyleKey = (<any>this).constructor;
-            Chart.SeriesProperty.Initialize(this);
+            var series = Chart.SeriesProperty.Initialize(this);
+            series.AttachTo(this);
+            this._SeriesListener = series.Listen((item, index) => item.ChartInfo = this.ChartInfo, (item, index) => item.ChartInfo = null);
         }
 
         OnApplyTemplate() {

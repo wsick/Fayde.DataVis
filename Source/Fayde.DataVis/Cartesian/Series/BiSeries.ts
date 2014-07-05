@@ -11,7 +11,7 @@ module Fayde.DataVis {
         CreatePresenter(): SeriesPresenter { return new BiSeriesPresenter(this); }
 
         private _OnDependentValuePathChanged(args: IDependencyPropertyChangedEventArgs) {
-            this.Presenter.OnDependentValuePathChanged(args.OldValue);
+            this.Presenter.OnDependentValuePathChanged(args.NewValue);
         }
         private _OnIndependentValuePathChanged(args: IDependencyPropertyChangedEventArgs) {
             this.Presenter.OnIndependentValuePathChanged(args.NewValue);

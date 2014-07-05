@@ -24,6 +24,7 @@
         ScaleUpdated = new MulticastEvent<EventArgs>();
         OnScaleUpdated() {
             this.ScaleUpdated.Raise(this, EventArgs.Empty);
+            this.Presenter.OnScaleUpdated(this.Scale);
         }
     }
 }

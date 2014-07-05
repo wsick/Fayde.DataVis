@@ -12,15 +12,23 @@ module Fayde.DataVis {
             super(series);
         }
 
-        OnItemAdded(item: any, index: number) {
-            super.OnItemAdded(item, index);
-            this._DepValueSet.Insert(item, index);
-            this._IndValueSet.Insert(item, index);
+        OnItemsAdded(items: any, index: number) {
+            super.OnItemsAdded(items, index);
+            var dvs = this._DepValueSet;
+            var ivs = this._IndValueSet;
+            for (var i = 0, len = items.length; i < len; i++) {
+                dvs.Insert(items[i], i + index);
+                ivs.Insert(items[i], i + index);
+            }
         }
-        OnItemRemoved(item: any, index: number) {
-            super.OnItemRemoved(item, index);
-            this._DepValueSet.RemoveAt(index);
-            this._IndValueSet.RemoveAt(index);
+        OnItemsRemoved(items: any, index: number) {
+            super.OnItemsRemoved(items, index);
+            var dvs = this._DepValueSet;
+            var ivs = this._IndValueSet;
+            for (var i = 0, len = items.length; i < len; i++) {
+                dvs.RemoveAt(i + index);
+                ivs.RemoveAt(i + index);
+            }
         }
 
         OnDependentValuePathChanged(path: string) {
@@ -35,18 +43,20 @@ module Fayde.DataVis {
         GetIndependentValue(index: number) {
             return this._IndValueSet.Values[index];
         }
-        InterpolateIndependent(axis: Axis, index: number) {
+        InterpolateIndependent(axis: Axis, index: number): any {
             var vs = this._IndValueSet;
             var t = axis.Parameterizer.Parameterize(vs, vs.Values[index]);
-            return axis.Interpolate(t);
+            var i = axis.Interpolate(t);
+            return i;
         }
         GetDependentValue(index: number) {
             return this._DepValueSet.Values[index];
         }
-        InterpolateDependent(axis: Axis, index: number) {
+        InterpolateDependent(axis: Axis, index: number): any {
             var vs = this._DepValueSet;
             var t = axis.Parameterizer.Parameterize(vs, vs.Values[index]);
-            return axis.Interpolate(t);
+            var d = axis.Interpolate(t);
+            return d;
         }
     }
 }

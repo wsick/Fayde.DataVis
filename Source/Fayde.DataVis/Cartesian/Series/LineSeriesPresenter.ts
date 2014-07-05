@@ -11,16 +11,18 @@ module Fayde.DataVis {
 
         constructor(series: LineSeries) {
             super(series);
+            this._Line.Stroke = Media.SolidColorBrush.FromColor(Color.KnownColors.Black);
+            this._Line.StrokeThickness = 5;
             this.Children.Add(this._Line);
         }
 
-        OnItemAdded(item: any, index: number) {
-            super.OnItemAdded(item, index);
-            this._Line.Points.Insert(index, this.GetCoordinate(index));
+        OnItemsAdded(items: any, index: number) {
+            super.OnItemsAdded(items, index);
+            this.Update();
         }
-        OnItemRemoved(item: any, index: number) {
-            super.OnItemRemoved(item, index);
-            this._Line.Points.RemoveAt(index);
+        OnItemsRemoved(items: any, index: number) {
+            super.OnItemsRemoved(items, index);
+            this.Update();
         }
 
         GetCoordinate(index: number): Point {
