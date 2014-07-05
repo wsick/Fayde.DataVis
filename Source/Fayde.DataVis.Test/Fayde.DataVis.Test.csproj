@@ -57,6 +57,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="default.html" />
+    <TypeScriptCompile Include="ViewModels\MainViewModel.ts" />
+    <TypeScriptCompile Include="Models\WeatherItem.ts" />
     <Content Include="lib\Fayde\Fayde.d.ts" />
     <Content Include="lib\Fayde\Fayde.js" />
     <Content Include="lib\Fayde\Themes\Default.theme.xml" />
@@ -64,8 +66,6 @@
     <Content Include="lib\requirejs\require.d.ts" />
     <Content Include="lib\requirejs\require.js" />
     <Content Include="lib\requirejs\text.js" />
-    <TypeScriptCompile Include="ViewModels\MainViewModel.ts" />
-    <TypeScriptCompile Include="Models\WeatherItem.ts" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>

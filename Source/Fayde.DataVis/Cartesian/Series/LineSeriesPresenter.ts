@@ -16,6 +16,15 @@ module Fayde.DataVis {
             this.Children.Add(this._Line);
         }
 
+        OnSizeChanged(newSize: size) {
+            var ci = this.ChartInfo;
+            if (ci) {
+                ci.XAxis.Presenter.UpdateScale();
+                ci.YAxis.Presenter.UpdateScale();
+            }
+            this.Update();
+        }
+
         OnItemsAdded(items: any, index: number) {
             super.OnItemsAdded(items, index);
             this.Update();

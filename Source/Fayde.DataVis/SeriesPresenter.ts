@@ -11,7 +11,12 @@
         constructor(series: Series) {
             super();
             this._Series = series;
+            this.SizeChanged.Subscribe(this._OnSizeChanged, this);
         }
+        private _OnSizeChanged(sender: any, e: SizeChangedEventArgs) {
+            this.OnSizeChanged(e.NewSize);
+        }
+        OnSizeChanged(newSize: size) { }
 
         OnItemsAdded(items: any, index: number) {
             this._Items = this._Items.slice(0, index - 1)

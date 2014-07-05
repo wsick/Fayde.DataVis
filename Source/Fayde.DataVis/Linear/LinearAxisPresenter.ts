@@ -4,16 +4,7 @@ module Fayde.DataVis {
     export class LinearAxisPresenter extends AxisPresenter {
         IsVertical: boolean = false;
 
-        OnScaleUpdated(scale: IScale) {
-            super.OnScaleUpdated(scale);
-            this._UpdateScale();
-        }
-
-        OnSizeChanged(newSize: size) {
-            this._UpdateScale();
-        }
-
-        private _UpdateScale() {
+        UpdateScale() {
             var ls = <LinearScale>this.Scale;
             if (ls instanceof LinearScale) {
                 if (this.IsVertical) {

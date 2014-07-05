@@ -7,6 +7,7 @@
         }
         private _OnSizeChanged(sender: any, e: SizeChangedEventArgs) {
             this.OnSizeChanged(e.NewSize);
+            this.UpdateScale();
         }
         OnSizeChanged(newSize: size) { }
 
@@ -19,6 +20,9 @@
         get Scale(): IScale { return this._Scale; }
         OnScaleUpdated(scale: IScale) {
             this._Scale = scale;
+            this.UpdateScale();
+        }
+        UpdateScale() {
         }
     }
 }
