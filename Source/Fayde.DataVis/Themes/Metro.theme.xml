@@ -24,4 +24,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="dv:LinearAxisPresenter">
+        
+    </Style>
 </ResourceDictionary>
