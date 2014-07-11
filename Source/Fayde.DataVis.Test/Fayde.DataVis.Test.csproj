@@ -69,7 +69,9 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\home.fayde" />
+    <Content Include="Views\home.fayde">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="default.fap" />
     <Content Include="packages.config" />
     <None Include="web.Debug.config">
