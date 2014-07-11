@@ -14,4 +14,14 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="dv:LineSeriesPresenter">
+        <Setter Property="LineStyle">
+            <Setter.Value>
+                <Style TargetType="Polyline">
+                    <Setter Property="Stroke" Value="Black" />
+                    <Setter Property="StrokeThickness" Value="2" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

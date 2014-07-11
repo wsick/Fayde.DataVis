@@ -16,7 +16,7 @@
 
         constructor() {
             super();
-            this.DefaultStyleKey = (<any>this).constructor;
+            this.DefaultStyleKey = Chart;
             var series = Chart.SeriesProperty.Initialize(this);
             series.AttachTo(this);
             this._SeriesListener = series.Listen((item, index) => item.ChartInfo = this.ChartInfo, (item, index) => item.ChartInfo = null);

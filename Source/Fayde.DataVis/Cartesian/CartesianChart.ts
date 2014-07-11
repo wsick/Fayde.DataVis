@@ -35,7 +35,7 @@ module Fayde.DataVis {
 
         constructor() {
             super();
-            this.DefaultStyleKey = (<any>this).constructor;
+            this.DefaultStyleKey = CartesianChart;
         }
     }
     Controls.TemplateParts(CartesianChart,

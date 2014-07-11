@@ -4,6 +4,13 @@ module Fayde.DataVis {
     import Canvas = Controls.Canvas;
 
     export class LineSeriesPresenter extends BiSeriesPresenter {
+        static LineStyleProperty = DependencyProperty.Register("LineStyle", () => Style, LineSeriesPresenter, undefined, (d, args) => (<LineSeriesPresenter>d)._OnLineStyleChanged(args));
+        LineStyle: Style;
+
+        private _OnLineStyleChanged(args: IDependencyPropertyChangedEventArgs) {
+            this._Line.Style = args.NewValue;
+        }
+
         private _Line = new Shapes.Polyline();
 
         Series: LineSeries;
@@ -11,8 +18,7 @@ module Fayde.DataVis {
 
         constructor(series: LineSeries) {
             super(series);
-            this._Line.Stroke = Media.SolidColorBrush.FromColor(Color.KnownColors.Black);
-            this._Line.StrokeThickness = 5;
+            this.DefaultStyleKey = LineSeriesPresenter;
             this.Children.Add(this._Line);
         }
 
