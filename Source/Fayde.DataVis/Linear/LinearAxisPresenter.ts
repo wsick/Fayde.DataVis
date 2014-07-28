@@ -4,6 +4,11 @@ module Fayde.DataVis {
     export class LinearAxisPresenter extends AxisPresenter {
         IsVertical: boolean = false;
 
+        constructor() {
+            super();
+            this.DefaultStyleKey = LinearAxisPresenter;
+        }
+
         UpdateScale() {
             var ls = <LinearScale>this.Scale;
             if (ls instanceof LinearScale) {
