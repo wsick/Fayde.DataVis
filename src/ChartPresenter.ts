@@ -32,8 +32,8 @@
         Attach(chart: Chart) {
             this.Owner = chart;
             if (chart) {
-                for (var en = chart.Series.GetEnumerator(), i = 0; en.MoveNext(); i++) {
-                    this._OnSeriesAdded(en.Current, i);
+                for (var en = chart.Series.getEnumerator(), i = 0; en.moveNext(); i++) {
+                    this._OnSeriesAdded(en.current, i);
                 }
 
                 this._SeriesListener = chart.Series.Listen((item, index) => this._OnSeriesAdded(item, index), (item, index) => this._OnSeriesRemoved(item, index));

@@ -1,0 +1,11 @@
+{
+  "name": "Fayde.DataVis",
+  "version": "0.1.0",
+  "ignore": [
+    "build",
+    "nuget",
+    "src",
+    "testsite",
+    "Gruntfile.js"
+  ]
+}

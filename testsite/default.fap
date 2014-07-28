@@ -1,0 +1,24 @@
+<Application
+        xmlns="http://schemas.wsick.com/fayde"
+        xmlns:x="http://schemas.wsick.com/fayde/x"
+        ThemeName="Metro">
+    <Application.Resources>
+    </Application.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel>
+            <HyperlinkButton TargetName="ContentFrame" NavigateUri="/LineSeries" Content="Line Series" />
+        </StackPanel>
+        <Frame x:Name="ContentFrame" Grid.Column="1">
+            <Frame.UriMapper>
+                <UriMapper>
+                    <UriMapping Uri="" MappedUri="Views/lineseries.fayde" />
+                    <UriMapping Uri="/{pageName}" MappedUri="Views/{pageName}.fayde" />
+                </UriMapper>
+            </Frame.UriMapper>
+        </Frame>
+    </Grid>
+</Application>

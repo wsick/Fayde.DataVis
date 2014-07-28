@@ -179,3 +179,6 @@ Source/Fayde.DataVis/Fayde.DataVis.js
 Source/Fayde.DataVis.Test/Models/WeatherItem.js
 Source/Fayde.DataVis.Test/ViewModels/MainViewModel.js
 .idea
+testsite/lib
+testsite/Models/WeatherItem.js
+testsite/ViewModels/MainViewModel.js

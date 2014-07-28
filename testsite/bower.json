@@ -1,0 +1,9 @@
+{
+    "name": "testsite",
+    "version": "0.1.0",
+    "dependencies": {
+        "requirejs": "*",
+        "requirejs-text": "*",
+        "fayde": "*"
+    }
+}
