@@ -41,7 +41,7 @@ module.exports = function (grunt) {
                 }
             },
             test: {
-                src: ['test/**/*.ts'],
+                src: ['test/**/*.ts', '!test/lib/**/*.ts'],
                 options: {
                     target: 'es5',
                     module: 'amd',
