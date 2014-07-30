@@ -5,6 +5,7 @@
     "build",
     "nuget",
     "src",
+    "test",
     "testsite",
     "Gruntfile.js"
   ]

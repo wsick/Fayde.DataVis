@@ -3,9 +3,10 @@ var version = require('./build/version'),
 
 module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-typescript');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-qunit');
+    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-open');
     grunt.loadNpmTasks('grunt-nuget');
 
@@ -22,6 +23,9 @@ module.exports = function (grunt) {
         meta: meta,
         pkg: grunt.file.readJSON('./package.json'),
         setup: {
+            test: {
+                cwd: './test'
+            },
             testsite: {
                 cwd: './testsite'
             }
@@ -36,6 +40,14 @@ module.exports = function (grunt) {
                     sourceMap: true
                 }
             },
+            test: {
+                src: ['test/**/*.ts'],
+                options: {
+                    target: 'es5',
+                    module: 'amd',
+                    sourceMap: true
+                }
+            },
             testsite: {
                 src: ['testsite/**/*.ts', '!testsite/lib/**/*.ts'],
                 options: {
@@ -46,6 +58,13 @@ module.exports = function (grunt) {
             }
         },
         copy: {
+            pretest: {
+                files: [
+                    { expand: true, flatten: true, src: ['Themes/*'], dest: 'test/lib/<%= meta.name %>/Themes', filter: 'isFile' },
+                    { expand: true, flatten: true, src: ['<%= meta.name %>.js'], dest: 'test/lib/<%= meta.name %>', filter: 'isFile' },
+                    { expand: true, flatten: true, src: ['<%= meta.name %>.d.ts'], dest: 'test/lib/<%= meta.name %>', filter: 'isFile' }
+                ]
+            },
             pretestsite: {
                 files: [
                     { expand: true, flatten: true, src: ['Themes/*'], dest: 'testsite/lib/<%= meta.name %>/Themes', filter: 'isFile' },
@@ -53,6 +72,9 @@ module.exports = function (grunt) {
                     { expand: true, flatten: true, src: ['<%= meta.name %>.d.ts'], dest: 'testsite/lib/<%= meta.name %>', filter: 'isFile' }
                 ]
             }
+        },
+        qunit: {
+            all: ['test/**/*.html']
         },
         connect: {
             server: {
@@ -118,6 +140,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('default', ['version:apply', 'typescript:build']);
+    grunt.registerTask('test', ['setup:test', 'version:apply', 'typescript:build', 'copy:pretest', 'typescript:test', 'qunit']);
     grunt.registerTask('testsite', ['setup:testsite', 'version:apply', 'typescript:build', 'copy:pretestsite', 'typescript:testsite', 'connect', 'open', 'watch']);
     setup(grunt);
     version(grunt);
