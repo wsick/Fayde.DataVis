@@ -2,7 +2,7 @@ var Fayde;
 (function (Fayde) {
     var DataVis;
     (function (DataVis) {
-        DataVis.Version = '0.1.0';
+        DataVis.Version = '0.2.0';
     })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
 })(Fayde || (Fayde = {}));
 var Fayde;

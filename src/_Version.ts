@@ -1,3 +1,3 @@
 module Fayde.DataVis {
-    export var Version = '0.1.0';
+    export var Version = '0.2.0';
 }
