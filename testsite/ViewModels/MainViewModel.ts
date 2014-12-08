@@ -1,6 +1,4 @@
-﻿/// <reference path="../lib/Fayde/Fayde.d.ts" />
-
-import WeatherItem = require("../Models/WeatherItem");
+﻿import WeatherItem = require("../Models/WeatherItem");
 
 class MainViewModel extends Fayde.MVVM.ViewModelBase {
     LineTestData = [

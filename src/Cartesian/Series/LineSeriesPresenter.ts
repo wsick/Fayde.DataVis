@@ -22,7 +22,7 @@ module Fayde.DataVis {
             this.Children.Add(this._Line);
         }
 
-        OnSizeChanged(newSize: size) {
+        OnSizeChanged(newSize: minerva.Size) {
             var ci = this.ChartInfo;
             if (ci) {
                 ci.XAxis.Presenter.UpdateScale();

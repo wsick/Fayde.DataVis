@@ -3,5 +3,9 @@
     "Fayde.DataVis": {
       "exports": "Fayde.DataVis"
     }
+  },
+  "themes": {
+    "Fayde.DataVis": {
+    }
   }
 }

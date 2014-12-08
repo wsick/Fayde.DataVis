@@ -1,7 +1,7 @@
-export function load() {
+export function load () {
     QUnit.module('Test 1');
 
-    test("Basic test", () => {
-        ok(true);
+    QUnit.test("Basic test", (assert) => {
+        assert.ok(true);
     });
 }

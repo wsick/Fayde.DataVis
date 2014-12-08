@@ -3,5 +3,5 @@
         Normal,
         Transposed
     }
-    Fayde.RegisterEnum(CartesianOrientation, "CartesianOrientation");
+    Library.addEnum(CartesianOrientation, "CartesianOrientation");
 } 

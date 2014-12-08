@@ -11,12 +11,12 @@
         constructor(series: Series) {
             super();
             this._Series = series;
-            this.SizeChanged.Subscribe(this._OnSizeChanged, this);
+            this.SizeChanged.on(this._OnSizeChanged, this);
         }
         private _OnSizeChanged(sender: any, e: SizeChangedEventArgs) {
             this.OnSizeChanged(e.NewSize);
         }
-        OnSizeChanged(newSize: size) { }
+        OnSizeChanged(newSize: minerva.Size) { }
 
         OnItemsAdded(items: any, index: number) {
             this._Items = this._Items.slice(0, index - 1)
@@ -27,9 +27,9 @@
             this._Items.splice(index, items.length);
         }
 
-        UpdateSize(newSize: size) {
-            this.Width = newSize.Width;
-            this.Height = newSize.Height;
+        UpdateSize(newSize: minerva.Size) {
+            this.Width = newSize.width;
+            this.Height = newSize.height;
         }
     }
 }

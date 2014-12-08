@@ -1,6 +1,6 @@
 ﻿module Fayde.DataVis {
     export class Axis extends DependencyObject {
-        static ScaleProperty = DependencyProperty.Register("Scale", () => IScale_, Axis, undefined, (d, args) => (<Axis>d)._OnScaleChanged(args));
+        static ScaleProperty = DependencyProperty.Register("Scale", () => IScale_, Axis, undefined, (d: Axis, args) => d._OnScaleChanged(args));
         Scale: IScale;
         private _OnScaleChanged(args: IDependencyPropertyChangedEventArgs) {
             this.OnScaleUpdated();
@@ -21,9 +21,9 @@
             return scale.Evaluate(t);
         }
 
-        ScaleUpdated = new MulticastEvent<EventArgs>();
+        ScaleUpdated = new nullstone.Event();
         OnScaleUpdated() {
-            this.ScaleUpdated.Raise(this, EventArgs.Empty);
+            this.ScaleUpdated.raise(this, null);
             this.Presenter.OnScaleUpdated(this.Scale);
         }
     }

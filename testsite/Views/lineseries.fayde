@@ -1,6 +1,6 @@
 <Page xmlns="http://schemas.wsick.com/fayde"
       xmlns:x="http://schemas.wsick.com/fayde/x"
-      xmlns:dv="lib:Fayde.DataVis"
+      xmlns:dv="lib://Fayde.DataVis"
       xmlns:vms="ViewModels"
       Title="Home">
     <Grid x:Name="LayoutRoot">

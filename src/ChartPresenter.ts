@@ -11,7 +11,7 @@
 
         constructor() {
             super();
-            this.SizeChanged.Subscribe(this.OnSizeChanged, this);
+            this.SizeChanged.on(this.OnSizeChanged, this);
         }
 
         Detach() {

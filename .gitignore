@@ -173,15 +173,10 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 
-*.js.map
-Source/Fayde.DataVis/Fayde.DataVis.d.ts
-Source/Fayde.DataVis/Fayde.DataVis.js
-Source/Fayde.DataVis.Test/Models/WeatherItem.js
-Source/Fayde.DataVis.Test/ViewModels/MainViewModel.js
+
 .idea
-testsite/lib
-testsite/Models/WeatherItem.js
-testsite/ViewModels/MainViewModel.js
-test/lib
-test/runner.js
-test/tests/test1.js
+lib/
+test/lib/
+testsite/lib/
+test/.build/
+testsite/.build/
