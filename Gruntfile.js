@@ -86,7 +86,7 @@ module.exports = function (grunt) {
         typescript: {
             build: {
                 src: [
-                    'typings/*.d.ts',
+                    'typings/**/*.d.ts',
                     'lib/nullstone/dist/nullstone.d.ts',
                     'lib/minerva/dist/minerva.d.ts',
                     'lib/fayde/dist/fayde.d.ts',
@@ -104,7 +104,7 @@ module.exports = function (grunt) {
             },
             test: {
                 src: [
-                    'typings/*.d.ts',
+                    'typings/**/*.d.ts',
                     '<%= dirs.test.root %>/**/*.ts',
                     '!<%= dirs.test.lib %>/**/*.ts',
                     'lib/nullstone/dist/nullstone.d.ts',
@@ -122,7 +122,7 @@ module.exports = function (grunt) {
             },
             testsite: {
                 src: [
-                    'typings/*.d.ts',
+                    'typings/**/*.d.ts',
                     '<%= dirs.testsite.root %>/**/*.ts',
                     '!<%= dirs.testsite.lib %>/**/*.ts',
                     'lib/nullstone/dist/nullstone.d.ts',
