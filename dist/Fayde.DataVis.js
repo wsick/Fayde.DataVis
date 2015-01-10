@@ -2,14 +2,7 @@ var Fayde;
 (function (Fayde) {
     var DataVis;
     (function (DataVis) {
-        DataVis.Version = '0.2.0';
-    })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
-})(Fayde || (Fayde = {}));
-var Fayde;
-(function (Fayde) {
-    var DataVis;
-    (function (DataVis) {
-        DataVis.Library = Fayde.TypeManager.resolveLibrary("lib://Fayde.DataVis");
+        DataVis.Version = '0.2.1';
     })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
 })(Fayde || (Fayde = {}));
 var __extends = this.__extends || function (d, b) {
@@ -481,6 +474,13 @@ var Fayde;
             return ValueSet;
         })();
         DataVis.ValueSet = ValueSet;
+    })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
+})(Fayde || (Fayde = {}));
+var Fayde;
+(function (Fayde) {
+    var DataVis;
+    (function (DataVis) {
+        DataVis.Library = Fayde.TypeManager.resolveLibrary("lib://Fayde.DataVis");
     })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
 })(Fayde || (Fayde = {}));
 /// <reference path="../Chart.ts" />

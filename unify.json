@@ -1,0 +1,24 @@
+{
+  "name": "Fayde.DataVis",
+  "client": {
+    "tests": [
+      {
+        "file": "test/fayde.json",
+        "lib": "test/lib"
+      },
+      {
+        "file": "testsite/fayde.json",
+        "lib": "testsite/lib"
+      }
+    ]
+  },
+  "type": "lib",
+  "dist": "dist/Fayde.DataVis",
+  "library": {
+    "type": "export",
+    "exports": "Fayde.DataVis"
+  },
+  "typings": [
+    "dist/Fayde.DataVis.d.ts"
+  ]
+}
