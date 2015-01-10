@@ -2,6 +2,9 @@ declare module Fayde.DataVis {
     var Version: string;
 }
 declare module Fayde.DataVis {
+    var Library: nullstone.ILibrary;
+}
+declare module Fayde.DataVis {
     class Axis extends DependencyObject {
         static ScaleProperty: DependencyProperty;
         Scale: IScale;
@@ -161,9 +164,6 @@ declare module Fayde.DataVis {
         UpdateWalker(items: any[]): void;
         Update(): void;
     }
-}
-declare module Fayde.DataVis {
-    var Library: nullstone.ILibrary;
 }
 declare module Fayde.DataVis {
     interface ICartesianChartInfo extends IChartInfo {

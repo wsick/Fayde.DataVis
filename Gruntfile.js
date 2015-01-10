@@ -97,6 +97,7 @@ module.exports = function (grunt) {
                 src: [
                     'typings/*.d.ts',
                     './src/_Version.ts',
+                    './src/_Library.ts',
                     './src/*.ts',
                     './src/**/*.ts'
                 ].concat(unify.typings({includeSelf: false})),
@@ -109,7 +110,7 @@ module.exports = function (grunt) {
             },
             test: {
                 src: [
-                    'typings/*.d.ts',
+                    'typings/**/*.d.ts',
                     '<%= dirs.test.root %>/**/*.ts',
                     '!<%= dirs.test.lib %>/**/*.ts'
                 ].concat(unify.typings()),
@@ -123,7 +124,7 @@ module.exports = function (grunt) {
             },
             testsite: {
                 src: [
-                    'typings/*.d.ts',
+                    'typings/**/*.d.ts',
                     '<%= dirs.testsite.root %>/**/*.ts',
                     '!<%= dirs.testsite.lib %>/**/*.ts'
                 ].concat(unify.typings()),
