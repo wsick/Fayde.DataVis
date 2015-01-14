@@ -2,7 +2,7 @@
 <ResourceDictionary
     xmlns="http://schemas.wsick.com/fayde"
     xmlns:x="http://schemas.wsick.com/fayde/x"
-    xmlns:dv="lib://Fayde.DataVis">
+    xmlns:dv="lib://fayde.datavis">
     <Style TargetType="dv:CartesianChart">
         <Setter Property="Template">
             <Setter.Value>

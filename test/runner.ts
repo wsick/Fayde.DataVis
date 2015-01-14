@@ -1,5 +1,5 @@
 module runner {
-    var libpath = "lib/Fayde.DataVis/dist/Fayde.DataVis";
+    var libpath = "lib/fayde.datavis/dist/fayde.datavis";
     var testModules = [
         ".build/tests/test1"
     ];

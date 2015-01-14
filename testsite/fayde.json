@@ -1,11 +1,10 @@
 {
   "libs": {
-    "Fayde.DataVis": {
+    "fayde.datavis": {
       "exports": "Fayde.DataVis"
     }
   },
   "themes": {
-    "Fayde.DataVis": {
-    }
+    "fayde.datavis": {}
   }
 }

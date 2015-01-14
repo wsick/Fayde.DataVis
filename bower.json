@@ -1,19 +1,17 @@
 {
-  "name": "Fayde.DataVis",
+  "name": "fayde.datavis",
   "version": "0.2.0",
   "ignore": [
     "build",
-    "nuget",
-    "src",
     "test",
     "testsite",
     "typings",
     "Gruntfile.js"
   ],
   "dependencies": {
-    "fayde": "~0.14.0"
+    "fayde": "~0.16.11"
   },
   "devDependencies": {
-    "qunit": "~1.15.0"
+    "qunit": "~1.16.0"
   }
 }

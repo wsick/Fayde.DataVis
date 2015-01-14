@@ -860,4 +860,4 @@ var Fayde;
         DataVis.LinearScale = LinearScale;
     })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
 })(Fayde || (Fayde = {}));
-//# sourceMappingURL=Fayde.DataVis.js.map
+//# sourceMappingURL=fayde.datavis.js.map
