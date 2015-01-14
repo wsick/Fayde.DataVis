@@ -2,14 +2,14 @@ var Fayde;
 (function (Fayde) {
     var DataVis;
     (function (DataVis) {
-        DataVis.Version = '0.2.0';
+        DataVis.Version = '0.3.0';
     })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
 })(Fayde || (Fayde = {}));
 var Fayde;
 (function (Fayde) {
     var DataVis;
     (function (DataVis) {
-        DataVis.Library = Fayde.TypeManager.resolveLibrary("lib://Fayde.DataVis");
+        DataVis.Library = Fayde.TypeManager.resolveLibrary("lib://fayde.datavis");
     })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
 })(Fayde || (Fayde = {}));
 var __extends = this.__extends || function (d, b) {
