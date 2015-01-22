@@ -18,6 +18,7 @@
     "type": "export",
     "exports": "Fayde.DataVis"
   },
+  "themes": {},
   "typings": [
     "dist/fayde.datavis.d.ts"
   ]
