@@ -8,7 +8,10 @@
       },
       {
         "file": "testsite/fayde.json",
-        "lib": "testsite/lib"
+        "lib": "testsite/lib",
+        "exclude": [
+          "qunit"
+        ]
       }
     ]
   },
