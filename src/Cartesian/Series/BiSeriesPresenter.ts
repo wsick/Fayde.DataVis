@@ -8,11 +8,11 @@ module Fayde.DataVis {
         Series: BiSeries;
         ChartInfo: IChartInfo;
 
-        constructor(series: BiSeries) {
+        constructor (series: BiSeries) {
             super(series);
         }
 
-        OnItemsAdded(items: any, index: number) {
+        OnItemsAdded (items: any, index: number) {
             super.OnItemsAdded(items, index);
             var dvs = this._DepValueSet;
             var ivs = this._IndValueSet;
@@ -21,7 +21,8 @@ module Fayde.DataVis {
                 ivs.Insert(items[i], i + index);
             }
         }
-        OnItemsRemoved(items: any, index: number) {
+
+        OnItemsRemoved (items: any, index: number) {
             super.OnItemsRemoved(items, index);
             var dvs = this._DepValueSet;
             var ivs = this._IndValueSet;
@@ -31,28 +32,32 @@ module Fayde.DataVis {
             }
         }
 
-        OnDependentValuePathChanged(path: string) {
+        OnDependentValuePathChanged (path: string) {
             this._DepValueSet.Walker = new Data.PropertyPathWalker(path, true, false, false);
             this._DepValueSet.UpdateWalker(this.Items);
         }
-        OnIndependentValuePathChanged(path: string) {
+
+        OnIndependentValuePathChanged (path: string) {
             this._IndValueSet.Walker = new Data.PropertyPathWalker(path, true, false, false);
             this._IndValueSet.UpdateWalker(this.Items);
         }
 
-        GetIndependentValue(index: number) {
+        GetIndependentValue (index: number) {
             return this._IndValueSet.Values[index];
         }
-        InterpolateIndependent(axis: Axis, index: number): any {
+
+        InterpolateIndependent (axis: Axis, index: number): any {
             var vs = this._IndValueSet;
             var t = axis.Parameterizer.Parameterize(vs, vs.Values[index]);
             var i = axis.Interpolate(t);
             return i;
         }
-        GetDependentValue(index: number) {
+
+        GetDependentValue (index: number) {
             return this._DepValueSet.Values[index];
         }
-        InterpolateDependent(axis: Axis, index: number): any {
+
+        InterpolateDependent (axis: Axis, index: number): any {
             var vs = this._DepValueSet;
             var t = axis.Parameterizer.Parameterize(vs, vs.Values[index]);
             var d = axis.Interpolate(t);

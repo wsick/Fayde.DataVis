@@ -31,6 +31,12 @@ var Fayde;
             Axis.prototype._OnScaleChanged = function (args) {
                 this.OnScaleUpdated();
             };
+            Axis.prototype.OnMinimumChanged = function (oldValue, newValue) {
+                this.Parameterizer.Minimum = newValue;
+            };
+            Axis.prototype.OnMaximumChanged = function (oldValue, newValue) {
+                this.Parameterizer.Maximum = newValue;
+            };
             Object.defineProperty(Axis.prototype, "Presenter", {
                 get: function () {
                     return this._Presenter = this._Presenter || this.CreatePresenter();
@@ -62,6 +68,8 @@ var Fayde;
                 this.Presenter.OnScaleUpdated(this.Scale);
             };
             Axis.ScaleProperty = DependencyProperty.Register("Scale", function () { return DataVis.IScale_; }, Axis, undefined, function (d, args) { return d._OnScaleChanged(args); });
+            Axis.MinimumProperty = DependencyProperty.Register("Minimum", function () { return DataVis.IValueOfable_; }, Axis, undefined, function (d, args) { return d.OnMinimumChanged(args.OldValue, args.NewValue); });
+            Axis.MaximumProperty = DependencyProperty.Register("Maximum", function () { return DataVis.IValueOfable_; }, Axis, undefined, function (d, args) { return d.OnMaximumChanged(args.OldValue, args.NewValue); });
             return Axis;
         })(Fayde.DependencyObject);
         DataVis.Axis = Axis;
@@ -229,9 +237,9 @@ var Fayde;
 (function (Fayde) {
     var DataVis;
     (function (DataVis) {
-        DataVis.IParameterizer_ = new nullstone.Interface("IParameterizer");
-        DataVis.IParameterizer_.is = function (o) {
-            return o && o.Parameterize instanceof Function;
+        DataVis.IScale_ = new nullstone.Interface("IScale");
+        DataVis.IScale_.is = function (o) {
+            return o && o.Evaluate instanceof Function;
         };
     })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
 })(Fayde || (Fayde = {}));
@@ -239,9 +247,9 @@ var Fayde;
 (function (Fayde) {
     var DataVis;
     (function (DataVis) {
-        DataVis.IScale_ = new nullstone.Interface("IScale");
-        DataVis.IScale_.is = function (o) {
-            return o && o.Evaluate instanceof Function;
+        DataVis.IValueOfable_ = new nullstone.Interface('IValueOfable');
+        DataVis.IValueOfable_.is = function (o) {
+            return o != null && typeof o.valueOf === "function";
         };
     })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
 })(Fayde || (Fayde = {}));
@@ -469,13 +477,17 @@ var Fayde;
             ValueSet.prototype.Update = function () {
                 this._Min = this.Values.reduce(function (prev, cur) {
                     if (prev == null)
-                        return cur;
-                    return cur < prev ? cur : prev;
+                        return cur == null ? null : cur;
+                    if (cur == null)
+                        return prev;
+                    return cur.valueOf() < prev.valueOf() ? cur : prev;
                 }, null);
                 this._Max = this.Values.reduce(function (prev, cur) {
                     if (prev == null)
-                        return cur;
-                    return cur > prev ? cur : prev;
+                        return cur == null ? null : cur;
+                    if (cur == null)
+                        return prev;
+                    return cur.valueOf() > prev.valueOf() ? cur : prev;
                 }, null);
             };
             return ValueSet;
@@ -754,12 +766,6 @@ var Fayde;
                 if (!this.Scale)
                     this.Scale = new DataVis.LinearScale();
             }
-            LinearAxis.prototype.OnMinimumChanged = function (oldValue, newValue) {
-                this.Parameterizer.Minimum = newValue;
-            };
-            LinearAxis.prototype.OnMaximumChanged = function (oldValue, newValue) {
-                this.Parameterizer.Maximum = newValue;
-            };
             Object.defineProperty(LinearAxis.prototype, "IsVertical", {
                 get: function () {
                     return this.Presenter.IsVertical === true;
@@ -776,8 +782,6 @@ var Fayde;
             LinearAxis.prototype.CreateParameterizer = function () {
                 return new DataVis.LinearParameterizer();
             };
-            LinearAxis.MinimumProperty = DependencyProperty.Register("Minimum", function () { return Number; }, LinearAxis, undefined, function (d, args) { return d.OnMinimumChanged(args.OldValue, args.NewValue); });
-            LinearAxis.MaximumProperty = DependencyProperty.Register("Maximum", function () { return Number; }, LinearAxis, undefined, function (d, args) { return d.OnMaximumChanged(args.OldValue, args.NewValue); });
             return LinearAxis;
         })(DataVis.Axis);
         DataVis.LinearAxis = LinearAxis;
@@ -824,12 +828,8 @@ var Fayde;
             }
             LinearParameterizer.prototype.Parameterize = function (vs, item) {
                 var n = (item || 0).valueOf();
-                var min = this.Minimum;
-                if (min == null || isNaN(min))
-                    min = vs.Min;
-                var max = this.Maximum;
-                if (max == null || isNaN(max))
-                    max = vs.Max;
+                var min = DataVis.Parameterize.ValidMinimum(this.Minimum, vs.Min);
+                var max = DataVis.Parameterize.ValidMaximum(this.Maximum, vs.Max);
                 return (n - min) / (max - min);
             };
             return LinearParameterizer;
@@ -858,6 +858,41 @@ var Fayde;
             return LinearScale;
         })(Fayde.DependencyObject);
         DataVis.LinearScale = LinearScale;
+    })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
+})(Fayde || (Fayde = {}));
+var Fayde;
+(function (Fayde) {
+    var DataVis;
+    (function (DataVis) {
+        var Parameterize;
+        (function (Parameterize) {
+            function ValidMinimum(vo, fallback) {
+                var val = getValidValue(vo, fallback);
+                return val == null ? 0 : val;
+            }
+            Parameterize.ValidMinimum = ValidMinimum;
+            function ValidMaximum(vo, fallback) {
+                var val = getValidValue(vo, fallback);
+                return val == null ? 1 : val;
+            }
+            Parameterize.ValidMaximum = ValidMaximum;
+            function getValidValue(vo, fallback) {
+                var val = vo.valueOf();
+                if (vo == null || isNaN(val))
+                    return fallback == null ? null : fallback.valueOf();
+                return val;
+            }
+        })(Parameterize = DataVis.Parameterize || (DataVis.Parameterize = {}));
+    })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
+})(Fayde || (Fayde = {}));
+var Fayde;
+(function (Fayde) {
+    var DataVis;
+    (function (DataVis) {
+        DataVis.IParameterizer_ = new nullstone.Interface("IParameterizer");
+        DataVis.IParameterizer_.is = function (o) {
+            return o && o.Parameterize instanceof Function;
+        };
     })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
 })(Fayde || (Fayde = {}));
 //# sourceMappingURL=fayde.datavis.js.map

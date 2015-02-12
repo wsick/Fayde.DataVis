@@ -7,8 +7,14 @@ declare module Fayde.DataVis {
 declare module Fayde.DataVis {
     class Axis extends DependencyObject {
         static ScaleProperty: DependencyProperty;
+        static MinimumProperty: DependencyProperty;
+        static MaximumProperty: DependencyProperty;
         Scale: IScale;
+        Minimum: IValueOfable;
+        Maximum: IValueOfable;
         private _OnScaleChanged(args);
+        OnMinimumChanged(oldValue: IValueOfable, newValue: IValueOfable): void;
+        OnMaximumChanged(oldValue: IValueOfable, newValue: IValueOfable): void;
         private _Presenter;
         Presenter: AxisPresenter;
         CreatePresenter(): AxisPresenter;
@@ -70,12 +76,6 @@ declare module Fayde.DataVis {
     }
 }
 declare module Fayde.DataVis {
-    interface IParameterizer {
-        Parameterize(vs: IValueSet, item: any): number;
-    }
-    var IParameterizer_: nullstone.Interface<IParameterizer>;
-}
-declare module Fayde.DataVis {
     interface IPresenter {
         UpdateSize(newSize: minerva.Size): any;
     }
@@ -93,11 +93,17 @@ declare module Fayde.DataVis {
     var IScale_: nullstone.Interface<any>;
 }
 declare module Fayde.DataVis {
+    interface IValueOfable {
+        valueOf(): number;
+    }
+    var IValueOfable_: nullstone.Interface<IValueOfable>;
+}
+declare module Fayde.DataVis {
     interface IValueSet {
         Count: number;
-        Min: any;
-        Max: any;
-        Values: any[];
+        Min: IValueOfable;
+        Max: IValueOfable;
+        Values: IValueOfable[];
     }
 }
 declare module Fayde.DataVis {
@@ -155,13 +161,13 @@ declare module Fayde.DataVis {
         Walker: Data.PropertyPathWalker;
         Count: number;
         private _Min;
-        Min: any;
+        Min: IValueOfable;
         private _Max;
-        Max: any;
-        Values: any[];
-        Insert(item: any, index: number): void;
+        Max: IValueOfable;
+        Values: IValueOfable[];
+        Insert(item: IValueOfable, index: number): void;
         RemoveAt(index: number): void;
-        UpdateWalker(items: any[]): void;
+        UpdateWalker(items: IValueOfable[]): void;
         Update(): void;
     }
 }
@@ -222,9 +228,9 @@ declare module Fayde.DataVis {
         OnItemsRemoved(items: any, index: number): void;
         OnDependentValuePathChanged(path: string): void;
         OnIndependentValuePathChanged(path: string): void;
-        GetIndependentValue(index: number): any;
+        GetIndependentValue(index: number): IValueOfable;
         InterpolateIndependent(axis: Axis, index: number): any;
-        GetDependentValue(index: number): any;
+        GetDependentValue(index: number): IValueOfable;
         InterpolateDependent(axis: Axis, index: number): any;
     }
 }
@@ -253,12 +259,6 @@ declare module Fayde.DataVis {
 }
 declare module Fayde.DataVis {
     class LinearAxis extends Axis {
-        static MinimumProperty: DependencyProperty;
-        static MaximumProperty: DependencyProperty;
-        Minimum: number;
-        Maximum: number;
-        OnMinimumChanged(oldValue: number, newValue: number): void;
-        OnMaximumChanged(oldValue: number, newValue: number): void;
         IsVertical: boolean;
         Presenter: LinearAxisPresenter;
         CreatePresenter(): LinearAxisPresenter;
@@ -276,8 +276,8 @@ declare module Fayde.DataVis {
 }
 declare module Fayde.DataVis {
     class LinearParameterizer implements IParameterizer {
-        Minimum: number;
-        Maximum: number;
+        Minimum: IValueOfable;
+        Maximum: IValueOfable;
         Parameterize(vs: IValueSet, item: any): number;
     }
 }
@@ -287,4 +287,16 @@ declare module Fayde.DataVis {
         RangeMax: number;
         Evaluate(t: number): any;
     }
+}
+declare module Fayde.DataVis.Parameterize {
+    function ValidMinimum(vo: IValueOfable, fallback: IValueOfable): number;
+    function ValidMaximum(vo: IValueOfable, fallback: IValueOfable): number;
+}
+declare module Fayde.DataVis {
+    interface IParameterizer {
+        Minimum: IValueOfable;
+        Maximum: IValueOfable;
+        Parameterize(vs: IValueSet, item: any): number;
+    }
+    var IParameterizer_: nullstone.Interface<IParameterizer>;
 }

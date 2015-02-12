@@ -1,5 +1,7 @@
 ﻿module Fayde.DataVis {
     export interface IParameterizer {
+        Minimum: IValueOfable;
+        Maximum: IValueOfable;
         Parameterize(vs: IValueSet, item: any): number;
     }
     export var IParameterizer_ = new nullstone.Interface<IParameterizer>("IParameterizer");

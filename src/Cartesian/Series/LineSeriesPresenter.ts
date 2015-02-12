@@ -4,7 +4,7 @@ module Fayde.DataVis {
     import Canvas = Controls.Canvas;
 
     export class LineSeriesPresenter extends BiSeriesPresenter {
-        static LineStyleProperty = DependencyProperty.Register("LineStyle", () => Style, LineSeriesPresenter, undefined, (d, args) => (<LineSeriesPresenter>d)._OnLineStyleChanged(args));
+        static LineStyleProperty = DependencyProperty.Register("LineStyle", () => Style, LineSeriesPresenter, undefined, (d: LineSeriesPresenter, args) => d._OnLineStyleChanged(args));
         LineStyle: Style;
 
         private _OnLineStyleChanged(args: IDependencyPropertyChangedEventArgs) {
