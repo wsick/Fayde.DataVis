@@ -10,6 +10,7 @@ module Fayde.DataVis {
 
         constructor (series: BiSeries) {
             super(series);
+            this.OnTransposed();
         }
 
         OnItemsAdded (items: any, index: number) {
@@ -32,6 +33,9 @@ module Fayde.DataVis {
             }
         }
 
+        OnTransposed () {
+        }
+
         OnDependentValuePathChanged (path: string) {
             this._DepValueSet.Walker = new Data.PropertyPathWalker(path, true, false, false);
             this._DepValueSet.UpdateWalker(this.Items);
@@ -48,7 +52,7 @@ module Fayde.DataVis {
 
         InterpolateIndependent (axis: Axis, index: number): any {
             var vs = this._IndValueSet;
-            var t = axis.Parameterizer.Parameterize(vs, vs.Values[index]);
+            var t = axis.Parameterizer.Parameterize(vs, index);
             var i = axis.Interpolate(t);
             return i;
         }
@@ -59,7 +63,7 @@ module Fayde.DataVis {
 
         InterpolateDependent (axis: Axis, index: number): any {
             var vs = this._DepValueSet;
-            var t = axis.Parameterizer.Parameterize(vs, vs.Values[index]);
+            var t = axis.Parameterizer.Parameterize(vs, index);
             var d = axis.Interpolate(t);
             return d;
         }
