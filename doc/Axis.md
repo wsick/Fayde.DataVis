@@ -17,3 +17,5 @@ Mathematically, let `p(x)` be a parameterizer and `f(t)` be a scale. `v(x) = f(p
         * Polar: x-range: [0, ActualWidth]; y-range: [ActualHeight, 0]
 
 Some scales may have extra functionality.  As an example, Ordinal has `GetBandSize`.
+
+* `AxisPresenter` is responsible for presenting the visuals for an axis.  For a horizontal linear axis, this may include tick marks and a horizontal line.  Each `AxisPresenter` can be styled in a theme or through a style.
