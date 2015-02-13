@@ -1,22 +1,10 @@
 ﻿module Fayde.DataVis {
     export class Axis extends DependencyObject {
         static ScaleProperty = DependencyProperty.Register("Scale", () => IScale_, Axis, undefined, (d: Axis, args) => d._OnScaleChanged(args));
-        static MinimumProperty = DependencyProperty.Register("Minimum", () => IValueOfable_, Axis, undefined, (d: Axis, args) => d.OnMinimumChanged(args.OldValue, args.NewValue));
-        static MaximumProperty = DependencyProperty.Register("Maximum", () => IValueOfable_, Axis, undefined, (d: Axis, args) => d.OnMaximumChanged(args.OldValue, args.NewValue));
         Scale: IScale;
-        Minimum: IValueOfable;
-        Maximum: IValueOfable;
 
         private _OnScaleChanged (args: IDependencyPropertyChangedEventArgs) {
             this.OnScaleUpdated();
-        }
-
-        OnMinimumChanged (oldValue: IValueOfable, newValue: IValueOfable) {
-            this.Parameterizer.Minimum = newValue;
-        }
-
-        OnMaximumChanged (oldValue: IValueOfable, newValue: IValueOfable) {
-            this.Parameterizer.Maximum = newValue;
         }
 
         private _Presenter: AxisPresenter;

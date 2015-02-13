@@ -26,7 +26,7 @@ module Fayde.DataVis {
                 this._XListener = propd.Store.ListenToChanged(chart, propd, (sender, args) => this._OnXChanged(args.NewValue), this);
 
                 this._OnYChanged(chart.YAxis);
-                var propd = CartesianChart.YAxisProperty
+                var propd = CartesianChart.YAxisProperty;
                 this._YListener = propd.Store.ListenToChanged(chart, propd, (sender, args) => this._OnYChanged(args.NewValue), this);
             }
         }

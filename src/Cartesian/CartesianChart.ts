@@ -2,29 +2,33 @@
 
 module Fayde.DataVis {
     export interface ICartesianChartInfo extends IChartInfo {
-        Orientation: CartesianOrientation;
         XAxis: Axis;
         YAxis: Axis;
     }
 
     export class CartesianChart extends Chart {
-        static OrientationProperty = DependencyProperty.Register("Orientation", () => Axis, CartesianChart, undefined, (d, args) => (<CartesianChart>d)._OnOrientationChanged(args));
-        static XAxisProperty = DependencyProperty.Register("XAxis", () => Axis, CartesianChart, undefined, (d, args) => (<CartesianChart>d)._OnXAxisChanged(args));
-        static YAxisProperty = DependencyProperty.Register("YAxis", () => Axis, CartesianChart, undefined, (d, args) => (<CartesianChart>d)._OnYAxisChanged(args));
-        Orientation: CartesianOrientation;
+        static XAxisProperty = DependencyProperty.Register("XAxis", () => Axis, CartesianChart, undefined, (d: CartesianChart, args) => d._OnXAxisChanged(args));
+        static YAxisProperty = DependencyProperty.Register("YAxis", () => Axis, CartesianChart, undefined, (d: CartesianChart, args) => d._OnYAxisChanged(args));
+        static OrientationProperty = DependencyProperty.RegisterAttached("Orientation", () => new Enum(CartesianOrientation), CartesianChart, CartesianOrientation.Normal);
         XAxis: Axis;
         YAxis: Axis;
 
-        private _OnOrientationChanged(args: IDependencyPropertyChangedEventArgs) {
-            this.ChartInfo.Orientation = args.NewValue;
+        static GetOrientation (dobj: DependencyObject): CartesianOrientation {
+            return dobj.GetValue(CartesianChart.OrientationProperty);
         }
-        private _OnXAxisChanged(args: IDependencyPropertyChangedEventArgs) {
+
+        static SetOrientation (dobj: DependencyObject, value: CartesianOrientation) {
+            dobj.SetValue(CartesianChart.OrientationProperty, value);
+        }
+
+        private _OnXAxisChanged (args: IDependencyPropertyChangedEventArgs) {
             var axis = args.NewValue;
             this.ChartInfo.XAxis = axis;
             if (axis)
                 axis.IsVertical = false;
         }
-        private _OnYAxisChanged(args: IDependencyPropertyChangedEventArgs) {
+
+        private _OnYAxisChanged (args: IDependencyPropertyChangedEventArgs) {
             var axis = args.NewValue;
             this.ChartInfo.YAxis = axis;
             if (axis)
@@ -33,11 +37,11 @@ module Fayde.DataVis {
 
         ChartInfo: ICartesianChartInfo;
 
-        constructor() {
+        constructor () {
             super();
             this.DefaultStyleKey = CartesianChart;
         }
     }
     Controls.TemplateParts(CartesianChart,
-        { Name: "Presenter", Type: CartesianChartPresenter });
+        {Name: "Presenter", Type: CartesianChartPresenter});
 }

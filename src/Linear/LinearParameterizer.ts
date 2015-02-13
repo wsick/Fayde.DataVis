@@ -3,8 +3,8 @@
         Minimum: IValueOfable = null;
         Maximum: IValueOfable = null;
 
-        Parameterize (vs: IValueSet, item: any): number {
-            var n = (item || 0).valueOf();
+        Parameterize (vs: IValueSet, index: number): number {
+            var n = (vs.Values[index] || 0).valueOf();
             var min = Parameterize.ValidMinimum(this.Minimum, vs.Min);
             var max = Parameterize.ValidMaximum(this.Maximum, vs.Max);
             return (n - min) / (max - min);
