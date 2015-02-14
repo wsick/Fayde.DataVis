@@ -8,6 +8,8 @@ module Fayde.DataVis {
         Parameterizer: OrdinalParameterizer;
         CreateParameterizer(): OrdinalParameterizer { return new OrdinalParameterizer(); }
 
+        Scale: OrdinalScale;
+
         constructor() {
             super();
             if (!this.Scale)

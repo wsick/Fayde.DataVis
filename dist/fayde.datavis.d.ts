@@ -7,14 +7,8 @@ declare module Fayde.DataVis {
 declare module Fayde.DataVis {
     class Axis extends DependencyObject {
         static ScaleProperty: DependencyProperty;
-        static MinimumProperty: DependencyProperty;
-        static MaximumProperty: DependencyProperty;
         Scale: IScale;
-        Minimum: IValueOfable;
-        Maximum: IValueOfable;
         private _OnScaleChanged(args);
-        OnMinimumChanged(oldValue: IValueOfable, newValue: IValueOfable): void;
-        OnMaximumChanged(oldValue: IValueOfable, newValue: IValueOfable): void;
         private _Presenter;
         Presenter: AxisPresenter;
         CreatePresenter(): AxisPresenter;
@@ -173,18 +167,17 @@ declare module Fayde.DataVis {
 }
 declare module Fayde.DataVis {
     interface ICartesianChartInfo extends IChartInfo {
-        Orientation: CartesianOrientation;
         XAxis: Axis;
         YAxis: Axis;
     }
     class CartesianChart extends Chart {
-        static OrientationProperty: DependencyProperty;
         static XAxisProperty: DependencyProperty;
         static YAxisProperty: DependencyProperty;
-        Orientation: CartesianOrientation;
+        static OrientationProperty: DependencyProperty;
         XAxis: Axis;
         YAxis: Axis;
-        private _OnOrientationChanged(args);
+        static GetOrientation(dobj: DependencyObject): CartesianOrientation;
+        static SetOrientation(dobj: DependencyObject, value: CartesianOrientation): void;
         private _OnXAxisChanged(args);
         private _OnYAxisChanged(args);
         ChartInfo: ICartesianChartInfo;
@@ -213,25 +206,87 @@ declare module Fayde.DataVis {
         IndependentValuePath: string;
         Presenter: BiSeriesPresenter;
         CreatePresenter(): SeriesPresenter;
+        constructor();
+        private _OnOrientationChanged(sender, args);
         private _OnDependentValuePathChanged(args);
         private _OnIndependentValuePathChanged(args);
     }
 }
 declare module Fayde.DataVis {
+    class BarSeries extends BiSeries {
+        Presenter: BarSeriesPresenter;
+        CreatePresenter(): SeriesPresenter;
+        ChartInfo: ICartesianChartInfo;
+    }
+}
+declare module Fayde.DataVis.Shapes {
+    import Canvas = Fayde.Controls.Canvas;
+    import Rectangle = Fayde.Shapes.Rectangle;
+    class BarGroup extends Canvas {
+        private _getInd;
+        private _getDep;
+        private _FreezeSize;
+        private _BarStyle;
+        private _BarSpacing;
+        private _IsVertical;
+        private _XAxis;
+        private _YAxis;
+        BarStyle: Style;
+        BarSpacing: Spacing;
+        IsVertical: boolean;
+        XAxis: Axis;
+        YAxis: Axis;
+        constructor();
+        Init(getInd: (axis: Axis, index: number) => number, getDep: (axis: Axis, index: number) => number): void;
+        private _OnWidthChanged(sender, args);
+        private _OnHeightChanged(sender, args);
+        Insert(index: number): Rectangle;
+        RemoveAt(index: number): void;
+        UpdateSize(newSize: minerva.Size): void;
+        Update(): void;
+        private UpdateHorizontal();
+        private UpdateVertical();
+        UpdateBar(bar: Rectangle, left: number, top: number, width: number, height: number): void;
+    }
+}
+declare module Fayde.DataVis {
+    class BarSeriesPresenter extends BiSeriesPresenter {
+        static BarStyleProperty: DependencyProperty;
+        static BarSpacing: DependencyProperty;
+        BarStyle: Style;
+        BarSpacing: Spacing;
+        private _OnBarStyleChanged(args);
+        private _OnBarSpacingChanged(args);
+        private _Group;
+        Series: BarSeries;
+        ChartInfo: ICartesianChartInfo;
+        constructor(series: BarSeries);
+        OnSizeChanged(newSize: minerva.Size): void;
+        OnItemsAdded(items: any, index: number): void;
+        OnItemsRemoved(items: any, index: number): void;
+        OnTransposed(): void;
+        OnXAxisChanged(axis: Axis): void;
+        OnYAxisChanged(axis: Axis): void;
+    }
+}
+declare module Fayde.DataVis {
     class BiSeriesPresenter extends SeriesPresenter {
-        private _DepValueSet;
-        private _IndValueSet;
+        DepValueSet: ValueSet;
+        IndValueSet: ValueSet;
         Series: BiSeries;
         ChartInfo: IChartInfo;
         constructor(series: BiSeries);
         OnItemsAdded(items: any, index: number): void;
         OnItemsRemoved(items: any, index: number): void;
+        OnTransposed(): void;
         OnDependentValuePathChanged(path: string): void;
         OnIndependentValuePathChanged(path: string): void;
         GetIndependentValue(index: number): IValueOfable;
         InterpolateIndependent(axis: Axis, index: number): any;
         GetDependentValue(index: number): IValueOfable;
         InterpolateDependent(axis: Axis, index: number): any;
+        OnXAxisChanged(axis: Axis): void;
+        OnYAxisChanged(axis: Axis): void;
     }
 }
 declare module Fayde.DataVis {
@@ -260,6 +315,12 @@ declare module Fayde.DataVis {
 declare module Fayde.DataVis {
     class LinearAxis extends Axis {
         IsVertical: boolean;
+        static MinimumProperty: DependencyProperty;
+        static MaximumProperty: DependencyProperty;
+        Minimum: IValueOfable;
+        Maximum: IValueOfable;
+        OnMinimumChanged(oldValue: IValueOfable, newValue: IValueOfable): void;
+        OnMaximumChanged(oldValue: IValueOfable, newValue: IValueOfable): void;
         Presenter: LinearAxisPresenter;
         CreatePresenter(): LinearAxisPresenter;
         Parameterizer: LinearParameterizer;
@@ -278,14 +339,42 @@ declare module Fayde.DataVis {
     class LinearParameterizer implements IParameterizer {
         Minimum: IValueOfable;
         Maximum: IValueOfable;
-        Parameterize(vs: IValueSet, item: any): number;
+        Parameterize(vs: IValueSet, index: number): number;
     }
 }
 declare module Fayde.DataVis {
-    class LinearScale extends DependencyObject implements IScale {
+    class LinearScale implements IScale {
         RangeMin: number;
         RangeMax: number;
         Evaluate(t: number): any;
+    }
+}
+declare module Fayde.DataVis {
+    class OrdinalAxis extends Axis {
+        IsVertical: boolean;
+        Presenter: OrdinalAxisPresenter;
+        CreatePresenter(): OrdinalAxisPresenter;
+        Parameterizer: OrdinalParameterizer;
+        CreateParameterizer(): OrdinalParameterizer;
+        Scale: OrdinalScale;
+        constructor();
+    }
+}
+declare module Fayde.DataVis {
+    class OrdinalAxisPresenter extends AxisPresenter {
+        IsVertical: boolean;
+        constructor();
+        UpdateScale(): void;
+    }
+}
+declare module Fayde.DataVis {
+    class OrdinalParameterizer implements IParameterizer {
+        Parameterize(vs: IValueSet, index: number): number;
+    }
+}
+declare module Fayde.DataVis {
+    class OrdinalScale extends LinearScale {
+        GetBand(center: number, spacing: Spacing, count: number): number[];
     }
 }
 declare module Fayde.DataVis.Parameterize {
@@ -294,9 +383,22 @@ declare module Fayde.DataVis.Parameterize {
 }
 declare module Fayde.DataVis {
     interface IParameterizer {
-        Minimum: IValueOfable;
-        Maximum: IValueOfable;
-        Parameterize(vs: IValueSet, item: any): number;
+        Parameterize(vs: IValueSet, index: number): number;
     }
     var IParameterizer_: nullstone.Interface<IParameterizer>;
+}
+declare module Fayde.DataVis {
+    class Spacing extends DependencyObject {
+        static LengthProperty: DependencyProperty;
+        static TypeProperty: DependencyProperty;
+        Length: number;
+        Type: SpacingType;
+        Evaluate(bandSize: number): number;
+    }
+}
+declare module Fayde.DataVis {
+    enum SpacingType {
+        Pixel = 0,
+        Percent = 1,
+    }
 }
