@@ -12,6 +12,7 @@
         <StackPanel>
             <HyperlinkButton TargetName="ContentFrame" NavigateUri="/LineSeries" Content="Line Series" />
             <HyperlinkButton TargetName="ContentFrame" NavigateUri="/BarSeries" Content="Bar Series" />
+            <HyperlinkButton TargetName="ContentFrame" NavigateUri="/BarAndLineSeries" Content="Bar and Line Series" />
         </StackPanel>
         <Frame x:Name="ContentFrame" Grid.Column="1">
             <Frame.UriMapper>
