@@ -24,11 +24,6 @@ module Fayde.DataVis {
         }
 
         OnSizeChanged (newSize: minerva.Size) {
-            var ci = this.ChartInfo;
-            if (ci) {
-                ci.XAxis.Presenter.UpdateScale();
-                ci.YAxis.Presenter.UpdateScale();
-            }
             this.Update();
         }
 

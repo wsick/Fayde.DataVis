@@ -67,5 +67,11 @@ module Fayde.DataVis {
             var d = axis.Interpolate(t);
             return d;
         }
+
+        OnXAxisChanged (axis: Axis) {
+        }
+
+        OnYAxisChanged (axis: Axis) {
+        }
     }
 }

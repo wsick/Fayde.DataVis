@@ -26,7 +26,12 @@ module Fayde.DataVis {
             this.ChartInfo.XAxis = axis;
             if (axis)
                 axis.IsVertical = false;
-            console.warn("Let Series know that XAxis changed.");
+
+            for (var en = this.Series.getEnumerator(); en.moveNext();) {
+                var presenter = <BiSeriesPresenter>en.current.Presenter;
+                if (presenter instanceof BiSeriesPresenter)
+                    presenter.OnXAxisChanged(axis);
+            }
         }
 
         private _OnYAxisChanged (args: IDependencyPropertyChangedEventArgs) {
@@ -34,7 +39,12 @@ module Fayde.DataVis {
             this.ChartInfo.YAxis = axis;
             if (axis)
                 axis.IsVertical = true;
-            console.warn("Let Series know that YAxis changed.");
+
+            for (var en = this.Series.getEnumerator(); en.moveNext();) {
+                var presenter = <BiSeriesPresenter>en.current.Presenter;
+                if (presenter instanceof BiSeriesPresenter)
+                    presenter.OnYAxisChanged(axis);
+            }
         }
 
         ChartInfo: ICartesianChartInfo;
