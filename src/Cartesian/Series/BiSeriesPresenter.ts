@@ -2,8 +2,8 @@
 
 module Fayde.DataVis {
     export class BiSeriesPresenter extends SeriesPresenter {
-        private _DepValueSet = new ValueSet();
-        private _IndValueSet = new ValueSet();
+        DepValueSet = new ValueSet();
+        IndValueSet = new ValueSet();
 
         Series: BiSeries;
         ChartInfo: IChartInfo;
@@ -15,8 +15,8 @@ module Fayde.DataVis {
 
         OnItemsAdded (items: any, index: number) {
             super.OnItemsAdded(items, index);
-            var dvs = this._DepValueSet;
-            var ivs = this._IndValueSet;
+            var dvs = this.DepValueSet;
+            var ivs = this.IndValueSet;
             for (var i = 0, len = items.length; i < len; i++) {
                 dvs.Insert(items[i], i + index);
                 ivs.Insert(items[i], i + index);
@@ -25,8 +25,8 @@ module Fayde.DataVis {
 
         OnItemsRemoved (items: any, index: number) {
             super.OnItemsRemoved(items, index);
-            var dvs = this._DepValueSet;
-            var ivs = this._IndValueSet;
+            var dvs = this.DepValueSet;
+            var ivs = this.IndValueSet;
             for (var i = 0, len = items.length; i < len; i++) {
                 dvs.RemoveAt(i + index);
                 ivs.RemoveAt(i + index);
@@ -37,32 +37,32 @@ module Fayde.DataVis {
         }
 
         OnDependentValuePathChanged (path: string) {
-            this._DepValueSet.Walker = new Data.PropertyPathWalker(path, true, false, false);
-            this._DepValueSet.UpdateWalker(this.Items);
+            this.DepValueSet.Walker = new Data.PropertyPathWalker(path, true, false, false);
+            this.DepValueSet.UpdateWalker(this.Items);
         }
 
         OnIndependentValuePathChanged (path: string) {
-            this._IndValueSet.Walker = new Data.PropertyPathWalker(path, true, false, false);
-            this._IndValueSet.UpdateWalker(this.Items);
+            this.IndValueSet.Walker = new Data.PropertyPathWalker(path, true, false, false);
+            this.IndValueSet.UpdateWalker(this.Items);
         }
 
         GetIndependentValue (index: number) {
-            return this._IndValueSet.Values[index];
+            return this.IndValueSet.Values[index];
         }
 
         InterpolateIndependent (axis: Axis, index: number): any {
-            var vs = this._IndValueSet;
+            var vs = this.IndValueSet;
             var t = axis.Parameterizer.Parameterize(vs, index);
             var i = axis.Interpolate(t);
             return i;
         }
 
         GetDependentValue (index: number) {
-            return this._DepValueSet.Values[index];
+            return this.DepValueSet.Values[index];
         }
 
         InterpolateDependent (axis: Axis, index: number): any {
-            var vs = this._DepValueSet;
+            var vs = this.DepValueSet;
             var t = axis.Parameterizer.Parameterize(vs, index);
             var d = axis.Interpolate(t);
             return d;

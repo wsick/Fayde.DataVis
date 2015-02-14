@@ -26,6 +26,7 @@ module Fayde.DataVis {
             this.ChartInfo.XAxis = axis;
             if (axis)
                 axis.IsVertical = false;
+            console.warn("Let Series know that XAxis changed.");
         }
 
         private _OnYAxisChanged (args: IDependencyPropertyChangedEventArgs) {
@@ -33,6 +34,7 @@ module Fayde.DataVis {
             this.ChartInfo.YAxis = axis;
             if (axis)
                 axis.IsVertical = true;
+            console.warn("Let Series know that YAxis changed.");
         }
 
         ChartInfo: ICartesianChartInfo;
