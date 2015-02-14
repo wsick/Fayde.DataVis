@@ -51,11 +51,11 @@ module Fayde.DataVis {
             }
         }
         OnSizeChanged(sender: any, e: SizeChangedEventArgs) {
-            super.OnSizeChanged(sender, e);
             if (this._xap)
                 this._xap.UpdateSize(e.NewSize);
             if (this._yap)
                 this._yap.UpdateSize(e.NewSize);
+            super.OnSizeChanged(sender, e);
         }
     }
 }
