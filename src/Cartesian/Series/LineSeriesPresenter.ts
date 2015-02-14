@@ -27,26 +27,27 @@ module Fayde.DataVis {
             this.Update();
         }
 
-        OnItemsAdded (items: any, index: number) {
+        OnItemsAdded (items: any[], index: number) {
             super.OnItemsAdded(items, index);
             this.Update();
         }
 
-        OnItemsRemoved (items: any, index: number) {
+        OnItemsRemoved (items: any[], index: number) {
             super.OnItemsRemoved(items, index);
             this.Update();
         }
 
         GetCoordinate (index: number): Point {
             var ci = this.ChartInfo;
+            var fullHeight = this.Height;
             if (CartesianChart.GetOrientation(this.Series) === CartesianOrientation.Transposed) {
                 return new Point(
                     this.InterpolateDependent(ci.XAxis, index),
-                    this.InterpolateIndependent(ci.YAxis, index));
+                    fullHeight - this.InterpolateIndependent(ci.YAxis, index));
             } else {
                 return new Point(
                     this.InterpolateIndependent(ci.XAxis, index),
-                    this.InterpolateDependent(ci.YAxis, index));
+                    fullHeight - this.InterpolateDependent(ci.YAxis, index));
             }
         }
 

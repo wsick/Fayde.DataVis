@@ -4,8 +4,7 @@ module Fayde.DataVis {
             //Domain: [0, n - 1]
             //padding: 1 / (2 * n)
             //Range: [padding, 1 - padding]
-            var padding = 1 / (2 * vs.Count);
-            return index / vs.Count + padding;
+            return (index + 0.5) / vs.Count;
         }
     }
 }

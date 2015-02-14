@@ -1,4 +1,4 @@
-﻿/// <reference path="../../SeriesPresenter" />
+﻿/// <reference path="BiSeriesPresenter" />
 /// <reference path="../../Shapes/BarGroup" />
 
 module Fayde.DataVis {
@@ -43,19 +43,27 @@ module Fayde.DataVis {
             this._Group.UpdateSize(newSize);
         }
 
-        OnItemsAdded (items: any, index: number) {
+        OnItemsAdded (items: any[], index: number) {
             super.OnItemsAdded(items, index);
-            this._Group.Insert(index);
+            this._Group.InsertMany(index, items.length);
         }
 
-        OnItemsRemoved (items: any, index: number) {
+        OnItemsRemoved (items: any[], index: number) {
             super.OnItemsRemoved(items, index);
-            this._Group.RemoveAt(index);
+            this._Group.RemoveManyAt(index, items.length);
         }
 
         OnTransposed () {
             super.OnTransposed();
             this._Group.IsVertical = CartesianChart.GetOrientation(this.Series) === CartesianOrientation.Transposed;
+        }
+
+        OnAttached () {
+            super.OnAttached();
+            var grp = this._Group;
+            var ci = this.ChartInfo;
+            grp.XAxis = ci.XAxis;
+            grp.YAxis = ci.YAxis;
         }
 
         OnXAxisChanged (axis: Axis) {

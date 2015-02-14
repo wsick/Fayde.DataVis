@@ -23,14 +23,11 @@ declare module Fayde.DataVis {
 declare module Fayde.DataVis {
     import Canvas = Controls.Canvas;
     class AxisPresenter extends Canvas implements IPresenter {
-        constructor();
-        private _OnSizeChanged(sender, e);
-        OnSizeChanged(newSize: minerva.Size): void;
         UpdateSize(newSize: minerva.Size): void;
         private _Scale;
         Scale: IScale;
         OnScaleUpdated(scale: IScale): void;
-        UpdateScale(): void;
+        UpdateScale(width: number, height: number): void;
     }
 }
 declare module Fayde.DataVis {
@@ -108,6 +105,8 @@ declare module Fayde.DataVis {
         private _OnItemsCollectionChanged(sender, e);
         ChartInfo: IChartInfo;
         constructor();
+        Attach(chart: Chart): void;
+        Detach(): void;
         private _Presenter;
         Presenter: SeriesPresenter;
         CreatePresenter(): SeriesPresenter;
@@ -144,9 +143,10 @@ declare module Fayde.DataVis {
         Items: any[];
         constructor(series: Series);
         private _OnSizeChanged(sender, e);
+        OnAttached(): void;
         OnSizeChanged(newSize: minerva.Size): void;
-        OnItemsAdded(items: any, index: number): void;
-        OnItemsRemoved(items: any, index: number): void;
+        OnItemsAdded(items: any[], index: number): void;
+        OnItemsRemoved(items: any[], index: number): void;
         UpdateSize(newSize: minerva.Size): void;
     }
 }
@@ -219,6 +219,26 @@ declare module Fayde.DataVis {
         ChartInfo: ICartesianChartInfo;
     }
 }
+declare module Fayde.DataVis {
+    class BiSeriesPresenter extends SeriesPresenter {
+        DepValueSet: ValueSet;
+        IndValueSet: ValueSet;
+        Series: BiSeries;
+        ChartInfo: IChartInfo;
+        constructor(series: BiSeries);
+        OnItemsAdded(items: any[], index: number): void;
+        OnItemsRemoved(items: any[], index: number): void;
+        OnTransposed(): void;
+        OnDependentValuePathChanged(path: string): void;
+        OnIndependentValuePathChanged(path: string): void;
+        GetIndependentValue(index: number): IValueOfable;
+        InterpolateIndependent(axis: Axis, index: number): any;
+        GetDependentValue(index: number): IValueOfable;
+        InterpolateDependent(axis: Axis, index: number): any;
+        OnXAxisChanged(axis: Axis): void;
+        OnYAxisChanged(axis: Axis): void;
+    }
+}
 declare module Fayde.DataVis.Shapes {
     import Canvas = Fayde.Controls.Canvas;
     import Rectangle = Fayde.Shapes.Rectangle;
@@ -240,8 +260,8 @@ declare module Fayde.DataVis.Shapes {
         Init(getInd: (axis: Axis, index: number) => number, getDep: (axis: Axis, index: number) => number): void;
         private _OnWidthChanged(sender, args);
         private _OnHeightChanged(sender, args);
-        Insert(index: number): Rectangle;
-        RemoveAt(index: number): void;
+        InsertMany(index: number, count?: number): void;
+        RemoveManyAt(index: number, count?: number): void;
         UpdateSize(newSize: minerva.Size): void;
         Update(): void;
         private UpdateHorizontal();
@@ -262,29 +282,10 @@ declare module Fayde.DataVis {
         ChartInfo: ICartesianChartInfo;
         constructor(series: BarSeries);
         OnSizeChanged(newSize: minerva.Size): void;
-        OnItemsAdded(items: any, index: number): void;
-        OnItemsRemoved(items: any, index: number): void;
+        OnItemsAdded(items: any[], index: number): void;
+        OnItemsRemoved(items: any[], index: number): void;
         OnTransposed(): void;
-        OnXAxisChanged(axis: Axis): void;
-        OnYAxisChanged(axis: Axis): void;
-    }
-}
-declare module Fayde.DataVis {
-    class BiSeriesPresenter extends SeriesPresenter {
-        DepValueSet: ValueSet;
-        IndValueSet: ValueSet;
-        Series: BiSeries;
-        ChartInfo: IChartInfo;
-        constructor(series: BiSeries);
-        OnItemsAdded(items: any, index: number): void;
-        OnItemsRemoved(items: any, index: number): void;
-        OnTransposed(): void;
-        OnDependentValuePathChanged(path: string): void;
-        OnIndependentValuePathChanged(path: string): void;
-        GetIndependentValue(index: number): IValueOfable;
-        InterpolateIndependent(axis: Axis, index: number): any;
-        GetDependentValue(index: number): IValueOfable;
-        InterpolateDependent(axis: Axis, index: number): any;
+        OnAttached(): void;
         OnXAxisChanged(axis: Axis): void;
         OnYAxisChanged(axis: Axis): void;
     }
@@ -306,8 +307,8 @@ declare module Fayde.DataVis {
         ChartInfo: ICartesianChartInfo;
         constructor(series: LineSeries);
         OnSizeChanged(newSize: minerva.Size): void;
-        OnItemsAdded(items: any, index: number): void;
-        OnItemsRemoved(items: any, index: number): void;
+        OnItemsAdded(items: any[], index: number): void;
+        OnItemsRemoved(items: any[], index: number): void;
         GetCoordinate(index: number): Point;
         Update(): void;
     }
@@ -332,7 +333,7 @@ declare module Fayde.DataVis {
     class LinearAxisPresenter extends AxisPresenter {
         IsVertical: boolean;
         constructor();
-        UpdateScale(): void;
+        UpdateScale(width: number, height: number): void;
     }
 }
 declare module Fayde.DataVis {
@@ -364,7 +365,7 @@ declare module Fayde.DataVis {
     class OrdinalAxisPresenter extends AxisPresenter {
         IsVertical: boolean;
         constructor();
-        UpdateScale(): void;
+        UpdateScale(width: number, height: number): void;
     }
 }
 declare module Fayde.DataVis {

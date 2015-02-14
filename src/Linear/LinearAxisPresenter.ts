@@ -9,15 +9,15 @@ module Fayde.DataVis {
             this.DefaultStyleKey = LinearAxisPresenter;
         }
 
-        UpdateScale() {
+        UpdateScale (width: number, height: number) {
             var ls = <LinearScale>this.Scale;
             if (ls instanceof LinearScale) {
                 if (this.IsVertical) {
-                    ls.RangeMin = this.ActualHeight;
-                    ls.RangeMax = 0;
+                    ls.RangeMin = 0;
+                    ls.RangeMax = height;
                 } else {
                     ls.RangeMin = 0;
-                    ls.RangeMax = this.ActualWidth;
+                    ls.RangeMax = width;
                 }
             }
         }

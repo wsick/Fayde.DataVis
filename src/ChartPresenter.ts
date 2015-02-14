@@ -5,16 +5,16 @@
         private _SeriesListener: Internal.ICollectionListener = null;
         private _SeriesPresenters: SeriesPresenter[] = [];
 
-        get ChartInfo(): IChartInfo {
+        get ChartInfo (): IChartInfo {
             return this.Owner ? this.Owner.ChartInfo : null;
         }
 
-        constructor() {
+        constructor () {
             super();
             this.SizeChanged.on(this.OnSizeChanged, this);
         }
 
-        Detach() {
+        Detach () {
             if (this._SeriesListener) {
                 this._SeriesListener.Unlisten();
                 this._SeriesListener = null;
@@ -29,7 +29,8 @@
 
             this.Owner = null;
         }
-        Attach(chart: Chart) {
+
+        Attach (chart: Chart) {
             this.Owner = chart;
             if (chart) {
                 for (var en = chart.Series.getEnumerator(), i = 0; en.moveNext(); i++) {
@@ -40,19 +41,20 @@
             }
         }
 
-        private _OnSeriesAdded(series: Series, index: number) {
+        private _OnSeriesAdded (series: Series, index: number) {
             series.ChartInfo = this.ChartInfo;
             var presenter = series.Presenter;
             this._SeriesPresenters.splice(index, 0, presenter);
             this.Children.Add(presenter);
         }
-        private _OnSeriesRemoved(series: Series, index: number) {
+
+        private _OnSeriesRemoved (series: Series, index: number) {
             series.ChartInfo = null;
             var presenter = this._SeriesPresenters.splice(index, 1)[0];
             this.Children.Remove(presenter);
         }
 
-        OnSizeChanged(sender: any, e: SizeChangedEventArgs) {
+        OnSizeChanged (sender: any, e: SizeChangedEventArgs) {
             for (var i = 0, ps = <IPresenter[]>this._SeriesPresenters, len = ps.length; i < len; i++) {
                 ps[i].UpdateSize(e.NewSize);
             }

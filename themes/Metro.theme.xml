@@ -27,4 +27,18 @@
     <Style TargetType="dv:LinearAxisPresenter">
 
     </Style>
+    <Style TargetType="dv:BarSeriesPresenter">
+        <Setter Property="BarStyle">
+            <Setter.Value>
+                <Style TargetType="Rectangle">
+                    <Setter Property="Stroke" Value="Black" />
+                    <Setter Property="StrokeThickness" Value="2" />
+                    <Setter Property="Fill" Value="#88000000" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="dv:OrdinalAxisPresenter">
+
+    </Style>
 </ResourceDictionary>

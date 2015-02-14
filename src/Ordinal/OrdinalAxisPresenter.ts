@@ -4,20 +4,20 @@ module Fayde.DataVis {
     export class OrdinalAxisPresenter extends AxisPresenter {
         IsVertical: boolean = false;
 
-        constructor() {
+        constructor () {
             super();
             this.DefaultStyleKey = OrdinalAxisPresenter;
         }
 
-        UpdateScale() {
+        UpdateScale (width: number, height: number) {
             var ls = <LinearScale>this.Scale;
             if (ls instanceof LinearScale) {
                 if (this.IsVertical) {
-                    ls.RangeMin = this.ActualHeight;
+                    ls.RangeMin = height;
                     ls.RangeMax = 0;
                 } else {
                     ls.RangeMin = 0;
-                    ls.RangeMax = this.ActualWidth;
+                    ls.RangeMax = width;
                 }
             }
         }

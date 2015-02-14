@@ -10,10 +10,9 @@ module Fayde.DataVis {
 
         constructor (series: BiSeries) {
             super(series);
-            this.OnTransposed();
         }
 
-        OnItemsAdded (items: any, index: number) {
+        OnItemsAdded (items: any[], index: number) {
             super.OnItemsAdded(items, index);
             var dvs = this.DepValueSet;
             var ivs = this.IndValueSet;
@@ -23,7 +22,7 @@ module Fayde.DataVis {
             }
         }
 
-        OnItemsRemoved (items: any, index: number) {
+        OnItemsRemoved (items: any[], index: number) {
             super.OnItemsRemoved(items, index);
             var dvs = this.DepValueSet;
             var ivs = this.IndValueSet;

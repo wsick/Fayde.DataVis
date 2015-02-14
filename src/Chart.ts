@@ -10,19 +10,21 @@
 
         private _Presenter: ChartPresenter = null;
         private _ChartInfo: IChartInfo = {};
-        get ChartInfo(): IChartInfo { return this._ChartInfo; }
+        get ChartInfo (): IChartInfo {
+            return this._ChartInfo;
+        }
 
         private _SeriesListener: Internal.ICollectionListener = null;
 
-        constructor() {
+        constructor () {
             super();
             this.DefaultStyleKey = Chart;
             var series = Chart.SeriesProperty.Initialize(this);
             series.AttachTo(this);
-            this._SeriesListener = series.Listen((item, index) => item.ChartInfo = this.ChartInfo, (item, index) => item.ChartInfo = null);
+            this._SeriesListener = series.Listen((series, index) => series.Attach(this), (series, index) => series.Detach());
         }
 
-        OnApplyTemplate() {
+        OnApplyTemplate () {
             super.OnApplyTemplate();
 
             if (this._Presenter)
@@ -34,5 +36,5 @@
     }
     Markup.Content(Chart, Chart.SeriesProperty);
     Controls.TemplateParts(Chart,
-        { Name: "Presenter", Type: ChartPresenter });
+        {Name: "Presenter", Type: ChartPresenter});
 }

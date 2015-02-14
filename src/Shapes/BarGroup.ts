@@ -95,16 +95,21 @@ module Fayde.DataVis.Shapes {
                 this.Update();
         }
 
-        Insert (index: number): Rectangle {
-            var newBar = new Rectangle();
-            newBar.Style = this.BarStyle;
-            this.Children.Insert(index, newBar);
+        InsertMany (index: number, count: number = 1) {
+            var children = this.Children;
+            for (var i = 0; i < count; i++) {
+                var newBar = new Rectangle();
+                newBar.Style = this.BarStyle;
+                children.Insert(index, newBar);
+            }
             this.Update();
-            return newBar;
         }
 
-        RemoveAt (index: number) {
-            this.Children.RemoveAt(index);
+        RemoveManyAt (index: number, count: number = 1) {
+            var children = this.Children;
+            for (var i = 0; i < count; i++) {
+                children.RemoveAt(index);
+            }
             this.Update();
         }
 
@@ -128,9 +133,11 @@ module Fayde.DataVis.Shapes {
         private UpdateHorizontal () {
             var ind = <OrdinalAxis>this.XAxis;
             var dep = <LinearAxis>this.YAxis;
+            if (!ind || !dep || isNaN(this.Width) || isNaN(this.Height))
+                return;
             var getBand = createGetBand(ind, this.BarSpacing, this.Children.Count, this.Width);
-            var fullHeight = this.Height;
 
+            var fullHeight = this.Height;
             for (var i = 0, en = this.Children.getEnumerator(); en.moveNext(); i++) {
                 var bar = <Rectangle>en.current;
                 var band = getBand(this._getInd(ind, i));
@@ -142,6 +149,8 @@ module Fayde.DataVis.Shapes {
         private UpdateVertical () {
             var ind = <OrdinalAxis>this.YAxis;
             var dep = <LinearAxis>this.XAxis;
+            if (!ind || !dep || isNaN(this.Width) || isNaN(this.Height))
+                return;
             var getBand = createGetBand(ind, this.BarSpacing, this.Children.Count, this.Height);
 
             for (var i = 0, en = this.Children.getEnumerator(); en.moveNext(); i++) {
@@ -162,7 +171,7 @@ module Fayde.DataVis.Shapes {
 
     function createGetBand (indAxis: OrdinalAxis, spacing: Spacing, count: number, full: number): (c: number) => number[] {
         var scale = indAxis.Scale;
-        if (scale instanceof OrdinalAxis) {
+        if (scale instanceof OrdinalScale) {
             return (c: number): number[] => scale.GetBand(c, spacing, count);
         }
         var band = full / count;
