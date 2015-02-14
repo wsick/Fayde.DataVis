@@ -1,5 +1,5 @@
 ﻿module Fayde.DataVis {
-    export class LinearScale extends DependencyObject implements IScale {
+    export class LinearScale implements IScale {
         RangeMin: number = 0;
         RangeMax: number = 1;
 
