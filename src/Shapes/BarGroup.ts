@@ -66,12 +66,14 @@ module Fayde.DataVis.Shapes {
             var rs = wbinding.RelativeSource = new Data.RelativeSource();
             rs.Mode = Data.RelativeSourceMode.FindAncestor;
             rs.AncestorType = Canvas;
+            rs.AncestorLevel = 1;
             this.SetBinding(FrameworkElement.WidthProperty, wbinding);
 
             var hbinding = new Data.Binding("Height");
             var rs = hbinding.RelativeSource = new Data.RelativeSource();
             rs.Mode = Data.RelativeSourceMode.FindAncestor;
             rs.AncestorType = Canvas;
+            rs.AncestorLevel = 1;
             this.SetBinding(FrameworkElement.HeightProperty, hbinding);
 
             FrameworkElement.WidthProperty.Store.ListenToChanged(this, FrameworkElement.WidthProperty, this._OnWidthChanged, this);

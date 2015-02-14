@@ -6,7 +6,7 @@ module Fayde.DataVis {
 
         constructor() {
             super();
-            this.DefaultStyleKey = LinearAxisPresenter;
+            this.DefaultStyleKey = OrdinalAxisPresenter;
         }
 
         UpdateScale() {
