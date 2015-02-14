@@ -8,7 +8,7 @@ Mathematically, let `p(x)` be a parameterizer and `f(t)` be a scale. `v(x) = f(p
     * `Parameterize(vs: IValueSet, index: number): number` - maps datum at `index` to normalized range.
     * Ranges
         * Linear: [0, 1]
-        * Ordinal: [padding, 1 - padding] (`padding = 1 / (2 * count)`)
+        * Ordinal: \[padding, 1 - padding] (`padding = 1 / (2 * count)`)
         * Polar: [0, 2 * PI)
 * `IScale` is responsible for taking a normalized range and mapping to screen.
     * `Evaluate(t: number): number[]` - maps normalized `t` to output vector `[x, y]`.
