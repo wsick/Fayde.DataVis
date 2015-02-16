@@ -1,4 +1,7 @@
-﻿module Fayde.DataVis {
+﻿interface Number extends Fayde.DataVis.IValueOfable {
+}
+
+module Fayde.DataVis {
     export class ValueSet implements IValueSet {
         Walker = new Data.PropertyPathWalker("");
 

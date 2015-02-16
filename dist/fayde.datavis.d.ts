@@ -150,6 +150,8 @@ declare module Fayde.DataVis {
         UpdateSize(newSize: minerva.Size): void;
     }
 }
+interface Number extends Fayde.DataVis.IValueOfable {
+}
 declare module Fayde.DataVis {
     class ValueSet implements IValueSet {
         Walker: Data.PropertyPathWalker;

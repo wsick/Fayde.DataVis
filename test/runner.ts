@@ -2,6 +2,7 @@ module runner {
     var libpath = "lib/fayde.datavis/dist/fayde.datavis";
     var testModules = [
         ".build/tests/Ordinal/OrdinalScaleTests",
+        ".build/tests/Ordinal/OrdinalParameterizerTests",
         ".build/tests/Linear/LinearScaleTests",
     ];
 
