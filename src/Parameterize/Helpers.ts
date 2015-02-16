@@ -10,8 +10,8 @@ module Fayde.DataVis.Parameterize {
     }
 
     function getValidValue (vo: IValueOfable, fallback: IValueOfable): number {
-        var val = vo.valueOf();
-        if (vo == null || isNaN(val))
+        var val: number;
+        if (vo == null || isNaN(val = vo.valueOf()))
             return fallback == null ? null : fallback.valueOf();
         return val;
     }

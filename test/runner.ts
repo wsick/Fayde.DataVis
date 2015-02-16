@@ -4,6 +4,7 @@ module runner {
         ".build/tests/Ordinal/OrdinalScaleTests",
         ".build/tests/Ordinal/OrdinalParameterizerTests",
         ".build/tests/Linear/LinearScaleTests",
+        ".build/tests/Linear/LinearParameterizerTests",
     ];
 
     Fayde.LoadConfigJson((config, err) => {

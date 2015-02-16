@@ -1271,8 +1271,8 @@ var Fayde;
             }
             Parameterize.ValidMaximum = ValidMaximum;
             function getValidValue(vo, fallback) {
-                var val = vo.valueOf();
-                if (vo == null || isNaN(val))
+                var val;
+                if (vo == null || isNaN(val = vo.valueOf()))
                     return fallback == null ? null : fallback.valueOf();
                 return val;
             }
