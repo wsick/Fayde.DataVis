@@ -1,3 +1,0 @@
-module Fayde.DataVis {
-    export var Version = '%VERSION%';
-}

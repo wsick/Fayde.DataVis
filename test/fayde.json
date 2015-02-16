@@ -1,15 +1,10 @@
 {
   "libs": {
     "fayde.datavis": {
-      "exports": "Fayde.DataVis",
-      "deps": [
-        "qunit"
-      ]
-    },
-    "qunit": {}
+      "exports": "Fayde.DataVis"
+    }
   },
   "themes": {
-    "fayde.datavis": {},
-    "qunit": "none"
+    "fayde.datavis": {}
   }
 }

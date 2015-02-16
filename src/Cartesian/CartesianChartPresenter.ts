@@ -9,7 +9,7 @@ module Fayde.DataVis {
         private _xap: AxisPresenter = null;
         private _XListener: Providers.IPropertyChangedListener = null;
 
-        Detach() {
+        Detach () {
             super.Detach();
             if (this._XListener)
                 this._XListener.Detach();
@@ -18,7 +18,8 @@ module Fayde.DataVis {
                 this._YListener.Detach();
             this._OnYChanged(null);
         }
-        Attach(chart: CartesianChart) {
+
+        Attach (chart: CartesianChart) {
             super.Attach(chart);
             if (chart) {
                 this._OnXChanged(chart.XAxis);
@@ -30,7 +31,8 @@ module Fayde.DataVis {
                 this._YListener = propd.Store.ListenToChanged(chart, propd, (sender, args) => this._OnYChanged(args.NewValue), this);
             }
         }
-        private _OnYChanged(axis: Axis) {
+
+        private _OnYChanged (axis: Axis) {
             if (this._yap) {
                 this.Children.Remove(this._yap);
                 this._yap = null;
@@ -40,7 +42,8 @@ module Fayde.DataVis {
                 this.Children.Add(this._yap);
             }
         }
-        private _OnXChanged(axis: Axis) {
+
+        private _OnXChanged (axis: Axis) {
             if (this._xap) {
                 this.Children.Remove(this._xap);
                 this._xap = null;
@@ -50,12 +53,13 @@ module Fayde.DataVis {
                 this.Children.Add(this._xap);
             }
         }
-        OnSizeChanged(sender: any, e: SizeChangedEventArgs) {
-            super.OnSizeChanged(sender, e);
+
+        OnSizeChanged (sender: any, e: SizeChangedEventArgs) {
             if (this._xap)
                 this._xap.UpdateSize(e.NewSize);
             if (this._yap)
                 this._yap.UpdateSize(e.NewSize);
+            super.OnSizeChanged(sender, e);
         }
     }
 }

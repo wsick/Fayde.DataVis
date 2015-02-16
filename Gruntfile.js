@@ -1,6 +1,4 @@
-var version = require('./build/version'),
-    setup = require('./build/setup'),
-    path = require('path'),
+var path = require('path'),
     connect_livereload = require('connect-livereload'),
     gunify = require('grunt-fayde-unify');
 
@@ -13,6 +11,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-open');
+    grunt.loadNpmTasks("grunt-bower-install-simple");
+    grunt.loadNpmTasks("grunt-version-ts");
     var unify = gunify(grunt);
 
     var ports = {
@@ -50,9 +50,9 @@ module.exports = function (grunt) {
             testsite: [dirs.testsite.lib],
             test: [dirs.test.lib]
         },
-        setup: {
-            base: {
-                cwd: '.'
+        "bower-install-simple": {
+            fayde: {
+                directory: "lib"
             }
         },
         symlink: {
@@ -190,12 +190,9 @@ module.exports = function (grunt) {
                 path: 'http://localhost:<%= ports.server %>/default.html'
             }
         },
-        version: {
-            bump: {
-            },
-            apply: {
-                src: './build/_VersionTemplate._ts',
-                dest: './src/_Version.ts'
+        "version-apply": {
+            options: {
+                label: 'Version'
             }
         }
     });
@@ -203,10 +200,8 @@ module.exports = function (grunt) {
     grunt.registerTask('default', ['typescript:build']);
     grunt.registerTask('test', ['typescript:build', 'typescript:test', 'qunit']);
     grunt.registerTask('testsite', ['typescript:build', 'typescript:testsite', 'connect', 'open', 'watch']);
-    setup(grunt);
-    version(grunt);
-    grunt.registerTask('lib:reset', ['clean', 'setup', 'symlink:test', 'symlink:testsite']);
-    grunt.registerTask('dist:upbuild', ['version:bump', 'version:apply', 'typescript:build']);
-    grunt.registerTask('dist:upminor', ['version:bump:minor', 'version:apply', 'typescript:build']);
-    grunt.registerTask('dist:upmajor', ['version:bump:major', 'version:apply', 'typescript:build']);
+    grunt.registerTask('lib:reset', ['clean', 'bower-install-simple', 'symlink:test', 'symlink:testsite']);
+    grunt.registerTask('dist:upbuild', ['bump-build', 'version-apply', 'typescript:build']);
+    grunt.registerTask('dist:upminor', ['bump-minor', 'version-apply', 'typescript:build']);
+    grunt.registerTask('dist:upmajor', ['bump-major', 'version-apply', 'typescript:build']);
 };

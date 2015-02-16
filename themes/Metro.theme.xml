@@ -4,11 +4,12 @@
     xmlns:x="http://schemas.wsick.com/fayde/x"
     xmlns:dv="lib://fayde.datavis">
     <Style TargetType="dv:CartesianChart">
+        <Setter Property="Padding" Value="5" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="dv:CartesianChart">
-                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                        <dv:CartesianChartPresenter x:Name="Presenter" Background="{TemplateBinding Background}" />
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                        <dv:CartesianChartPresenter x:Name="Presenter" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -25,6 +26,20 @@
         </Setter>
     </Style>
     <Style TargetType="dv:LinearAxisPresenter">
+
+    </Style>
+    <Style TargetType="dv:BarSeriesPresenter">
+        <Setter Property="BarStyle">
+            <Setter.Value>
+                <Style TargetType="Rectangle">
+                    <Setter Property="Stroke" Value="Black" />
+                    <Setter Property="StrokeThickness" Value="2" />
+                    <Setter Property="Fill" Value="#88000000" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="dv:OrdinalAxisPresenter">
 
     </Style>
 </ResourceDictionary>

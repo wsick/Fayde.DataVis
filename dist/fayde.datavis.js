@@ -31,12 +31,6 @@ var Fayde;
             Axis.prototype._OnScaleChanged = function (args) {
                 this.OnScaleUpdated();
             };
-            Axis.prototype.OnMinimumChanged = function (oldValue, newValue) {
-                this.Parameterizer.Minimum = newValue;
-            };
-            Axis.prototype.OnMaximumChanged = function (oldValue, newValue) {
-                this.Parameterizer.Maximum = newValue;
-            };
             Object.defineProperty(Axis.prototype, "Presenter", {
                 get: function () {
                     return this._Presenter = this._Presenter || this.CreatePresenter();
@@ -68,8 +62,6 @@ var Fayde;
                 this.Presenter.OnScaleUpdated(this.Scale);
             };
             Axis.ScaleProperty = DependencyProperty.Register("Scale", function () { return DataVis.IScale_; }, Axis, undefined, function (d, args) { return d._OnScaleChanged(args); });
-            Axis.MinimumProperty = DependencyProperty.Register("Minimum", function () { return DataVis.IValueOfable_; }, Axis, undefined, function (d, args) { return d.OnMinimumChanged(args.OldValue, args.NewValue); });
-            Axis.MaximumProperty = DependencyProperty.Register("Maximum", function () { return DataVis.IValueOfable_; }, Axis, undefined, function (d, args) { return d.OnMaximumChanged(args.OldValue, args.NewValue); });
             return Axis;
         })(Fayde.DependencyObject);
         DataVis.Axis = Axis;
@@ -83,19 +75,13 @@ var Fayde;
         var AxisPresenter = (function (_super) {
             __extends(AxisPresenter, _super);
             function AxisPresenter() {
-                _super.call(this);
+                _super.apply(this, arguments);
                 this._Scale = null;
-                this.SizeChanged.on(this._OnSizeChanged, this);
             }
-            AxisPresenter.prototype._OnSizeChanged = function (sender, e) {
-                this.OnSizeChanged(e.NewSize);
-                this.UpdateScale();
-            };
-            AxisPresenter.prototype.OnSizeChanged = function (newSize) {
-            };
             AxisPresenter.prototype.UpdateSize = function (newSize) {
                 this.Width = newSize.width;
                 this.Height = newSize.height;
+                this.UpdateScale(newSize.width, newSize.height);
             };
             Object.defineProperty(AxisPresenter.prototype, "Scale", {
                 get: function () {
@@ -106,9 +92,9 @@ var Fayde;
             });
             AxisPresenter.prototype.OnScaleUpdated = function (scale) {
                 this._Scale = scale;
-                this.UpdateScale();
+                this.UpdateScale(this.Width, this.Height);
             };
-            AxisPresenter.prototype.UpdateScale = function () {
+            AxisPresenter.prototype.UpdateScale = function (width, height) {
             };
             return AxisPresenter;
         })(Canvas);
@@ -131,7 +117,7 @@ var Fayde;
                 this.DefaultStyleKey = Chart;
                 var series = Chart.SeriesProperty.Initialize(this);
                 series.AttachTo(this);
-                this._SeriesListener = series.Listen(function (item, index) { return item.ChartInfo = _this.ChartInfo; }, function (item, index) { return item.ChartInfo = null; });
+                this._SeriesListener = series.Listen(function (series, index) { return series.Attach(_this); }, function (series, index) { return series.Detach(); });
             }
             Object.defineProperty(Chart.prototype, "ChartInfo", {
                 get: function () {
@@ -278,6 +264,13 @@ var Fayde;
                 this._OnItemsRemoved(e.OldItems, e.OldStartingIndex);
                 this._OnItemsAdded(e.NewItems, e.NewStartingIndex);
             };
+            Series.prototype.Attach = function (chart) {
+                this.ChartInfo = chart.ChartInfo;
+                this.Presenter.OnAttached();
+            };
+            Series.prototype.Detach = function () {
+                this.ChartInfo = null;
+            };
             Object.defineProperty(Series.prototype, "Presenter", {
                 get: function () {
                     return this._Presenter = this._Presenter || this.CreatePresenter();
@@ -412,6 +405,8 @@ var Fayde;
             SeriesPresenter.prototype._OnSizeChanged = function (sender, e) {
                 this.OnSizeChanged(e.NewSize);
             };
+            SeriesPresenter.prototype.OnAttached = function () {
+            };
             SeriesPresenter.prototype.OnSizeChanged = function (newSize) {
             };
             SeriesPresenter.prototype.OnItemsAdded = function (items, index) {
@@ -506,24 +501,37 @@ var Fayde;
                 _super.call(this);
                 this.DefaultStyleKey = CartesianChart;
             }
-            CartesianChart.prototype._OnOrientationChanged = function (args) {
-                this.ChartInfo.Orientation = args.NewValue;
+            CartesianChart.GetOrientation = function (dobj) {
+                return dobj.GetValue(CartesianChart.OrientationProperty);
+            };
+            CartesianChart.SetOrientation = function (dobj, value) {
+                dobj.SetValue(CartesianChart.OrientationProperty, value);
             };
             CartesianChart.prototype._OnXAxisChanged = function (args) {
                 var axis = args.NewValue;
                 this.ChartInfo.XAxis = axis;
                 if (axis)
                     axis.IsVertical = false;
+                for (var en = this.Series.getEnumerator(); en.moveNext();) {
+                    var presenter = en.current.Presenter;
+                    if (presenter instanceof DataVis.BiSeriesPresenter)
+                        presenter.OnXAxisChanged(axis);
+                }
             };
             CartesianChart.prototype._OnYAxisChanged = function (args) {
                 var axis = args.NewValue;
                 this.ChartInfo.YAxis = axis;
                 if (axis)
                     axis.IsVertical = true;
+                for (var en = this.Series.getEnumerator(); en.moveNext();) {
+                    var presenter = en.current.Presenter;
+                    if (presenter instanceof DataVis.BiSeriesPresenter)
+                        presenter.OnYAxisChanged(axis);
+                }
             };
-            CartesianChart.OrientationProperty = DependencyProperty.Register("Orientation", function () { return DataVis.Axis; }, CartesianChart, undefined, function (d, args) { return d._OnOrientationChanged(args); });
             CartesianChart.XAxisProperty = DependencyProperty.Register("XAxis", function () { return DataVis.Axis; }, CartesianChart, undefined, function (d, args) { return d._OnXAxisChanged(args); });
             CartesianChart.YAxisProperty = DependencyProperty.Register("YAxis", function () { return DataVis.Axis; }, CartesianChart, undefined, function (d, args) { return d._OnYAxisChanged(args); });
+            CartesianChart.OrientationProperty = DependencyProperty.RegisterAttached("Orientation", function () { return new Fayde.Enum(DataVis.CartesianOrientation); }, CartesianChart, 0 /* Normal */);
             return CartesianChart;
         })(DataVis.Chart);
         DataVis.CartesianChart = CartesianChart;
@@ -586,11 +594,11 @@ var Fayde;
                 }
             };
             CartesianChartPresenter.prototype.OnSizeChanged = function (sender, e) {
-                _super.prototype.OnSizeChanged.call(this, sender, e);
                 if (this._xap)
                     this._xap.UpdateSize(e.NewSize);
                 if (this._yap)
                     this._yap.UpdateSize(e.NewSize);
+                _super.prototype.OnSizeChanged.call(this, sender, e);
             };
             return CartesianChartPresenter;
         })(DataVis.ChartPresenter);
@@ -605,10 +613,14 @@ var Fayde;
         var BiSeries = (function (_super) {
             __extends(BiSeries, _super);
             function BiSeries() {
-                _super.apply(this, arguments);
+                _super.call(this);
+                DataVis.CartesianChart.OrientationProperty.Store.ListenToChanged(this, DataVis.CartesianChart.OrientationProperty, this._OnOrientationChanged, this);
             }
             BiSeries.prototype.CreatePresenter = function () {
                 return new DataVis.BiSeriesPresenter(this);
+            };
+            BiSeries.prototype._OnOrientationChanged = function (sender, args) {
+                this.Presenter.OnTransposed();
             };
             BiSeries.prototype._OnDependentValuePathChanged = function (args) {
                 this.Presenter.OnDependentValuePathChanged(args.NewValue);
@@ -623,6 +635,24 @@ var Fayde;
         DataVis.BiSeries = BiSeries;
     })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
 })(Fayde || (Fayde = {}));
+/// <reference path="BiSeries.ts" />
+var Fayde;
+(function (Fayde) {
+    var DataVis;
+    (function (DataVis) {
+        var BarSeries = (function (_super) {
+            __extends(BarSeries, _super);
+            function BarSeries() {
+                _super.apply(this, arguments);
+            }
+            BarSeries.prototype.CreatePresenter = function () {
+                return new DataVis.BarSeriesPresenter(this);
+            };
+            return BarSeries;
+        })(DataVis.BiSeries);
+        DataVis.BarSeries = BarSeries;
+    })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
+})(Fayde || (Fayde = {}));
 /// <reference path="../../SeriesPresenter.ts" />
 var Fayde;
 (function (Fayde) {
@@ -632,13 +662,13 @@ var Fayde;
             __extends(BiSeriesPresenter, _super);
             function BiSeriesPresenter(series) {
                 _super.call(this, series);
-                this._DepValueSet = new DataVis.ValueSet();
-                this._IndValueSet = new DataVis.ValueSet();
+                this.DepValueSet = new DataVis.ValueSet();
+                this.IndValueSet = new DataVis.ValueSet();
             }
             BiSeriesPresenter.prototype.OnItemsAdded = function (items, index) {
                 _super.prototype.OnItemsAdded.call(this, items, index);
-                var dvs = this._DepValueSet;
-                var ivs = this._IndValueSet;
+                var dvs = this.DepValueSet;
+                var ivs = this.IndValueSet;
                 for (var i = 0, len = items.length; i < len; i++) {
                     dvs.Insert(items[i], i + index);
                     ivs.Insert(items[i], i + index);
@@ -646,42 +676,296 @@ var Fayde;
             };
             BiSeriesPresenter.prototype.OnItemsRemoved = function (items, index) {
                 _super.prototype.OnItemsRemoved.call(this, items, index);
-                var dvs = this._DepValueSet;
-                var ivs = this._IndValueSet;
+                var dvs = this.DepValueSet;
+                var ivs = this.IndValueSet;
                 for (var i = 0, len = items.length; i < len; i++) {
                     dvs.RemoveAt(i + index);
                     ivs.RemoveAt(i + index);
                 }
             };
+            BiSeriesPresenter.prototype.OnTransposed = function () {
+            };
             BiSeriesPresenter.prototype.OnDependentValuePathChanged = function (path) {
-                this._DepValueSet.Walker = new Fayde.Data.PropertyPathWalker(path, true, false, false);
-                this._DepValueSet.UpdateWalker(this.Items);
+                this.DepValueSet.Walker = new Fayde.Data.PropertyPathWalker(path, true, false, false);
+                this.DepValueSet.UpdateWalker(this.Items);
             };
             BiSeriesPresenter.prototype.OnIndependentValuePathChanged = function (path) {
-                this._IndValueSet.Walker = new Fayde.Data.PropertyPathWalker(path, true, false, false);
-                this._IndValueSet.UpdateWalker(this.Items);
+                this.IndValueSet.Walker = new Fayde.Data.PropertyPathWalker(path, true, false, false);
+                this.IndValueSet.UpdateWalker(this.Items);
             };
             BiSeriesPresenter.prototype.GetIndependentValue = function (index) {
-                return this._IndValueSet.Values[index];
+                return this.IndValueSet.Values[index];
             };
             BiSeriesPresenter.prototype.InterpolateIndependent = function (axis, index) {
-                var vs = this._IndValueSet;
-                var t = axis.Parameterizer.Parameterize(vs, vs.Values[index]);
+                var vs = this.IndValueSet;
+                var t = axis.Parameterizer.Parameterize(vs, index);
                 var i = axis.Interpolate(t);
                 return i;
             };
             BiSeriesPresenter.prototype.GetDependentValue = function (index) {
-                return this._DepValueSet.Values[index];
+                return this.DepValueSet.Values[index];
             };
             BiSeriesPresenter.prototype.InterpolateDependent = function (axis, index) {
-                var vs = this._DepValueSet;
-                var t = axis.Parameterizer.Parameterize(vs, vs.Values[index]);
+                var vs = this.DepValueSet;
+                var t = axis.Parameterizer.Parameterize(vs, index);
                 var d = axis.Interpolate(t);
                 return d;
+            };
+            BiSeriesPresenter.prototype.OnXAxisChanged = function (axis) {
+            };
+            BiSeriesPresenter.prototype.OnYAxisChanged = function (axis) {
             };
             return BiSeriesPresenter;
         })(DataVis.SeriesPresenter);
         DataVis.BiSeriesPresenter = BiSeriesPresenter;
+    })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
+})(Fayde || (Fayde = {}));
+var Fayde;
+(function (Fayde) {
+    var DataVis;
+    (function (DataVis) {
+        var Shapes;
+        (function (Shapes) {
+            var Canvas = Fayde.Controls.Canvas;
+            var Rectangle = Fayde.Shapes.Rectangle;
+            var BarGroup = (function (_super) {
+                __extends(BarGroup, _super);
+                function BarGroup() {
+                    _super.call(this);
+                    this._getInd = null;
+                    this._getDep = null;
+                    this._FreezeSize = false;
+                    this._BarStyle = null;
+                    this._BarSpacing = null;
+                    this._IsVertical = false;
+                    this._XAxis = null;
+                    this._YAxis = null;
+                    var wbinding = new Fayde.Data.Binding("Width");
+                    var rs = wbinding.RelativeSource = new Fayde.Data.RelativeSource();
+                    rs.Mode = 2 /* FindAncestor */;
+                    rs.AncestorType = Canvas;
+                    rs.AncestorLevel = 1;
+                    this.SetBinding(Fayde.FrameworkElement.WidthProperty, wbinding);
+                    var hbinding = new Fayde.Data.Binding("Height");
+                    var rs = hbinding.RelativeSource = new Fayde.Data.RelativeSource();
+                    rs.Mode = 2 /* FindAncestor */;
+                    rs.AncestorType = Canvas;
+                    rs.AncestorLevel = 1;
+                    this.SetBinding(Fayde.FrameworkElement.HeightProperty, hbinding);
+                    Fayde.FrameworkElement.WidthProperty.Store.ListenToChanged(this, Fayde.FrameworkElement.WidthProperty, this._OnWidthChanged, this);
+                    Fayde.FrameworkElement.WidthProperty.Store.ListenToChanged(this, Fayde.FrameworkElement.WidthProperty, this._OnHeightChanged, this);
+                }
+                Object.defineProperty(BarGroup.prototype, "BarStyle", {
+                    get: function () {
+                        return this._BarStyle;
+                    },
+                    set: function (value) {
+                        this._BarStyle = value;
+                        for (var en = this.Children.getEnumerator(); en.moveNext();) {
+                            en.current.Style = value;
+                        }
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(BarGroup.prototype, "BarSpacing", {
+                    get: function () {
+                        return this._BarSpacing;
+                    },
+                    set: function (value) {
+                        this._BarSpacing = value;
+                        this.Update();
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(BarGroup.prototype, "IsVertical", {
+                    get: function () {
+                        return this._IsVertical;
+                    },
+                    set: function (value) {
+                        this._IsVertical = value;
+                        this.Update();
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(BarGroup.prototype, "XAxis", {
+                    get: function () {
+                        return this._XAxis;
+                    },
+                    set: function (value) {
+                        this._XAxis = value;
+                        this.Update();
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(BarGroup.prototype, "YAxis", {
+                    get: function () {
+                        return this._YAxis;
+                    },
+                    set: function (value) {
+                        this._YAxis = value;
+                        this.Update();
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                BarGroup.prototype.Init = function (getInd, getDep) {
+                    this._getInd = getInd;
+                    this._getDep = getDep;
+                };
+                BarGroup.prototype._OnWidthChanged = function (sender, args) {
+                    if (!this._FreezeSize)
+                        this.Update();
+                };
+                BarGroup.prototype._OnHeightChanged = function (sender, args) {
+                    if (!this._FreezeSize)
+                        this.Update();
+                };
+                BarGroup.prototype.InsertMany = function (index, count) {
+                    if (count === void 0) { count = 1; }
+                    var children = this.Children;
+                    for (var i = 0; i < count; i++) {
+                        var newBar = new Rectangle();
+                        newBar.Style = this.BarStyle;
+                        children.Insert(index, newBar);
+                    }
+                    this.Update();
+                };
+                BarGroup.prototype.RemoveManyAt = function (index, count) {
+                    if (count === void 0) { count = 1; }
+                    var children = this.Children;
+                    for (var i = 0; i < count; i++) {
+                        children.RemoveAt(index);
+                    }
+                    this.Update();
+                };
+                BarGroup.prototype.UpdateSize = function (newSize) {
+                    this._FreezeSize = true;
+                    try {
+                        this.Width = newSize.width;
+                        this.Height = newSize.height;
+                    }
+                    finally {
+                        this._FreezeSize = false;
+                    }
+                    this.Update();
+                };
+                BarGroup.prototype.Update = function () {
+                    (!this._IsVertical) ? this.UpdateHorizontal() : this.UpdateVertical();
+                };
+                BarGroup.prototype.UpdateHorizontal = function () {
+                    var ind = this.XAxis;
+                    var dep = this.YAxis;
+                    if (!ind || !dep || isNaN(this.Width) || isNaN(this.Height))
+                        return;
+                    var getBand = createGetBand(ind, this.BarSpacing, this.Children.Count, this.Width);
+                    var fullHeight = this.Height;
+                    for (var i = 0, en = this.Children.getEnumerator(); en.moveNext(); i++) {
+                        var bar = en.current;
+                        var band = getBand(this._getInd(ind, i));
+                        var height = this._getDep(dep, i);
+                        this.UpdateBar(bar, band[0], fullHeight - height, band[1], height);
+                    }
+                };
+                BarGroup.prototype.UpdateVertical = function () {
+                    var ind = this.YAxis;
+                    var dep = this.XAxis;
+                    if (!ind || !dep || isNaN(this.Width) || isNaN(this.Height))
+                        return;
+                    var getBand = createGetBand(ind, this.BarSpacing, this.Children.Count, this.Height);
+                    for (var i = 0, en = this.Children.getEnumerator(); en.moveNext(); i++) {
+                        var bar = en.current;
+                        var band = getBand(this._getInd(ind, i));
+                        var width = this._getDep(dep, i);
+                        this.UpdateBar(bar, 0, band[0], width, band[1]);
+                    }
+                };
+                BarGroup.prototype.UpdateBar = function (bar, left, top, width, height) {
+                    Canvas.SetLeft(bar, left);
+                    Canvas.SetTop(bar, top);
+                    bar.Width = width;
+                    bar.Height = height;
+                };
+                return BarGroup;
+            })(Canvas);
+            Shapes.BarGroup = BarGroup;
+            function createGetBand(indAxis, spacing, count, full) {
+                var scale = indAxis.Scale;
+                if (scale instanceof DataVis.OrdinalScale) {
+                    return function (c) { return scale.GetBand(c, spacing, count); };
+                }
+                var band = full / count;
+                return function (c) { return [c - (band / 2), band]; };
+            }
+        })(Shapes = DataVis.Shapes || (DataVis.Shapes = {}));
+    })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
+})(Fayde || (Fayde = {}));
+/// <reference path="BiSeriesPresenter" />
+/// <reference path="../../Shapes/BarGroup" />
+var Fayde;
+(function (Fayde) {
+    var DataVis;
+    (function (DataVis) {
+        var BarGroup = Fayde.DataVis.Shapes.BarGroup;
+        var BarSeriesPresenter = (function (_super) {
+            __extends(BarSeriesPresenter, _super);
+            function BarSeriesPresenter(series) {
+                var _this = this;
+                _super.call(this, series);
+                this.DefaultStyleKey = BarSeriesPresenter;
+                var grp = this._Group = new BarGroup();
+                grp.Init(function (axis, index) { return _this.InterpolateIndependent(axis, index); }, function (axis, index) { return _this.InterpolateDependent(axis, index); });
+                var ci = series.ChartInfo;
+                if (ci) {
+                    grp.XAxis = ci.XAxis;
+                    grp.YAxis = ci.YAxis;
+                }
+                this.Children.Add(grp);
+            }
+            BarSeriesPresenter.prototype._OnBarStyleChanged = function (args) {
+                this._Group.BarStyle = args.NewValue;
+            };
+            BarSeriesPresenter.prototype._OnBarSpacingChanged = function (args) {
+                this._Group.BarSpacing = args.NewValue;
+            };
+            BarSeriesPresenter.prototype.OnSizeChanged = function (newSize) {
+                this._Group.UpdateSize(newSize);
+            };
+            BarSeriesPresenter.prototype.OnItemsAdded = function (items, index) {
+                _super.prototype.OnItemsAdded.call(this, items, index);
+                this._Group.InsertMany(index, items.length);
+            };
+            BarSeriesPresenter.prototype.OnItemsRemoved = function (items, index) {
+                _super.prototype.OnItemsRemoved.call(this, items, index);
+                this._Group.RemoveManyAt(index, items.length);
+            };
+            BarSeriesPresenter.prototype.OnTransposed = function () {
+                _super.prototype.OnTransposed.call(this);
+                this._Group.IsVertical = DataVis.CartesianChart.GetOrientation(this.Series) === 1 /* Transposed */;
+            };
+            BarSeriesPresenter.prototype.OnAttached = function () {
+                _super.prototype.OnAttached.call(this);
+                var grp = this._Group;
+                var ci = this.ChartInfo;
+                grp.XAxis = ci.XAxis;
+                grp.YAxis = ci.YAxis;
+            };
+            BarSeriesPresenter.prototype.OnXAxisChanged = function (axis) {
+                _super.prototype.OnXAxisChanged.call(this, axis);
+                this._Group.XAxis = axis;
+            };
+            BarSeriesPresenter.prototype.OnYAxisChanged = function (axis) {
+                _super.prototype.OnYAxisChanged.call(this, axis);
+                this._Group.YAxis = axis;
+            };
+            BarSeriesPresenter.BarStyleProperty = DependencyProperty.Register("BarStyle", function () { return Fayde.Style; }, BarSeriesPresenter, undefined, function (d, args) { return d._OnBarStyleChanged(args); });
+            BarSeriesPresenter.BarSpacing = DependencyProperty.Register("BarSpacing", function () { return DataVis.Spacing; }, BarSeriesPresenter, undefined, function (d, args) { return d._OnBarSpacingChanged(args); });
+            return BarSeriesPresenter;
+        })(DataVis.BiSeriesPresenter);
+        DataVis.BarSeriesPresenter = BarSeriesPresenter;
     })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
 })(Fayde || (Fayde = {}));
 /// <reference path="BiSeries.ts" />
@@ -707,11 +991,12 @@ var Fayde;
 (function (Fayde) {
     var DataVis;
     (function (DataVis) {
+        var Polyline = Fayde.Shapes.Polyline;
         var LineSeriesPresenter = (function (_super) {
             __extends(LineSeriesPresenter, _super);
             function LineSeriesPresenter(series) {
                 _super.call(this, series);
-                this._Line = new Fayde.Shapes.Polyline();
+                this._Line = new Polyline();
                 this.DefaultStyleKey = LineSeriesPresenter;
                 this.Children.Add(this._Line);
             }
@@ -719,11 +1004,6 @@ var Fayde;
                 this._Line.Style = args.NewValue;
             };
             LineSeriesPresenter.prototype.OnSizeChanged = function (newSize) {
-                var ci = this.ChartInfo;
-                if (ci) {
-                    ci.XAxis.Presenter.UpdateScale();
-                    ci.YAxis.Presenter.UpdateScale();
-                }
                 this.Update();
             };
             LineSeriesPresenter.prototype.OnItemsAdded = function (items, index) {
@@ -736,11 +1016,12 @@ var Fayde;
             };
             LineSeriesPresenter.prototype.GetCoordinate = function (index) {
                 var ci = this.ChartInfo;
-                if (ci.Orientation === 1 /* Transposed */) {
-                    return new Point(this.InterpolateDependent(ci.XAxis, index), this.InterpolateIndependent(ci.YAxis, index));
+                var fullHeight = this.Height;
+                if (DataVis.CartesianChart.GetOrientation(this.Series) === 1 /* Transposed */) {
+                    return new Point(this.InterpolateDependent(ci.XAxis, index), fullHeight - this.InterpolateIndependent(ci.YAxis, index));
                 }
                 else {
-                    return new Point(this.InterpolateIndependent(ci.XAxis, index), this.InterpolateDependent(ci.YAxis, index));
+                    return new Point(this.InterpolateIndependent(ci.XAxis, index), fullHeight - this.InterpolateDependent(ci.YAxis, index));
                 }
             };
             LineSeriesPresenter.prototype.Update = function () {
@@ -776,12 +1057,20 @@ var Fayde;
                 enumerable: true,
                 configurable: true
             });
+            LinearAxis.prototype.OnMinimumChanged = function (oldValue, newValue) {
+                this.Parameterizer.Minimum = newValue;
+            };
+            LinearAxis.prototype.OnMaximumChanged = function (oldValue, newValue) {
+                this.Parameterizer.Maximum = newValue;
+            };
             LinearAxis.prototype.CreatePresenter = function () {
                 return new DataVis.LinearAxisPresenter();
             };
             LinearAxis.prototype.CreateParameterizer = function () {
                 return new DataVis.LinearParameterizer();
             };
+            LinearAxis.MinimumProperty = DependencyProperty.Register("Minimum", function () { return DataVis.IValueOfable_; }, DataVis.Axis, undefined, function (d, args) { return d.OnMinimumChanged(args.OldValue, args.NewValue); });
+            LinearAxis.MaximumProperty = DependencyProperty.Register("Maximum", function () { return DataVis.IValueOfable_; }, DataVis.Axis, undefined, function (d, args) { return d.OnMaximumChanged(args.OldValue, args.NewValue); });
             return LinearAxis;
         })(DataVis.Axis);
         DataVis.LinearAxis = LinearAxis;
@@ -799,16 +1088,16 @@ var Fayde;
                 this.IsVertical = false;
                 this.DefaultStyleKey = LinearAxisPresenter;
             }
-            LinearAxisPresenter.prototype.UpdateScale = function () {
+            LinearAxisPresenter.prototype.UpdateScale = function (width, height) {
                 var ls = this.Scale;
                 if (ls instanceof DataVis.LinearScale) {
                     if (this.IsVertical) {
-                        ls.RangeMin = this.ActualHeight;
-                        ls.RangeMax = 0;
+                        ls.RangeMin = 0;
+                        ls.RangeMax = height;
                     }
                     else {
                         ls.RangeMin = 0;
-                        ls.RangeMax = this.ActualWidth;
+                        ls.RangeMax = width;
                     }
                 }
             };
@@ -826,8 +1115,8 @@ var Fayde;
                 this.Minimum = null;
                 this.Maximum = null;
             }
-            LinearParameterizer.prototype.Parameterize = function (vs, item) {
-                var n = (item || 0).valueOf();
+            LinearParameterizer.prototype.Parameterize = function (vs, index) {
+                var n = (vs.Values[index] || 0).valueOf();
                 var min = DataVis.Parameterize.ValidMinimum(this.Minimum, vs.Min);
                 var max = DataVis.Parameterize.ValidMaximum(this.Maximum, vs.Max);
                 return (n - min) / (max - min);
@@ -841,10 +1130,8 @@ var Fayde;
 (function (Fayde) {
     var DataVis;
     (function (DataVis) {
-        var LinearScale = (function (_super) {
-            __extends(LinearScale, _super);
+        var LinearScale = (function () {
             function LinearScale() {
-                _super.apply(this, arguments);
                 this.RangeMin = 0;
                 this.RangeMax = 1;
             }
@@ -856,8 +1143,115 @@ var Fayde;
                 return t * (max - min) + min;
             };
             return LinearScale;
-        })(Fayde.DependencyObject);
+        })();
         DataVis.LinearScale = LinearScale;
+    })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
+})(Fayde || (Fayde = {}));
+var Fayde;
+(function (Fayde) {
+    var DataVis;
+    (function (DataVis) {
+        var OrdinalAxis = (function (_super) {
+            __extends(OrdinalAxis, _super);
+            function OrdinalAxis() {
+                _super.call(this);
+                if (!this.Scale)
+                    this.Scale = new DataVis.OrdinalScale();
+            }
+            Object.defineProperty(OrdinalAxis.prototype, "IsVertical", {
+                get: function () {
+                    return this.Presenter.IsVertical === true;
+                },
+                set: function (value) {
+                    this.Presenter.IsVertical = value === true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            OrdinalAxis.prototype.CreatePresenter = function () {
+                return new DataVis.OrdinalAxisPresenter();
+            };
+            OrdinalAxis.prototype.CreateParameterizer = function () {
+                return new DataVis.OrdinalParameterizer();
+            };
+            return OrdinalAxis;
+        })(DataVis.Axis);
+        DataVis.OrdinalAxis = OrdinalAxis;
+    })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
+})(Fayde || (Fayde = {}));
+/// <reference path="../AxisPresenter.ts" />
+var Fayde;
+(function (Fayde) {
+    var DataVis;
+    (function (DataVis) {
+        var OrdinalAxisPresenter = (function (_super) {
+            __extends(OrdinalAxisPresenter, _super);
+            function OrdinalAxisPresenter() {
+                _super.call(this);
+                this.IsVertical = false;
+                this.DefaultStyleKey = OrdinalAxisPresenter;
+            }
+            OrdinalAxisPresenter.prototype.UpdateScale = function (width, height) {
+                var ls = this.Scale;
+                if (ls instanceof DataVis.LinearScale) {
+                    if (this.IsVertical) {
+                        ls.RangeMin = height;
+                        ls.RangeMax = 0;
+                    }
+                    else {
+                        ls.RangeMin = 0;
+                        ls.RangeMax = width;
+                    }
+                }
+            };
+            return OrdinalAxisPresenter;
+        })(DataVis.AxisPresenter);
+        DataVis.OrdinalAxisPresenter = OrdinalAxisPresenter;
+    })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
+})(Fayde || (Fayde = {}));
+var Fayde;
+(function (Fayde) {
+    var DataVis;
+    (function (DataVis) {
+        var OrdinalParameterizer = (function () {
+            function OrdinalParameterizer() {
+            }
+            OrdinalParameterizer.prototype.Parameterize = function (vs, index) {
+                //Domain: [0, n - 1]
+                //padding: 1 / (2 * n)
+                //Range: [padding, 1 - padding]
+                return (index + 0.5) / vs.Count;
+            };
+            return OrdinalParameterizer;
+        })();
+        DataVis.OrdinalParameterizer = OrdinalParameterizer;
+    })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
+})(Fayde || (Fayde = {}));
+var Fayde;
+(function (Fayde) {
+    var DataVis;
+    (function (DataVis) {
+        var OrdinalScale = (function (_super) {
+            __extends(OrdinalScale, _super);
+            function OrdinalScale() {
+                _super.apply(this, arguments);
+            }
+            OrdinalScale.prototype.GetBand = function (center, spacing, count) {
+                var rmin = this.RangeMin || 0;
+                var rmax = this.RangeMax;
+                if (rmax == null)
+                    rmax = 1;
+                var band = (rmax - rmin) / count;
+                var padding = (!spacing) ? 0 : spacing.Evaluate(band);
+                if (padding > band)
+                    return [center, 0];
+                if (padding > 0)
+                    band -= padding;
+                return [center - (band / 2), band];
+            };
+            return OrdinalScale;
+        })(DataVis.LinearScale);
+        DataVis.OrdinalScale = OrdinalScale;
     })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
 })(Fayde || (Fayde = {}));
 var Fayde;
@@ -893,6 +1287,61 @@ var Fayde;
         DataVis.IParameterizer_.is = function (o) {
             return o && o.Parameterize instanceof Function;
         };
+    })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
+})(Fayde || (Fayde = {}));
+var Fayde;
+(function (Fayde) {
+    var DataVis;
+    (function (DataVis) {
+        var Spacing = (function (_super) {
+            __extends(Spacing, _super);
+            function Spacing() {
+                _super.apply(this, arguments);
+            }
+            Spacing.prototype.Evaluate = function (bandSize) {
+                switch (this.Type) {
+                    case 1 /* Percent */:
+                        return bandSize * this.Length;
+                        break;
+                    default:
+                    case 0 /* Pixel */:
+                        return this.Length;
+                }
+            };
+            Spacing.LengthProperty = DependencyProperty.Register("Length", function () { return Number; }, Spacing, 0);
+            Spacing.TypeProperty = DependencyProperty.Register("Type", function () { return new Fayde.Enum(DataVis.SpacingType); }, Spacing, 0 /* Pixel */);
+            return Spacing;
+        })(Fayde.DependencyObject);
+        DataVis.Spacing = Spacing;
+        nullstone.registerTypeConverter(Spacing, function (o) {
+            if (o == null || o instanceof Spacing)
+                return o;
+            if (typeof o === "string") {
+                var spacing = new Spacing();
+                if (o[o.length - 1] === "%") {
+                    spacing.Type = 1 /* Percent */;
+                    spacing.Length = parseFloat(o) / 100;
+                }
+                else {
+                    spacing.Type = 0 /* Pixel */;
+                    spacing.Length = parseFloat(o);
+                }
+                return spacing;
+            }
+            return undefined;
+        });
+    })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
+})(Fayde || (Fayde = {}));
+var Fayde;
+(function (Fayde) {
+    var DataVis;
+    (function (DataVis) {
+        (function (SpacingType) {
+            SpacingType[SpacingType["Pixel"] = 0] = "Pixel";
+            SpacingType[SpacingType["Percent"] = 1] = "Percent";
+        })(DataVis.SpacingType || (DataVis.SpacingType = {}));
+        var SpacingType = DataVis.SpacingType;
+        DataVis.Library.addEnum(SpacingType, "SpacingType");
     })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
 })(Fayde || (Fayde = {}));
 //# sourceMappingURL=fayde.datavis.js.map

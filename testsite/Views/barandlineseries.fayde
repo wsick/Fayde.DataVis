@@ -1,0 +1,21 @@
+<Page xmlns="http://schemas.wsick.com/fayde"
+      xmlns:x="http://schemas.wsick.com/fayde/x"
+      xmlns:dv="lib://fayde.datavis"
+      xmlns:vms="ViewModels"
+      Title="Home">
+    <Grid x:Name="LayoutRoot">
+        <Grid.DataContext>
+            <vms:MainViewModel />
+        </Grid.DataContext>
+        <dv:CartesianChart Background="Orange" BorderThickness="5" BorderBrush="Green">
+            <dv:CartesianChart.XAxis>
+                <dv:OrdinalAxis />
+            </dv:CartesianChart.XAxis>
+            <dv:CartesianChart.YAxis>
+                <dv:LinearAxis Minimum="-5" Maximum="30" />
+            </dv:CartesianChart.YAxis>
+            <dv:BarSeries ItemsSource="{Binding LineTestData}" IndependentValuePath="Date" DependentValuePath="Temperature" />
+            <dv:LineSeries ItemsSource="{Binding LineTestData}" IndependentValuePath="Date" DependentValuePath="Temperature" />
+        </dv:CartesianChart>
+    </Grid>
+</Page>
