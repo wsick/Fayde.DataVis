@@ -1320,7 +1320,7 @@ var Fayde;
                 var spacing = new Spacing();
                 if (o[o.length - 1] === "%") {
                     spacing.Type = 1 /* Percent */;
-                    spacing.Length = parseFloat(o);
+                    spacing.Length = parseFloat(o) / 100;
                 }
                 else {
                     spacing.Type = 0 /* Pixel */;

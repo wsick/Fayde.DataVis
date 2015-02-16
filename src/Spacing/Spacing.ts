@@ -23,7 +23,7 @@ module Fayde.DataVis {
             var spacing = new Spacing();
             if (o[o.length - 1] === "%") {
                 spacing.Type = SpacingType.Percent;
-                spacing.Length = parseFloat(o);
+                spacing.Length = parseFloat(o) / 100;
             } else {
                 spacing.Type = SpacingType.Pixel;
                 spacing.Length = parseFloat(o);
