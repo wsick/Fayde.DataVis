@@ -1,7 +1,8 @@
 module runner {
     var libpath = "lib/fayde.datavis/dist/fayde.datavis";
     var testModules = [
-        ".build/tests/Ordinal/OrdinalScaleTests"
+        ".build/tests/Ordinal/OrdinalScaleTests",
+        ".build/tests/Linear/LinearScaleTests",
     ];
 
     Fayde.LoadConfigJson((config, err) => {
