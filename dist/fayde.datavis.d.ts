@@ -316,6 +316,30 @@ declare module Fayde.DataVis {
     }
 }
 declare module Fayde.DataVis {
+    class PointSeries extends BiSeries {
+        Presenter: PointSeriesPresenter;
+        CreatePresenter(): SeriesPresenter;
+        ChartInfo: ICartesianChartInfo;
+    }
+}
+declare module Fayde.DataVis {
+    import Ellipse = Fayde.Shapes.Ellipse;
+    class PointSeriesPresenter extends BiSeriesPresenter {
+        static PointStyleProperty: DependencyProperty;
+        PointStyle: Style;
+        private _OnPointStyleChanged(args);
+        Series: PointSeries;
+        ChartInfo: ICartesianChartInfo;
+        constructor(series: PointSeries);
+        OnSizeChanged(newSize: minerva.Size): void;
+        OnItemsAdded(items: any[], index: number): void;
+        OnItemsRemoved(items: any[], index: number): void;
+        GetCoordinate(index: number): Point;
+        Update(): void;
+        UpdatePoint(point: Ellipse, left: number, top: number, width: number, height: number): void;
+    }
+}
+declare module Fayde.DataVis {
     class LinearAxis extends Axis {
         IsVertical: boolean;
         static MinimumProperty: DependencyProperty;

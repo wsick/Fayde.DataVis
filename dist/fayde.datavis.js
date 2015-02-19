@@ -1035,6 +1035,100 @@ var Fayde;
         DataVis.LineSeriesPresenter = LineSeriesPresenter;
     })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
 })(Fayde || (Fayde = {}));
+var Fayde;
+(function (Fayde) {
+    var DataVis;
+    (function (DataVis) {
+        var PointSeries = (function (_super) {
+            __extends(PointSeries, _super);
+            function PointSeries() {
+                _super.apply(this, arguments);
+            }
+            PointSeries.prototype.CreatePresenter = function () {
+                return new DataVis.PointSeriesPresenter(this);
+            };
+            return PointSeries;
+        })(DataVis.BiSeries);
+        DataVis.PointSeries = PointSeries;
+    })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
+})(Fayde || (Fayde = {}));
+/// <reference path="BiSeriesPresenter" />
+var Fayde;
+(function (Fayde) {
+    var DataVis;
+    (function (DataVis) {
+        var Canvas = Fayde.Controls.Canvas;
+        var Ellipse = Fayde.Shapes.Ellipse;
+        var PointSeriesPresenter = (function (_super) {
+            __extends(PointSeriesPresenter, _super);
+            function PointSeriesPresenter(series) {
+                _super.call(this, series);
+                this.DefaultStyleKey = PointSeriesPresenter;
+            }
+            PointSeriesPresenter.prototype._OnPointStyleChanged = function (args) {
+                var ps = this.PointStyle;
+                for (var en = this.Children.getEnumerator(); en.moveNext();) {
+                    en.current.Style = ps;
+                }
+            };
+            PointSeriesPresenter.prototype.OnSizeChanged = function (newSize) {
+                this.Update();
+            };
+            PointSeriesPresenter.prototype.OnItemsAdded = function (items, index) {
+                _super.prototype.OnItemsAdded.call(this, items, index);
+                var ps = this.PointStyle;
+                for (var i = 0, children = this.Children; i < items.length; i++) {
+                    var ellipse = new Ellipse();
+                    ellipse.Style = ps;
+                    children.Insert(i + index, ellipse);
+                }
+                this.Update();
+            };
+            PointSeriesPresenter.prototype.OnItemsRemoved = function (items, index) {
+                _super.prototype.OnItemsRemoved.call(this, items, index);
+                for (var i = 0, children = this.Children; i < items.length; i++) {
+                    children.RemoveAt(i);
+                }
+                this.Update();
+            };
+            PointSeriesPresenter.prototype.GetCoordinate = function (index) {
+                var ci = this.ChartInfo;
+                var fullHeight = this.Height;
+                if (DataVis.CartesianChart.GetOrientation(this.Series) === 1 /* Transposed */) {
+                    return new Point(this.InterpolateDependent(ci.XAxis, index), fullHeight - this.InterpolateIndependent(ci.YAxis, index));
+                }
+                else {
+                    return new Point(this.InterpolateIndependent(ci.XAxis, index), fullHeight - this.InterpolateDependent(ci.YAxis, index));
+                }
+            };
+            PointSeriesPresenter.prototype.Update = function () {
+                for (var i = 0, en = this.Children.getEnumerator(); en.moveNext(); i++) {
+                    var ellipse = en.current;
+                    var st = ellipse.StrokeThickness || 0;
+                    var width = ellipse.Width;
+                    if (isNaN(width))
+                        width = 6;
+                    var height = ellipse.Height;
+                    if (isNaN(height))
+                        height = 6;
+                    var coord = this.GetCoordinate(i);
+                    var left = coord.x - (width / 2) + (st / 2);
+                    var top = coord.y - (height / 2) + (st / 2);
+                    this.UpdatePoint(ellipse, left, top, width, height);
+                }
+            };
+            PointSeriesPresenter.prototype.UpdatePoint = function (point, left, top, width, height) {
+                Canvas.SetLeft(point, left);
+                Canvas.SetTop(point, top);
+                point.Width = width;
+                point.Height = height;
+            };
+            PointSeriesPresenter.PointStyleProperty = DependencyProperty.Register("PointStyle", function () { return Fayde.Style; }, PointSeriesPresenter, undefined, function (d, args) { return d._OnPointStyleChanged(args); });
+            return PointSeriesPresenter;
+        })(DataVis.BiSeriesPresenter);
+        DataVis.PointSeriesPresenter = PointSeriesPresenter;
+    })(DataVis = Fayde.DataVis || (Fayde.DataVis = {}));
+})(Fayde || (Fayde = {}));
 /// <reference path="../Axis.ts" />
 var Fayde;
 (function (Fayde) {
