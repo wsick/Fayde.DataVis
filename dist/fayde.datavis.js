@@ -1070,6 +1070,7 @@ var Fayde;
                 for (var en = this.Children.getEnumerator(); en.moveNext();) {
                     en.current.Style = ps;
                 }
+                this.Update();
             };
             PointSeriesPresenter.prototype.OnSizeChanged = function (newSize) {
                 this.Update();

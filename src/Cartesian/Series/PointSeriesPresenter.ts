@@ -13,6 +13,7 @@ module Fayde.DataVis {
             for (var en = this.Children.getEnumerator(); en.moveNext();) {
                 (<Ellipse>en.current).Style = ps;
             }
+            this.Update();
         }
 
         Series: PointSeries;
