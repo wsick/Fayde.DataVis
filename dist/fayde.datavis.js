@@ -1110,10 +1110,9 @@ var Fayde;
                     var height = ellipse.Height;
                     if (isNaN(width) || isNaN(height))
                         continue;
-                    var st = ellipse.StrokeThickness || 0;
                     var coord = this.GetCoordinate(i);
-                    var left = coord.x - (width / 2) + (st / 2);
-                    var top = coord.y - (height / 2) + (st / 2);
+                    var left = coord.x - (width / 2);
+                    var top = coord.y - (height / 2);
                     this.UpdatePoint(ellipse, left, top, width, height);
                 }
             };
