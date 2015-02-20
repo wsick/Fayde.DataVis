@@ -10,10 +10,11 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <StackPanel>
-            <HyperlinkButton TargetName="ContentFrame" NavigateUri="/LineSeries" Content="Line Series" />
-            <HyperlinkButton TargetName="ContentFrame" NavigateUri="/BarSeries" Content="Bar Series" />
-            <HyperlinkButton TargetName="ContentFrame" NavigateUri="/BarAndLineSeries" Content="Bar and Line Series" />
-            <HyperlinkButton TargetName="ContentFrame" NavigateUri="/PointSeries" Content="Point Series" />
+            <HyperlinkButton TargetName="ContentFrame" NavigateUri="/lineseries" Content="Line Series" />
+            <HyperlinkButton TargetName="ContentFrame" NavigateUri="/barseries" Content="Bar Series" />
+            <HyperlinkButton TargetName="ContentFrame" NavigateUri="/barandlineseries" Content="Bar and Line Series" />
+            <HyperlinkButton TargetName="ContentFrame" NavigateUri="/pointseries" Content="Point Series" />
+            <HyperlinkButton TargetName="ContentFrame" NavigateUri="/lineandpointseries" Content="Line And Point Series" />
         </StackPanel>
         <Frame x:Name="ContentFrame" Grid.Column="1">
             <Frame.UriMapper>
