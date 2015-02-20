@@ -11,7 +11,8 @@ module Fayde.DataVis {
         private _OnPointStyleChanged (args: IDependencyPropertyChangedEventArgs) {
             var ps = this.PointStyle;
             for (var en = this.Children.getEnumerator(); en.moveNext();) {
-                (<Ellipse>en.current).Style = ps;
+                var ellipse = <Ellipse>en.current;
+                ellipse.Style = ps;
             }
             this.Update();
         }
@@ -64,13 +65,11 @@ module Fayde.DataVis {
         Update () {
             for (var i = 0, en = this.Children.getEnumerator(); en.moveNext(); i++) {
                 var ellipse = <Ellipse>en.current;
-                var st = ellipse.StrokeThickness || 0;
                 var width = ellipse.Width;
-                if (isNaN(width))
-                    width = 6;
                 var height = ellipse.Height;
-                if (isNaN(height))
-                    height = 6;
+                if (isNaN(width) || isNaN(height))
+                    continue;
+                var st = ellipse.StrokeThickness || 0;
                 var coord = this.GetCoordinate(i);
                 var left = coord.x - (width / 2) + (st / 2);
                 var top = coord.y - (height / 2) + (st / 2);
